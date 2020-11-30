@@ -1,0 +1,21 @@
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://maven.apache.org/POM/4.0.0"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.infamous</groupId>
+    <artifactId>zod-maven-app</artifactId>
+    <version>1.0.0</version>
+    <name>parent-pom/zod-maven-app</name>
+    <description>Just archetype for creating simple maven project</description>
+    <packaging>maven-archetype</packaging>
+ 
+    <build>
+      <extensions>
+        <extension>
+          <groupId>org.apache.maven.archetype</groupId>
+          <artifactId>archetype-packaging</artifactId>
+          <version>3.1.1</version>
+        </extension>
+      </extensions>
+    </build>
+</project>
