@@ -1,26 +1,24 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0     http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>com.infamous</groupId>
-        <artifactId>zod-pom</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
-        <relativePath>../parent-pom/zod-pom/pom.xml</relativePath>
+        <groupId>com.infamous.framework</groupId>
+        <artifactId>sensitive-service-parent</artifactId>
+        <version>${revision}</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
-    <groupId>com.infamous.zod</groupId>
-    <artifactId>zod-lib</artifactId>
-    <version>${revision}</version>
-    <name>zod-lib-parent</name>
-    <packaging>pom</packaging>
-    <properties>
-        <revision>${release.version}</revision>
-    </properties>
-    <modules>
-        <module>sensitive-service</module>
-        <module>advanced-logging</module>
-        <module>entity-api</module>
-    </modules>
+    <artifactId>sensitive-service-app</artifactId>
+    <name>zod-lib/sensitive-service/sensitive-service-app</name>
+    <dependencies>
+        <!-- Internal -->
+        <dependency>
+            <groupId>com.infamous.framework</groupId>
+            <artifactId>sensitive-service-api</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <!-- External -->
+    </dependencies>
     <build>
         <plugins>
             <plugin>

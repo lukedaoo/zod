@@ -2,25 +2,18 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0     http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <parent>
-        <groupId>com.infamous</groupId>
-        <artifactId>zod-pom</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
-        <relativePath>../parent-pom/zod-pom/pom.xml</relativePath>
+        <groupId>com.infamous.zod</groupId>
+        <artifactId>zod-lib</artifactId>
+        <version>${revision}</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
-    <groupId>com.infamous.zod</groupId>
-    <artifactId>zod-lib</artifactId>
+    <groupId>com.infamous.framework</groupId>
+    <artifactId>entity-api</artifactId>
     <version>${revision}</version>
-    <name>zod-lib-parent</name>
+    <name>zod-lib/sensitive-service-parent</name>
     <packaging>pom</packaging>
-    <properties>
-        <revision>${release.version}</revision>
-    </properties>
-    <modules>
-        <module>sensitive-service</module>
-        <module>advanced-logging</module>
-        <module>entity-api</module>
-    </modules>
     <build>
         <plugins>
             <plugin>
