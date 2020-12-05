@@ -19,7 +19,7 @@
     <modules>
         <module>sensitive-service</module>
         <module>advanced-logging</module>
-        <module>entity-api</module>
+        <module>persistence</module>
     </modules>
     <build>
         <plugins>

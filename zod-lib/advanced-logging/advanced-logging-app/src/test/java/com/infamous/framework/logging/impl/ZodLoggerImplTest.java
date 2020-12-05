@@ -10,7 +10,6 @@ import com.infamous.framework.sensitive.core.MessageDigestAlgorithm;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-
 class ZodLoggerImplTest {
 
 

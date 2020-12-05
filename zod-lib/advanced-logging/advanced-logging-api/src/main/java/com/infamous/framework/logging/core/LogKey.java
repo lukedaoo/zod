@@ -1,8 +1,10 @@
 package com.infamous.framework.logging.core;
 
 import java.util.Objects;
+import lombok.Builder;
 import lombok.Getter;
 
+@Builder
 public class LogKey {
 
     private @Getter final String m_applicationName;

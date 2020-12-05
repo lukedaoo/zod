@@ -3,7 +3,6 @@ package com.infamous.framework.logging;
 import com.infamous.framework.sensitive.DefaultSensitiveHashingService;
 import com.infamous.framework.sensitive.core.MessageDigestAlgorithm;
 import com.infamous.framework.sensitive.core.SensitiveHashingService;
-import java.security.NoSuchAlgorithmException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ZodSensitiveHashingService extends DefaultSensitiveHashingService implements SensitiveHashingService {
@@ -17,7 +16,7 @@ public class ZodSensitiveHashingService extends DefaultSensitiveHashingService i
     }
 
     @Override
-    public String hash(String str, MessageDigestAlgorithm algorithm) throws NoSuchAlgorithmException {
+    public String hash(String str, MessageDigestAlgorithm algorithm){
         return buildResult(str, super.hash(str, algorithm));
     }
 

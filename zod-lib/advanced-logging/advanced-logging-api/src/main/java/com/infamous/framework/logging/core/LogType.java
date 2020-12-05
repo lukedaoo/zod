@@ -1,6 +1,11 @@
 package com.infamous.framework.logging.core;
 
-public interface LogType {
+public enum LogType {
 
-    String getType();
+    DEBUG,
+    CUSTOMER;
+
+    public String getType() {
+        return this.name();
+    }
 }

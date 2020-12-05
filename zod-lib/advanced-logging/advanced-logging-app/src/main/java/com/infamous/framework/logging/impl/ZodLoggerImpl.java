@@ -251,7 +251,4 @@ public class ZodLoggerImpl implements ZodLogger {
     private void invokeLog(LogLevel level, String message, Object[] args) {
         level.getConsumerInvokeLog().accept(m_target, new LogMessage(message, args));
     }
-
-
-
 }

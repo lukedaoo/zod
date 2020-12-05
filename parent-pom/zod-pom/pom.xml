@@ -16,6 +16,8 @@
 
         <release.version>1.0.0-SNAPSHOT</release.version>
 
+        <!-- JPA & Hibernate -->
+        <hibernate.version>5.4.25.Final</hibernate.version>
         <!-- Utilities -->
         <lombok.version>1.18.16</lombok.version>
 
@@ -26,12 +28,13 @@
         <!-- Testing -->
         <junit.version>5.7.0</junit.version>
         <mockito.version>3.6.28</mockito.version>
-        
+
         <maven.resources.plugin.version>3.2.0</maven.resources.plugin.version>
         <maven.flatten.plugin.version>1.2.5</maven.flatten.plugin.version>
         <maven.antrun.version>3.0.0</maven.antrun.version>
         <maven.sunfire.version>3.0.0-M5</maven.sunfire.version>
         <maven.assembly.version>3.3.0</maven.assembly.version>
+        <maven.complier.version>3.8.1</maven.complier.version>
 
         <build-helper-maven-plugin.version>3.2.0</build-helper-maven-plugin.version>
     </properties>
@@ -43,6 +46,12 @@
                 <artifactId>lombok</artifactId>
                 <version>${lombok.version}</version>
                 <scope>provided</scope>
+            </dependency>
+            <!-- JPA & Hibernate -->
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-core</artifactId>
+                <version>${hibernate.version}</version>
             </dependency>
             <!-- Logging -->
             <dependency>
@@ -112,5 +121,23 @@
                 </plugin>
             </plugins>
         </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven.complier.version}</version>
+                <configuration>
+                    <release>${java.version}</release>
+                    <encoding>UTF-8</encoding>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
 </project>

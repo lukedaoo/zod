@@ -136,7 +136,7 @@ class AdvancedLoggerTest {
         SensitiveObject sensitiveObjectWrapper = m_wrapperLogger.sensitiveObject("RTZ");
 
         assertNotNull(sensitiveObjectWrapper);
-        assertEquals("RTZ", sensitiveObjectWrapper.toString());
+        assertEquals("RTZ", sensitiveObjectWrapper.replace());
 
         // Get key
         assertEquals(new LogKey("defaultLogger", "debug", "global"), m_wrapperLogger.getKey());

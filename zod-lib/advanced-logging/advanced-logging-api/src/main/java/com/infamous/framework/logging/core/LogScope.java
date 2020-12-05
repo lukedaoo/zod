@@ -1,6 +1,11 @@
 package com.infamous.framework.logging.core;
 
-public interface LogScope {
+public enum LogScope {
 
-    String getScope();
+    GLOBAL,
+    INTERNAL;
+
+    public String getScope() {
+        return this.name();
+    }
 }

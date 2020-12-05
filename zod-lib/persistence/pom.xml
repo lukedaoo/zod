@@ -2,7 +2,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0     http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
+    <modules>
+        <module>persistence-api</module>
+    </modules>
     <parent>
         <groupId>com.infamous.zod</groupId>
         <artifactId>zod-lib</artifactId>
@@ -10,9 +12,9 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <groupId>com.infamous.framework</groupId>
-    <artifactId>entity-api</artifactId>
+    <artifactId>persistence-parent</artifactId>
     <version>${revision}</version>
-    <name>zod-lib/sensitive-service-parent</name>
+    <name>zod-lib/persistence-parent</name>
     <packaging>pom</packaging>
     <build>
         <plugins>

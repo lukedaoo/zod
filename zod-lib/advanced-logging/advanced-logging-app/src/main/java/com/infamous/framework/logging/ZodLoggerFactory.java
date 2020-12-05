@@ -1,6 +1,5 @@
 package com.infamous.framework.logging;
 
-import com.infamous.framework.logging.impl.ZodLoggerImpl;
 import com.infamous.framework.logging.core.AdvancedLogger;
 import com.infamous.framework.logging.core.AdvancedLoggerFactory;
 import com.infamous.framework.logging.core.ApplicationName;
@@ -8,13 +7,13 @@ import com.infamous.framework.logging.core.DefaultLogger;
 import com.infamous.framework.logging.core.LogKey;
 import com.infamous.framework.logging.core.LogScope;
 import com.infamous.framework.logging.core.LogType;
+import com.infamous.framework.logging.impl.ZodLoggerImpl;
 import com.infamous.framework.sensitive.core.SensitiveHashingService;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Consumer;
 
 public class ZodLoggerFactory implements AdvancedLoggerFactory<ZodLogger> {
 
@@ -22,7 +21,7 @@ public class ZodLoggerFactory implements AdvancedLoggerFactory<ZodLogger> {
 
     private static Map<LogKey, Set<String>> CATEGORIES = new ConcurrentHashMap<>();
     private static Map<String, LogKey> CATEGORIES_TO_LOGGER_KEY = new ConcurrentHashMap<>();
-    private static SensitiveHashingService SENSITIVE_DATA_SERVICE = new ZodSensitiveHashingService();
+    private static ZodSensitiveHashingService SENSITIVE_DATA_SERVICE = new ZodSensitiveHashingService();
 
     private static ZodLoggerFactory INSTANCE = new ZodLoggerFactory();
 
@@ -30,12 +29,14 @@ public class ZodLoggerFactory implements AdvancedLoggerFactory<ZodLogger> {
         return INSTANCE;
     }
 
-    public void setSensitiveDataService(SensitiveHashingService hashingService) {
-        SENSITIVE_DATA_SERVICE = hashingService;
+    public synchronized void useSensitiveHashingService(Consumer<ZodSensitiveHashingService> block) {
+        ZodSensitiveHashingService newInstance = new ZodSensitiveHashingService();
+        block.accept(newInstance);
+        SENSITIVE_DATA_SERVICE = newInstance;
     }
 
-    public Optional<SensitiveHashingService> getSensitiveHashingService() {
-        return Optional.ofNullable(SENSITIVE_DATA_SERVICE);
+    public SensitiveHashingService getSensitiveHashingService() {
+        return SENSITIVE_DATA_SERVICE;
     }
 
     @Override
@@ -96,8 +97,7 @@ public class ZodLoggerFactory implements AdvancedLoggerFactory<ZodLogger> {
 
     public Set<String> getCategoriesByLogKey(LogKey logKey) {
         Set<String> categories = CATEGORIES.get(logKey);
-
-        return categories != null ? new HashSet<>(categories) : Collections.emptySet();
+        return new HashSet<>(categories);
     }
 
     public Set<LogKey> getLogKeyRegister() {
