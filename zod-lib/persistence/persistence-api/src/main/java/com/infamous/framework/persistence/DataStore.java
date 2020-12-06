@@ -1,8 +1,6 @@
 package com.infamous.framework.persistence;
 
-import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.LockModeType;
 
@@ -32,8 +30,6 @@ public interface DataStore {
 
     <E> void persist(E entity);
 
-    <E> List<E> findByNativeQuery(String query, Class<E> clazz);
-
     List findByNativeQuery(String query);
 
     <E> E findById(Class<E> clazz, Object primaryKey);
@@ -41,8 +37,4 @@ public interface DataStore {
     <E> E findById(Class<E> clazz, Object primaryKey, LockModeType lockMode);
 
     <E> List<E> findAll(Class<E> clazz);
-
-    <E> List<E> findAll(Class<E> clazz, String orderByColumn);
-
-    <E> List<E> findAll(Class<E> clazz, Collection<String> orderByColumn);
 }

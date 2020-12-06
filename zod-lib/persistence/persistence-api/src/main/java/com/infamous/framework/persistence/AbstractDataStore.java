@@ -2,14 +2,14 @@ package com.infamous.framework.persistence;
 
 import com.infamous.framework.logging.ZodLogger;
 import com.infamous.framework.logging.ZodLoggerUtil;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
-import javax.persistence.EntityManager;
 import javax.persistence.LockModeType;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaDelete;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 public abstract class AbstractDataStore implements DataStore {
 
@@ -36,8 +36,7 @@ public abstract class AbstractDataStore implements DataStore {
 
     @Override
     public <E> boolean create(E entity) {
-        LOGGER.trace("Create Entity  " + entity);
-        getEntityManager().persist(entity);
+        persist(entity);
         return true;
     }
 
@@ -47,11 +46,14 @@ public abstract class AbstractDataStore implements DataStore {
         return true;
     }
 
+    /**
+    // Not use for removing a detached instance
+    // Use instead {@link #deleteById(Class, Object)}}
+     **/
     @Override
     public <E> boolean delete(E entity) {
         LOGGER.trace("Delete entity called for : " + entity);
-        EntityManager em = getEntityManager();
-        em.remove(entity);
+        getEntityManager().remove(entity);
         LOGGER.trace("Delete entity returned for : " + entity);
         return true;
     }
@@ -112,24 +114,35 @@ public abstract class AbstractDataStore implements DataStore {
         return result;
     }
 
-
     @Override
     public <E> List<E> findAll(Class<E> clazz) {
-        return findAll(clazz, (String) null);
+
+        CriteriaBuilder criteriaBuilder = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<E> criteriaQuery = criteriaBuilder.createQuery(clazz);
+        Root<E> rootEntry = criteriaQuery.from(clazz);
+
+        CriteriaQuery<E> all = criteriaQuery.select(rootEntry);
+
+        TypedQuery<E> allQuery = getEntityManager().createQuery(all);
+        return logAndReturnQueryResult("findAll", clazz, allQuery);
     }
 
-    @Override
-    public <E> List<E> findAll(Class<E> clazz, String orderByColumn) {
-        return findAll(clazz, Collections.singletonList(orderByColumn));
-    }
+    private <E> List<E> logAndReturnQueryResult(String methodName, Class<E> clazz, TypedQuery<E> allQuery) {
+        LOGGER.trace(methodName + " called for class: " + clazz + " and query: " + allQuery);
 
-    @Override
-    public <E> List<E> findAll(Class<E> clazz, Collection<String> orderByColumn) {
-        return null;
+        LockModeType lockModeType = allQuery.getLockMode();
+        if (lockModeType == null) {
+            allQuery.setLockMode(LockModeType.PESSIMISTIC_READ);
+        }
+
+        List<E> resultList = allQuery.getResultList();
+        LOGGER.trace(methodName + " returned for class: " + clazz + " and query: " + allQuery);
+        return resultList;
     }
 
     @Override
     public <E> boolean deleteById(Class<E> clazz, Object id) {
-        return false;
+        E entity = findById(clazz,id);
+        return delete(entity);
     }
 }

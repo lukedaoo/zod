@@ -11,6 +11,7 @@ import com.infamous.framework.logging.impl.ZodLoggerImpl;
 import com.infamous.framework.sensitive.core.SensitiveHashingService;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
@@ -96,8 +97,9 @@ public class ZodLoggerFactory implements AdvancedLoggerFactory<ZodLogger> {
     }
 
     public Set<String> getCategoriesByLogKey(LogKey logKey) {
-        Set<String> categories = CATEGORIES.get(logKey);
-        return new HashSet<>(categories);
+        return Optional.ofNullable(CATEGORIES.get(logKey))
+            .map(HashSet::new)
+            .orElse(new HashSet<>(0));
     }
 
     public Set<LogKey> getLogKeyRegister() {
