@@ -18,17 +18,22 @@
             <artifactId>advanced-logging-app</artifactId>
             <version>${revision}</version>
         </dependency>
+        <dependency>
+            <groupId>com.infamous.framework</groupId>
+            <artifactId>mariadb-java-client-wrapper</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.infamous.framework</groupId>
+            <artifactId>hibernate-with-jakarta</artifactId>
+            <version>${revision}</version>
+        </dependency>
         <!-- External -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-core</artifactId>
-            <version>${hibernate.version}</version>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>

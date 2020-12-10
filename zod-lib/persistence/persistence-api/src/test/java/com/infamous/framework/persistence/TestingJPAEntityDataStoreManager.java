@@ -3,7 +3,7 @@ package com.infamous.framework.persistence;
 import javax.persistence.EntityManager;
 
 // Only for Testing
-class TestingJPAEntityDataStoreManager extends AbstractDataStore {
+class TestingJPAEntityDataStoreManager extends EntityDataStore {
 
     private EntityManager m_manager;
 
@@ -13,6 +13,11 @@ class TestingJPAEntityDataStoreManager extends AbstractDataStore {
 
     public EntityManager getEntityManager() {
         return m_manager;
+    }
+
+    @Override
+    public String getDataStoreName() {
+        return "TESTING_DS";
     }
 
     public void beginTransaction() {

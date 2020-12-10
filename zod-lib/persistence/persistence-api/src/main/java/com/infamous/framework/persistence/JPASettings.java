@@ -12,21 +12,21 @@ public class JPASettings {
     private @Getter final String m_databaseUrl;
     private @Getter final String m_user;
     private @Getter final String m_password;
-    private @Getter final String m_driverClassName;
+    private @Getter final String m_datasourceClassName;
 
     private Map<String, Object> m_options = new HashMap<>();
 
     @Builder
-    public JPASettings(String url, String user, String password, String driverClassName) {
+    public JPASettings(String url, String user, String password, String datasourceClassName) {
         Objects.requireNonNull(url, "Url can not be null");
         Objects.requireNonNull(user, "User/Username can not be null");
         Objects.requireNonNull(password, "Password can not be null");
-        Objects.requireNonNull(driverClassName, "DriverClassName can not be null");
+        Objects.requireNonNull(datasourceClassName, "DataSourceClassName can not be null");
 
         this.m_databaseUrl = url;
         this.m_user = user;
         this.m_password = password;
-        this.m_driverClassName = driverClassName;
+        this.m_datasourceClassName = datasourceClassName;
     }
 
     public void put(String key, Object val) {

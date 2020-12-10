@@ -3,6 +3,7 @@ package com.infamous.framework.persistence;
 import com.infamous.framework.logging.ZodLogger;
 import com.infamous.framework.logging.ZodLoggerUtil;
 import java.util.List;
+import javax.persistence.EntityManager;
 import javax.persistence.LockModeType;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
@@ -11,12 +12,11 @@ import javax.persistence.criteria.CriteriaDelete;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
-public abstract class AbstractDataStore implements DataStore {
+public abstract class EntityDataStore implements DataStore {
 
-    private static final ZodLogger LOGGER = ZodLoggerUtil.getLogger(AbstractDataStore.class, "persistence.app");
+    private static final ZodLogger LOGGER = ZodLoggerUtil.getLogger(EntityDataStore.class, "persistence.app");
 
-    public AbstractDataStore() {
-
+    public EntityDataStore() {
     }
 
     @Override
@@ -32,12 +32,6 @@ public abstract class AbstractDataStore implements DataStore {
     @Override
     public boolean isOpen() {
         return getEntityManager().isOpen();
-    }
-
-    @Override
-    public <E> boolean create(E entity) {
-        persist(entity);
-        return true;
     }
 
     @Override
@@ -85,10 +79,11 @@ public abstract class AbstractDataStore implements DataStore {
     }
 
     @Override
-    public <E> void persist(E entity) {
+    public <E> boolean persist(E entity) {
         LOGGER.trace("Persist entity called for : {}", entity);
         getEntityManager().persist(entity);
         LOGGER.trace("Persist entity returned for : {}", entity);
+        return true;
     }
 
     @Override

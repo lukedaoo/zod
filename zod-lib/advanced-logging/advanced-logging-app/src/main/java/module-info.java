@@ -1,6 +1,6 @@
 module advanced.logging.app {
+    requires static lombok;
     requires org.slf4j;
-    requires lombok;
 
     requires advanced.logging.api;
     requires sensitive.service.api;

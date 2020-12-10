@@ -12,9 +12,9 @@ import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class AbstractDataStoreTest {
+class EntityDataStoreTest {
 
-    public static final ZodLogger LOGGER = ZodLoggerUtil.getLogger(AbstractDataStoreTest.class, "persistence.app");
+    public static final ZodLogger LOGGER = ZodLoggerUtil.getLogger(EntityDataStoreTest.class, "persistence.app");
     EMFactory m_emf = new JPAEntityManagerFactory("zod_db_test");
     TestingJPAEntityDataStoreManager m_eds = new TestingJPAEntityDataStoreManager(m_emf);
 
@@ -133,10 +133,10 @@ class AbstractDataStoreTest {
             Person p2 = new Person("p2", "B");
             Person p3 = new Person("p3", "C");
             Person p4 = new Person("p4", "D");
-            m_eds.create(p1);
-            m_eds.create(p2);
-            m_eds.create(p3);
-            m_eds.create(p4);
+            m_eds.persist(p1);
+            m_eds.persist(p2);
+            m_eds.persist(p3);
+            m_eds.persist(p4);
         });
     }
 

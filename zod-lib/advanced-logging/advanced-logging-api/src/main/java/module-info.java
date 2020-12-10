@@ -1,7 +1,7 @@
 import com.infamous.framework.logging.config.AdvancedLoggingConfiguration;
 
 module advanced.logging.api {
-    requires lombok;
+    requires static lombok;
     requires org.slf4j;
 
     requires sensitive.service.api;

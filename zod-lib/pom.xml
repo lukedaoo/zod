@@ -17,9 +17,12 @@
         <revision>${release.version}</revision>
     </properties>
     <modules>
+        <module>hibernate-with-jakarta</module>
         <module>sensitive-service</module>
         <module>advanced-logging</module>
         <module>persistence</module>
+        <module>system-property-utils</module>
+        <module>mariadb-java-client-wrapper</module>
     </modules>
     <build>
         <plugins>

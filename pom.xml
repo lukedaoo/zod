@@ -11,5 +11,7 @@
         <module>parent-pom/maven-archetype</module>
         <module>parent-pom/zod-pom</module>
         <module>zod-lib</module>
+        <module>zod-base</module>
+        <module>zod-fileserver</module>
     </modules>
 </project>

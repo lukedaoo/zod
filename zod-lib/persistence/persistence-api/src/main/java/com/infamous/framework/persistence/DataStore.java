@@ -8,13 +8,13 @@ public interface DataStore {
 
     EntityManager getEntityManager();
 
+    String getDataStoreName();
+
     void close();
 
     void flush();
 
     boolean isOpen();
-
-    <E> boolean create(E entity);
 
     <E> boolean merge(E entity);
 
@@ -28,7 +28,7 @@ public interface DataStore {
 
     <E> void lock(E entity);
 
-    <E> void persist(E entity);
+    <E> boolean persist(E entity);
 
     List findByNativeQuery(String query);
 
