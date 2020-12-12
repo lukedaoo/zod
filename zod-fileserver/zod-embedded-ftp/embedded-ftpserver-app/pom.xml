@@ -24,11 +24,6 @@
         </dependency>
         <dependency>
             <groupId>com.infamous.zod</groupId>
-            <artifactId>spring-custom-annotation</artifactId>
-            <version>${revision}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.infamous.zod</groupId>
             <artifactId>spring-jpa-autoconfig</artifactId>
             <version>${revision}</version>
         </dependency>
