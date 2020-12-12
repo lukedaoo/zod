@@ -1,10 +1,10 @@
-module advanced.logging.app {
+module zod.logging.app {
     requires static lombok;
     requires org.slf4j;
 
-    requires advanced.logging.api;
-    requires sensitive.service.api;
-    requires sensitive.service.app;
+    requires zod.logging.api;
+    requires zod.sensitive.api;
+    requires zod.sensitive.app;
 
     exports com.infamous.framework.logging;
 

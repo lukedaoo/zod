@@ -1,8 +1,8 @@
-module spring.common.services {
+module zod.spring.common {
     requires spring.context;
 
-    requires advanced.logging.app;
-    requires file.service;
+    requires zod.logging.app;
+    requires zod.file.service;
 
     exports com.infamous.zod.base.common;
     exports com.infamous.zod.base.common.service;

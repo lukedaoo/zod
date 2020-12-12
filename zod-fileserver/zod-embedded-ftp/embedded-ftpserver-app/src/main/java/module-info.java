@@ -1,4 +1,4 @@
-module embedded.ftpserver.app {
+module zod.ftpserver.app {
     requires spring.context;
     requires spring.beans;
     requires spring.orm;
@@ -6,15 +6,15 @@ module embedded.ftpserver.app {
     requires ftpserver.core;
     requires ftplet.api;
 
-    requires persistence.api;
+    requires zod.persistence.api;
     requires java.transaction;
 
-    requires advanced.logging.app;
-    requires embedded.ftpserver.api;
-    requires file.service;
-    requires spring.jpa.autoconfig;
-    requires sensitive.service.api;
-    requires sensitive.service.app;
+    requires zod.logging.app;
+    requires zod.ftpserver.api;
+    requires zod.file.service;
+    requires zod.spring.jpa;
+    requires zod.sensitive.api;
+    requires zod.sensitive.app;
 
     exports com.infamous.zod.ftp.server;
     exports com.infamous.zod.ftp.um.config;

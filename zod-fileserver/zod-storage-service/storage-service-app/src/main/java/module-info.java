@@ -1,28 +1,27 @@
-module storage.service.app {
+module zod.storage.app {
     requires spring.context;
     requires spring.beans;
     requires spring.boot;
     requires spring.boot.autoconfigure;
-    requires spring.jpa.autoconfig;
+    requires spring.orm;
 
     requires java.sql;
+    requires java.annotation;
 
     requires net.bytebuddy;
     requires com.fasterxml.classmate;
 
     requires org.apache.logging.log4j;
 
-    requires java.annotation;
-
-    requires embedded.ftpserver.app;
-    requires embedded.ftpserver.api;
-    requires advanced.logging.app;
-    requires mariadb.java.client.wrapper;
-    requires spring.orm;
-    requires persistence.api;
-    requires storage.service.api;
-    requires file.service;
-    requires spring.common.services;
+    requires zod.ftpserver.api;
+    requires zod.ftpserver.app;
+    requires zod.logging.app;
+    requires zod.jdbc.mariadb.client;
+    requires zod.persistence.api;
+    requires zod.storage.api;
+    requires zod.file.service;
+    requires zod.spring.common;
+    requires zod.spring.jpa;
 
     opens com.infamous.zod.storage;
 }

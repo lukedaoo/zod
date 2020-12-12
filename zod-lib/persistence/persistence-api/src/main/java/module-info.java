@@ -1,4 +1,4 @@
-module persistence.api {
+module zod.persistence.api {
     requires static lombok;
     requires java.naming;
 
@@ -8,7 +8,7 @@ module persistence.api {
     requires org.hibernate.orm.hikaricp;
     requires com.zaxxer.hikari;
 
-    requires advanced.logging.app;
+    requires zod.logging.app;
 
     exports com.infamous.framework.persistence.tx;
     exports com.infamous.framework.persistence.dao;

@@ -1,11 +1,11 @@
-module embedded.ftpserver.api {
+module zod.ftpserver.api {
     requires static lombok;
     requires java.persistence;
     requires ftplet.api;
     requires ftpserver.core;
 
-    requires system.property.utils;
-    requires persistence.api;
+    requires zod.system.property.utils;
+    requires zod.persistence.api;
     requires spring.beans;
 
     exports com.infamous.zod.ftp;

@@ -1,4 +1,4 @@
-module mariadb.java.client.wrapper {
+module zod.jdbc.mariadb.client {
     requires java.sql;
     requires org.mariadb.jdbc;
 

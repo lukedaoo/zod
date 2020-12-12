@@ -1,6 +1,6 @@
-module storage.service.api {
+module zod.storage.api {
     requires static lombok;
-    requires persistence.api;
+    requires zod.persistence.api;
     requires java.persistence;
     requires org.hibernate.orm.core;
 
