@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 
 @Configuration
-public class Config {
+public class StorageServiceAutoConfig {
 
 
     @Bean(name = "storageFileEMF")

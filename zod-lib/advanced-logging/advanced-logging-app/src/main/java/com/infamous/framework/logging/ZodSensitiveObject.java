@@ -1,9 +1,10 @@
 package com.infamous.framework.logging;
 
-import com.infamous.framework.sensitive.DefaultSensitiveObject;
+import com.infamous.framework.sensitive.core.DefaultSensitiveObject;
 import com.infamous.framework.sensitive.core.MessageDigestAlgorithm;
 import com.infamous.framework.sensitive.core.SensitiveHashingService;
 import com.infamous.framework.sensitive.core.SensitiveObject;
+import com.infamous.framework.sensitive.service.SensitiveHashingServiceProvider;
 
 public class ZodSensitiveObject extends DefaultSensitiveObject implements SensitiveObject {
 
@@ -21,7 +22,7 @@ public class ZodSensitiveObject extends DefaultSensitiveObject implements Sensit
     @Override
     public String replace() {
         String messageFromObject = String.valueOf(getObject());
-        SensitiveHashingService hashingService = ZodLoggerFactory.getInstance().getSensitiveHashingService();
+        SensitiveHashingService hashingService = SensitiveHashingServiceProvider.getInstance().getService();
 
         return hashingService.hash(messageFromObject, m_digestAlgorithm);
     }

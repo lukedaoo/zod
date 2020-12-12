@@ -18,6 +18,7 @@
     </properties>
     <modules>
         <module>spring-jpa-autoconfig</module>
+        <module>spring-common-services</module>
     </modules>
     <build>
         <plugins>

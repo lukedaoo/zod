@@ -1,6 +1,4 @@
-package com.infamous.framework.sensitive;
-
-import com.infamous.framework.sensitive.core.SensitiveObject;
+package com.infamous.framework.sensitive.core;
 
 public class DefaultSensitiveObject implements SensitiveObject {
 
@@ -21,6 +19,6 @@ public class DefaultSensitiveObject implements SensitiveObject {
 
     @Override
     public String replace() {
-        return String.valueOf(m_object);
+        return MessageDigestAlgorithm.MD5.hash(String.valueOf(m_object));
     }
 }

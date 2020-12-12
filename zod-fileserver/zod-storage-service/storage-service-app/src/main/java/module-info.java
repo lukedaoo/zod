@@ -21,6 +21,8 @@ module storage.service.app {
     requires spring.orm;
     requires persistence.api;
     requires storage.service.api;
+    requires file.service;
+    requires spring.common.services;
 
     opens com.infamous.zod.storage;
 }

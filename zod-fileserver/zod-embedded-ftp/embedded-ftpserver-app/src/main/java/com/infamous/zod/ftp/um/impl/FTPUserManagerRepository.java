@@ -1,11 +1,13 @@
 package com.infamous.zod.ftp.um.impl;
 
+import com.infamous.framework.sensitive.core.MessageDigestAlgorithm;
+import com.infamous.framework.sensitive.service.PasswordEncryptor;
+import com.infamous.framework.sensitive.service.SaltedPasswordEncryptor;
 import com.infamous.zod.ftp.FTPServerConfigProperties;
 import com.infamous.zod.ftp.model.FTPUser;
 import com.infamous.zod.ftp.model.FTPUserKey;
 import com.infamous.zod.ftp.um.FTPUserDAO;
 import com.infamous.zod.ftp.um.FTPUserManager;
-import com.infamous.zod.ftp.um.impl.PasswordEncryptorWrapper.SaltedPasswordEncryptor;
 import java.nio.file.Path;
 import java.util.Collections;
 import java.util.Optional;
@@ -15,7 +17,6 @@ import org.apache.ftpserver.ftplet.Authentication;
 import org.apache.ftpserver.ftplet.AuthenticationFailedException;
 import org.apache.ftpserver.ftplet.FtpException;
 import org.apache.ftpserver.ftplet.User;
-import org.apache.ftpserver.usermanager.PasswordEncryptor;
 import org.apache.ftpserver.usermanager.UsernamePasswordAuthentication;
 
 @Transactional
@@ -40,12 +41,9 @@ public class FTPUserManagerRepository implements FTPUserManager {
 
     @Override
     public String hashPassword(String rawPassword) {
-        if (m_passwordEncryptor instanceof PasswordEncryptorWrapper) {
-            PasswordEncryptorWrapper pew = (PasswordEncryptorWrapper) m_passwordEncryptor;
-            if (pew.getInternalService() instanceof SaltedPasswordEncryptor) {
-                return ((SaltedPasswordEncryptor) pew.getInternalService())
-                    .encrypt(rawPassword, m_serverConfig.getSalted());
-            }
+        if (m_passwordEncryptor instanceof SaltedPasswordEncryptor) {
+            SaltedPasswordEncryptor saltedPE = (SaltedPasswordEncryptor) m_passwordEncryptor;
+            return saltedPE.encrypt(MessageDigestAlgorithm.MD5, rawPassword, m_serverConfig.getSalted());
         }
         return m_passwordEncryptor.encrypt(rawPassword);
     }

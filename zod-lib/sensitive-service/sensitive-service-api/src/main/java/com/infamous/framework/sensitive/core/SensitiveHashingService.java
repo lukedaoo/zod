@@ -1,10 +1,18 @@
 package com.infamous.framework.sensitive.core;
 
+import java.util.Optional;
+
 public interface SensitiveHashingService {
 
-    String hash(String obj, MessageDigestAlgorithm algorithm);
+    default String hash(String obj, MessageDigestAlgorithm algorithm) {
+        return Optional.ofNullable(obj)
+            .map(s -> doHash(s, algorithm))
+            .orElse("");
+    }
 
-    default String hash(String obj) {
-        return hash(obj, MessageDigestAlgorithm.SHA_256);
+    private String doHash(String obj, MessageDigestAlgorithm algorithm) {
+        return Optional.ofNullable(algorithm)
+            .map(al -> al.hash(obj))
+            .orElse(obj);
     }
 }

@@ -18,6 +18,11 @@
             <version>${revision}</version>
         </dependency>
         <dependency>
+            <groupId>com.infamous.framework</groupId>
+            <artifactId>file-service</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <dependency>
             <groupId>com.infamous.zod</groupId>
             <artifactId>spring-custom-annotation</artifactId>
             <version>${revision}</version>
@@ -25,6 +30,11 @@
         <dependency>
             <groupId>com.infamous.zod</groupId>
             <artifactId>spring-jpa-autoconfig</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.infamous.zod</groupId>
+            <artifactId>spring-common-services</artifactId>
             <version>${revision}</version>
         </dependency>
         <!-- External -->

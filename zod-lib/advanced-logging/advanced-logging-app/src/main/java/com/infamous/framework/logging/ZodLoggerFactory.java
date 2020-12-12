@@ -9,6 +9,7 @@ import com.infamous.framework.logging.core.LogScope;
 import com.infamous.framework.logging.core.LogType;
 import com.infamous.framework.logging.impl.ZodLoggerImpl;
 import com.infamous.framework.sensitive.core.SensitiveHashingService;
+import com.infamous.framework.sensitive.service.SensitiveHashingServiceProvider;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Optional;
@@ -22,7 +23,9 @@ public class ZodLoggerFactory implements AdvancedLoggerFactory<ZodLogger> {
 
     private static Map<LogKey, Set<String>> CATEGORIES = new ConcurrentHashMap<>();
     private static Map<String, LogKey> CATEGORIES_TO_LOGGER_KEY = new ConcurrentHashMap<>();
-    private static ZodSensitiveHashingService SENSITIVE_DATA_SERVICE = new ZodSensitiveHashingService();
+    static {
+        SensitiveHashingServiceProvider.getInstance().use(new ZodSensitiveHashingService());
+    }
 
     private static ZodLoggerFactory INSTANCE = new ZodLoggerFactory();
 
@@ -30,14 +33,10 @@ public class ZodLoggerFactory implements AdvancedLoggerFactory<ZodLogger> {
         return INSTANCE;
     }
 
-    public synchronized void useSensitiveHashingService(Consumer<ZodSensitiveHashingService> block) {
+    public void useSensitiveHashingService(Consumer<ZodSensitiveHashingService> block) {
         ZodSensitiveHashingService newInstance = new ZodSensitiveHashingService();
         block.accept(newInstance);
-        SENSITIVE_DATA_SERVICE = newInstance;
-    }
-
-    public SensitiveHashingService getSensitiveHashingService() {
-        return SENSITIVE_DATA_SERVICE;
+        SensitiveHashingServiceProvider.getInstance().use(newInstance);
     }
 
     @Override

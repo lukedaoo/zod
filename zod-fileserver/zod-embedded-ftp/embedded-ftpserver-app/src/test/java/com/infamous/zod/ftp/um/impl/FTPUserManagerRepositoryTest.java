@@ -4,13 +4,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import com.infamous.framework.sensitive.service.PasswordEncryptor;
 import com.infamous.zod.ftp.model.FTPPassword;
 import com.infamous.zod.ftp.model.FTPUser;
 import com.infamous.zod.ftp.model.FTPUserName;
 import com.infamous.zod.ftp.um.FTPUserDAO;
 import java.util.Arrays;
 import org.apache.ftpserver.ftplet.FtpException;
-import org.apache.ftpserver.usermanager.PasswordEncryptor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -21,8 +21,8 @@ class FTPUserManagerRepositoryTest {
 
     @BeforeEach
     public void setup() {
-       m_dao = mock(FTPUserDAO.class);
-       m_passwordEncryptor = mock(PasswordEncryptor.class);
+        m_dao = mock(FTPUserDAO.class);
+        m_passwordEncryptor = mock(PasswordEncryptor.class);
     }
 
     @Test
