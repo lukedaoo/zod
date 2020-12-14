@@ -60,8 +60,8 @@ public class FTPDataStoreConfig {
     @Bean("ftpUserManager")
     public FTPUserManager createUserManger(FTPUserDAO dao, PasswordEncryptor pe, FTPServerConfigProperties serverConfig,
                                            FileService fileService) {
-        Path rootPath = fileService.createDirection(serverConfig.getRootFolder());
-        LOGGER.debug("Using root [" + rootPath + "] for FTP Service");
+        Path rootPath = fileService.createDirectory(serverConfig.getRootFolder());
+        fileService.setRootFolder(rootPath);
         return new FTPUserManagerRepository(dao, pe, rootPath, serverConfig);
     }
 }

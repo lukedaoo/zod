@@ -10,10 +10,17 @@
     <artifactId>storage-service-api</artifactId>
     <name>zod-fileserver/zod-storage-service/storage-service-api</name>
     <dependencies>
+        <!-- Internal -->
         <dependency>
             <groupId>com.infamous.framework</groupId>
             <artifactId>persistence-api</artifactId>
             <version>${revision}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.infamous.framework</groupId>
+            <artifactId>model-converter</artifactId>
+            <version>${revision}</version>
+            <scope>compile</scope>
         </dependency>
         <!-- External -->
         <dependency>

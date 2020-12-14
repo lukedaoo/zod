@@ -16,7 +16,7 @@ public class HashStringUtils {
         return md.digest();
     }
 
-    public static String toHexString(byte[] byteArr) {
+    private static String toHexString(byte[] byteArr) {
         return new BigInteger(1, byteArr).toString(16);
     }
 

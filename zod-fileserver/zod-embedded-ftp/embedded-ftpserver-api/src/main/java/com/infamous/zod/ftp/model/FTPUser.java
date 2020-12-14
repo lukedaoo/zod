@@ -13,6 +13,9 @@ import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 import org.apache.ftpserver.ftplet.Authority;
 import org.apache.ftpserver.ftplet.AuthorizationRequest;
 import org.apache.ftpserver.ftplet.User;
@@ -23,6 +26,8 @@ import org.apache.ftpserver.usermanager.impl.WritePermission;
 @Entity(name = "FTPUser")
 @Table(name = "FTPUser")
 @IdClass(FTPUserKey.class)
+@Builder
+@AllArgsConstructor
 public class FTPUser implements User {
 
     @Id
@@ -41,10 +46,10 @@ public class FTPUser implements User {
     private int maxConcurrentLogins;
 
     @Transient
-    private Map<String, Authority> authorities = new HashMap<>();
+    private final Map<String, Authority> authorities = new HashMap<>();
 
     @Transient
-    private Map<String, Authority> adminAuthorities = new HashMap<>();
+    private final Map<String, Authority> adminAuthorities = new HashMap<>();
 
     public FTPUser() {
 

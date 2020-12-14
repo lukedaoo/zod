@@ -1,5 +1,6 @@
 package com.infamous.zod.ftp.server;
 
+import com.infamous.zod.ftp.um.config.AddAdminUserConfiguration;
 import com.infamous.zod.ftp.um.config.FTPDataStoreConfig;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -10,7 +11,7 @@ import org.springframework.context.annotation.Import;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-@Import({FTPDataStoreConfig.class, ZodFTPServerConfig.class})
+@Import({FTPDataStoreConfig.class, ZodFTPServerConfig.class, AddAdminUserConfiguration.class})
 @Configuration
 public @interface EnableZodFTPServer {
 

@@ -2,13 +2,17 @@ package com.infamous.zod.storage.model;
 
 import java.io.Serializable;
 import java.util.Objects;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class StorageFileKey implements Serializable {
 
-    private @Getter final String id;
+    private final String id;
+
+
+    public String getId() {
+        return id;
+    }
 
     @Override
     public boolean equals(Object o) {

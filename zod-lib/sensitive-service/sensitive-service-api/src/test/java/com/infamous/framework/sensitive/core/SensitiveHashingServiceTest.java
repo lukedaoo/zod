@@ -54,7 +54,6 @@ class SensitiveHashingServiceTest {
         assertTrue(set.contains(sha512));
     }
 
-
     private String checkAndReturn(String source, MessageDigestAlgorithm algorithm) {
         DefaultSensitiveHashingService service = new DefaultSensitiveHashingService();
 

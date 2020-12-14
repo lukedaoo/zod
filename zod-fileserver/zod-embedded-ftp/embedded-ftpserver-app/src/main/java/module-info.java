@@ -1,4 +1,5 @@
 module zod.ftpserver.app {
+    requires spring.boot;
     requires spring.context;
     requires spring.beans;
     requires spring.orm;
@@ -8,6 +9,7 @@ module zod.ftpserver.app {
 
     requires zod.persistence.api;
     requires java.transaction;
+    requires java.annotation;
 
     requires zod.logging.app;
     requires zod.ftpserver.api;
@@ -21,4 +23,5 @@ module zod.ftpserver.app {
 
     opens com.infamous.zod.ftp.um.impl;
     opens com.infamous.zod.ftp.server;
+    opens com.infamous.zod.ftp.um.config;
 }

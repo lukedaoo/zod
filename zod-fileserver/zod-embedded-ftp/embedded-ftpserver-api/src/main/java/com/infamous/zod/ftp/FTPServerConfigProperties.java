@@ -87,5 +87,24 @@ public class FTPServerConfigProperties {
     public String getEncryptorStrategy() {
         return m_encryptorStrategy;
     }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder();
+        sb.append("{");
+        sb.append("salted='").append(m_salted).append('\'');
+        sb.append(", rootFolder='").append(m_rootFolder).append('\'');
+        sb.append(", port=").append(m_port);
+        sb.append(", username='").append(m_username).append('\'');
+        sb.append(", workspace='").append(m_workspace).append('\'');
+        sb.append(", idleTime=").append(m_idleTime);
+        sb.append(", maxDownloadRate=").append(m_maxDownloadRate);
+        sb.append(", maxUploadRate=").append(m_maxUploadRate);
+        sb.append(", maxConcurrentLogins=").append(m_maxConcurrentLogins);
+        sb.append(", numOfLoginPerIp=").append(m_numOfLoginPerIp);
+        sb.append(", encryptorStrategy='").append(m_encryptorStrategy).append('\'');
+        sb.append('}');
+        return sb.toString();
+    }
 }
 

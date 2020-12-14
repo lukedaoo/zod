@@ -18,6 +18,7 @@ import org.apache.ftpserver.ftplet.AuthenticationFailedException;
 import org.apache.ftpserver.ftplet.FtpException;
 import org.apache.ftpserver.ftplet.User;
 import org.apache.ftpserver.usermanager.UsernamePasswordAuthentication;
+import org.apache.logging.log4j.spi.LoggerRegistry;
 
 @Transactional
 public class FTPUserManagerRepository implements FTPUserManager {
@@ -73,7 +74,7 @@ public class FTPUserManagerRepository implements FTPUserManager {
             throw new FtpException("User is not instance of FTPUser class");
         }
         FTPUser ftpUser = (FTPUser) user;
-        m_dao.persist(ftpUser);
+        m_dao.merge(ftpUser);
     }
 
     @Override

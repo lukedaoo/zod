@@ -18,8 +18,21 @@ public class FileServiceImpl implements FileService {
 
     private static final ZodLogger LOGGER = ZodLoggerUtil.getLogger(FileServiceImpl.class, "file.service");
 
+    private Path m_root;
+
     @Override
-    public Path createDirection(String direction) {
+    public Path getRootFolder() {
+        return m_root;
+    }
+
+    @Override
+    public void setRootFolder(Path path) {
+        LOGGER.debug("Using folder [" + path + "] as root for File Service");
+        m_root = path;
+    }
+
+    @Override
+    public Path createDirectory(String direction) {
         Path path = Paths.get(direction);
         try {
             Files.createDirectory(path);
@@ -33,6 +46,17 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
+    public boolean delete(String location) {
+        Path path = Paths.get(location);
+        try {
+            Files.deleteIfExists(path);
+        } catch (IOException e) {
+            throw new FileStorageException("Failed to deleting [" + location + "]", e);
+        }
+        return false;
+    }
+
+    @Override
     public long store(Path path, InputStream is, String fileName) {
         check(path == null, "Path not found");
         check(is == null, "InputStream is null");
@@ -43,7 +67,7 @@ public class FileServiceImpl implements FileService {
                 LOGGER.info("The file [" + target + "] will replaced by new file");
             }
             long bytes = Files.copy(is, target, StandardCopyOption.REPLACE_EXISTING);
-            LOGGER.trace("Writes " + target + " [" + bytes + "] to the filesystem");
+            LOGGER.trace("Writes " + target + " [" + bytes + "] (bytes) to the filesystem");
 
             return bytes;
         } catch (IOException e) {
@@ -52,11 +76,21 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
+    public long store(InputStream is, String fileName) {
+        return store(m_root, is, fileName);
+    }
+
+    @Override
     public String getFilePath(Path path, String fileName) {
         check(path == null, "Path not found");
         check(isEmpty(fileName), "Target file name is null or empty");
 
         return path.resolve(fileName).toString();
+    }
+
+    @Override
+    public String getFilePath(String fileName) {
+        return getFilePath(m_root, fileName);
     }
 
     @Override
@@ -72,16 +106,18 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
+    public InputStream getFile(String fileName) {
+        return getFile(m_root, fileName);
+    }
+
+    @Override
     public byte[] getFileAsByteArray(Path path, String fileName) {
         String filePath = getFilePath(path, fileName);
         File file = new File(filePath);
         byte[] bytesArray = new byte[(int) file.length()];
 
-        try {
-            FileInputStream fis = new FileInputStream(file);
+        try (FileInputStream fis = new FileInputStream(file)) {
             fis.read(bytesArray);
-            fis.close();
-
         } catch (IOException e) {
             throw new FileStorageException("Error while reading file [" + fileName + "]", e);
         }
@@ -89,18 +125,27 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
+    public byte[] getFileAsByteArray(String fileName) {
+        return getFileAsByteArray(m_root, fileName);
+    }
+
+    @Override
     public List<String> listAll(Path location) {
         check(location == null, "Location folder is null");
         try {
-            return Files.walk(location, 1)
+            return Files.walk(location)
                 .filter(path -> !path.equals(location))
-                .map(path -> location.relativize(path).getFileName().toString())
+                .map(path -> location.relativize(path).toString())
                 .collect(Collectors.toList());
         } catch (IOException e) {
             throw new FileStorageException("Failed to read stored files at " + location, e);
         }
     }
 
+    @Override
+    public List<String> listAll() {
+        return listAll(m_root);
+    }
 
     private void check(boolean condition, String message) {
         if (condition) {

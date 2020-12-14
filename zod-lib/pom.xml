@@ -24,6 +24,7 @@
         <module>system-property-utils</module>
         <module>mariadb-java-client-wrapper</module>
         <module>file-service</module>
+        <module>model-converter</module>
     </modules>
     <build>
         <plugins>

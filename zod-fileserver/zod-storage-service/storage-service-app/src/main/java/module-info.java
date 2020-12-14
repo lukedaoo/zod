@@ -10,6 +10,7 @@ module zod.storage.app {
 
     requires net.bytebuddy;
     requires com.fasterxml.classmate;
+    requires java.transaction;
 
     requires org.apache.logging.log4j;
 
