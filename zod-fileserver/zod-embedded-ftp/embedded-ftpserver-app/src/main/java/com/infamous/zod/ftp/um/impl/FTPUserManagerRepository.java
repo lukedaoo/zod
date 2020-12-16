@@ -8,7 +8,6 @@ import com.infamous.zod.ftp.model.FTPUser;
 import com.infamous.zod.ftp.model.FTPUserKey;
 import com.infamous.zod.ftp.um.FTPUserDAO;
 import com.infamous.zod.ftp.um.FTPUserManager;
-import java.nio.file.Path;
 import java.util.Collections;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -18,25 +17,22 @@ import org.apache.ftpserver.ftplet.AuthenticationFailedException;
 import org.apache.ftpserver.ftplet.FtpException;
 import org.apache.ftpserver.ftplet.User;
 import org.apache.ftpserver.usermanager.UsernamePasswordAuthentication;
-import org.apache.logging.log4j.spi.LoggerRegistry;
 
 @Transactional
 public class FTPUserManagerRepository implements FTPUserManager {
 
     private FTPUserDAO m_dao;
     private PasswordEncryptor m_passwordEncryptor;
-    private Path m_root;
     private FTPServerConfigProperties m_serverConfig;
 
     public FTPUserManagerRepository() {
 
     }
 
-    public FTPUserManagerRepository(FTPUserDAO dao, PasswordEncryptor passwordEncryptor, Path rootSystem,
+    public FTPUserManagerRepository(FTPUserDAO dao, PasswordEncryptor passwordEncryptor,
                                     FTPServerConfigProperties serverConfig) {
         this.m_dao = dao;
         this.m_passwordEncryptor = passwordEncryptor;
-        this.m_root = rootSystem;
         this.m_serverConfig = serverConfig;
     }
 
@@ -51,8 +47,10 @@ public class FTPUserManagerRepository implements FTPUserManager {
 
     @Override
     public User getUserByName(String s) throws FtpException {
-        return Optional.ofNullable(m_dao.findById(new FTPUserKey(s)))
+        FTPUser user = Optional.ofNullable(m_dao.findById(new FTPUserKey(s)))
             .orElseThrow(() -> new FtpException("User [" + s + "] doesn't exist"));
+        user.addDefaultAuthorities();
+        return user;
     }
 
     @Override
@@ -90,7 +88,7 @@ public class FTPUserManagerRepository implements FTPUserManager {
         UsernamePasswordAuthentication auth = (UsernamePasswordAuthentication) authentication;
         checkAuth(!isEmptyString(auth.getUsername()), "You must provide a username");
         checkAuth(!isEmptyString(auth.getPassword()), "You must provide a password");
-        User u = null;
+        User u;
         try {
             u = getUserByName(auth.getUsername());
         } catch (FtpException e) {
@@ -107,12 +105,12 @@ public class FTPUserManagerRepository implements FTPUserManager {
     }
 
     @Override
-    public String getAdminName() throws FtpException {
+    public String getAdminName() {
         return ((FTPUser) m_dao.findByNativeQuery("SELECT * FROM FTPUser WHERE isAdmin = 'true'").get(0)).getName();
     }
 
     @Override
-    public boolean isAdmin(String s) throws FtpException {
+    public boolean isAdmin(String s) {
         return m_dao.findById(new FTPUserKey(s)).isAdmin();
     }
 

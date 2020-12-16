@@ -22,9 +22,11 @@
         <mariadb.client.version>2.7.1</mariadb.client.version>
         <jakarta.transaction-api.version>1.3.3</jakarta.transaction-api.version>
         <jakarta.persistence-api.version>2.2.3</jakarta.persistence-api.version>
+        <jakarta.xml.bind-api.version>2.3.3</jakarta.xml.bind-api.version>
+        <jakarta.activation-api.version>1.2.2</jakarta.activation-api.version>
         <!-- Spring -->
-        <spring.version>5.3.1</spring.version>
-        <spring.boot.version>2.4.0</spring.boot.version>
+        <spring.version>5.3.2</spring.version>
+        <spring.boot.version>2.4.1</spring.boot.version>
         <spring.log4j2.version>${spring.boot.version}</spring.log4j2.version>
         <!-- Utilities -->
         <lombok.version>1.18.16</lombok.version>
@@ -35,6 +37,8 @@
 
         <!-- 3rd Party -->
         <mina.ftpserver.version>1.1.1</mina.ftpserver.version>  <!-- Mina FTP Server -->
+        <jersey.media.multipart.version>2.32</jersey.media.multipart.version>
+        <glassfish.hk2.version>3.0.0</glassfish.hk2.version>
 
         <!-- Testing -->
         <junit.version>5.7.0</junit.version>
@@ -81,6 +85,11 @@
                 <artifactId>spring-boot-starter-log4j2</artifactId>
                 <version>${spring.log4j2.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-jersey</artifactId>
+                <version>${spring.boot.version}</version>
+            </dependency>
             <!-- JPA & Hibernate -->
             <dependency>
                 <groupId>org.hibernate</groupId>
@@ -116,6 +125,18 @@
                 <groupId>jakarta.persistence</groupId>
                 <artifactId>jakarta.persistence-api</artifactId>
                 <version>${jakarta.persistence-api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.xml.bind</groupId>
+                <artifactId>jakarta.xml.bind-api</artifactId>
+                <version>${jakarta.xml.bind-api.version}</version>
+                <scope>compile</scope>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.activation</groupId>
+                <artifactId>jakarta.activation-api</artifactId>
+                <version>${jakarta.activation-api.version}</version>
+                <scope>compile</scope>
             </dependency>
             <!-- Logging -->
             <dependency>

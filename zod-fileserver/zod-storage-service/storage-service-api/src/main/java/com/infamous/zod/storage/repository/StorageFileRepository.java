@@ -15,6 +15,4 @@ public interface StorageFileRepository {
     List<StorageFileVO> find(List<String> id);
 
     List<StorageFileVO> findAll();
-
-    void reset();
 }

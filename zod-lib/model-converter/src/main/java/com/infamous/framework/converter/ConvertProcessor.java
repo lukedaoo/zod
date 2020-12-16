@@ -32,8 +32,8 @@ public class ConvertProcessor<U, T> {
     }
 
     public T convert(U u) {
-        U doPreConvert = doPreConvert(u);
-        T converted = doConvert(doPreConvert);
+        U preConverted = doPreConvert(u);
+        T converted = doConvert(preConverted);
         return doPostConvert(converted);
     }
 

@@ -27,7 +27,7 @@ class FTPUserManagerRepositoryTest {
 
     @Test
     void getAllUserNames() throws FtpException {
-        FTPUserManagerRepository repo = new FTPUserManagerRepository(m_dao, m_passwordEncryptor, null, null);
+        FTPUserManagerRepository repo = new FTPUserManagerRepository(m_dao, m_passwordEncryptor, null);
 
         when(m_dao.findAll()).thenReturn(Arrays.asList(
             new FTPUser(new FTPUserName("admin"), new FTPPassword("password")),
@@ -44,7 +44,7 @@ class FTPUserManagerRepositoryTest {
 
     @Test
     void getAllUserNames2() throws FtpException {
-        FTPUserManagerRepository repo = new FTPUserManagerRepository(m_dao, m_passwordEncryptor, null, null);
+        FTPUserManagerRepository repo = new FTPUserManagerRepository(m_dao, m_passwordEncryptor, null);
 
         when(m_dao.findAll()).thenReturn(null);
 

@@ -2,6 +2,7 @@ package com.infamous.zod.storage;
 
 import com.infamous.framework.persistence.DataStoreManager;
 import com.infamous.zod.base.jpa.JPACommonUtils;
+import com.infamous.zod.storage.converter.StorageFileConverter;
 import com.infamous.zod.storage.repository.StorageFileDataStore;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +16,7 @@ public class StorageServiceAutoConfig {
     public LocalContainerEntityManagerFactoryBean createStorageFileEMF() {
         return JPACommonUtils.createEntityManagerFactory((emf) -> {
             emf.setPersistenceUnitName("fileserver-ds");
+            emf.setPersistenceXmlLocation("classpath:META-INF/persistence.xml");
         });
     }
 
@@ -23,5 +25,10 @@ public class StorageServiceAutoConfig {
         StorageFileDataStore dataStore = new StorageFileDataStore();
         dataStoreManager.register(StorageFileDataStore.DS_NAME, dataStore);
         return dataStore;
+    }
+
+    @Bean
+    public StorageFileConverter converter() {
+        return new StorageFileConverter();
     }
 }

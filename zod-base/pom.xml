@@ -20,6 +20,20 @@
         <module>spring-jpa-autoconfig</module>
         <module>spring-common-services</module>
     </modules>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.infamous.zod</groupId>
+                <artifactId>spring-jpa-autoconfig</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.infamous.zod</groupId>
+                <artifactId>spring-common-services</artifactId>
+                <version>${revision}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
     <build>
         <plugins>
             <plugin>

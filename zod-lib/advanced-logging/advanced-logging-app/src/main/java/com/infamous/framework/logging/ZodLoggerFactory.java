@@ -8,7 +8,6 @@ import com.infamous.framework.logging.core.LogKey;
 import com.infamous.framework.logging.core.LogScope;
 import com.infamous.framework.logging.core.LogType;
 import com.infamous.framework.logging.impl.ZodLoggerImpl;
-import com.infamous.framework.sensitive.core.SensitiveHashingService;
 import com.infamous.framework.sensitive.service.SensitiveHashingServiceProvider;
 import java.util.HashSet;
 import java.util.Map;

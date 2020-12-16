@@ -48,7 +48,6 @@ public class ZodFTPServerConfig {
         return factory.createListener();
     }
 
-    @DependsOn("ftpUserManager")
     @Bean(name = "ftpServer")
     public FtpServer server(FileSystemFactory fileSystemFactory, Listener listener, UserManager um) {
         FtpServerFactory serverFactory = new FtpServerFactory();

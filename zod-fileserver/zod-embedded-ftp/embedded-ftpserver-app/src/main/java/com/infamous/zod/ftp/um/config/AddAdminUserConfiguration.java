@@ -12,9 +12,8 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.DependsOn;
 
-@DependsOn("ftpUserManager")
+//@DependsOn("ftpUserManager")
 public class AddAdminUserConfiguration {
 
     private static final ZodLogger LOGGER = ZodLoggerUtil.getLogger(AddAdminUserConfiguration.class, "ftp.server");
@@ -48,13 +47,13 @@ public class AddAdminUserConfiguration {
                 .maxConcurrentLogins(m_adminProp.getMaxConcurrentLogins())
                 .maxDownloadRate(m_adminProp.getMaxDownloadRate())
                 .maxUploadRate(m_adminProp.getMaxUploadRate())
+                .workspace(m_adminProp.getRootFolder() + "/" + m_adminProp.getWorkspace())
                 .build();
             admin.addDefaultAuthorities();
             m_ftpUserManager.save(admin);
             LOGGER.info("Added or updated admin user [" + m_adminProp.getUsername() + "]");
         } catch (Exception e) {
             LOGGER.error("Error while adding or updating admin user. Stopping application", e);
-            SpringApplication.exit(m_appContext, () -> 0);
         }
     }
 }

@@ -18,6 +18,7 @@
     </properties>
     <modules>
         <module>hibernate-with-jakarta</module>
+        <module>spring-boot-jersey-patched</module>
         <module>sensitive-service</module>
         <module>advanced-logging</module>
         <module>persistence</module>
@@ -26,6 +27,65 @@
         <module>file-service</module>
         <module>model-converter</module>
     </modules>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.infamous.framework</groupId>
+                <artifactId>hibernate-with-jakarta</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.infamous.framework</groupId>
+                <artifactId>spring-boot-jersey-patched</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.infamous.framework</groupId>
+                <artifactId>sensitive-service-api</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.infamous.framework</groupId>
+                <artifactId>sensitive-service-app</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.infamous.framework</groupId>
+                <artifactId>advanced-logging-api</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.infamous.framework</groupId>
+                <artifactId>advanced-logging-app</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.infamous.framework</groupId>
+                <artifactId>persistence-api</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.infamous.framework</groupId>
+                <artifactId>system-property-utils</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.infamous.framework</groupId>
+                <artifactId>mariadb-java-client-wrapper</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.infamous.framework</groupId>
+                <artifactId>file-service</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.infamous.framework</groupId>
+                <artifactId>model-converter</artifactId>
+                <version>${revision}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
     <build>
         <plugins>
             <plugin>

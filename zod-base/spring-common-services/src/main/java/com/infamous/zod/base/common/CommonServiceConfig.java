@@ -10,7 +10,6 @@ import org.springframework.context.annotation.Lazy;
 public class CommonServiceConfig {
 
     @Bean
-    @Lazy
     public FileService coreFileService() {
         return new FileServiceImpl();
     }

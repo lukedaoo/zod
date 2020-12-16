@@ -10,6 +10,7 @@
     </parent>
     <groupId>com.infamous.framework</groupId>
     <artifactId>model-converter</artifactId>
+    <name>zod-lib/model-converter</name>
     <dependencies>
         <dependency>
             <groupId>org.junit.jupiter</groupId>

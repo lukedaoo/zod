@@ -11,10 +11,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @ZodCommonServiceAutoConfig
 @ZodJpaAutoConfig
 @EnableZodFTPServer
-public class StorageApplication implements CommandLineRunner {
+public class StorageServiceApplication implements CommandLineRunner {
 
     public static void main(String[] args) {
-        SpringApplication.run(StorageApplication.class, args);
+        SpringApplication.run(StorageServiceApplication.class, args);
     }
 
     @Override

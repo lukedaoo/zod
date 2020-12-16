@@ -118,8 +118,8 @@ class FileServiceImplTest {
         String existed = m_fileService.getFilePath(m_root, "existed/Kamehameha.txt");
         assertTrue(Files.exists(Path.of(existed)));
 
-        String notExisted = m_fileService.getFilePath(m_root, "NotExisted/Kamehameha.txt");
-        assertFalse(Files.exists(Path.of(notExisted)));
+        String notExist = m_fileService.getFilePath(m_root, "notExist/Kamehameha.txt");
+        assertFalse(Files.exists(Path.of(notExist)));
     }
 
     @Test

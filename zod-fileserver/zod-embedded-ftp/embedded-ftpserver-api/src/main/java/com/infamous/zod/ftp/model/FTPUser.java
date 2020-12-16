@@ -53,13 +53,11 @@ public class FTPUser implements User {
 
     public FTPUser() {
 
-        addDefaultAuthorities();
     }
 
     public FTPUser(FTPUserName username, FTPPassword password) {
         this.username = username.getUsername();
         this.password = password.getPassword();
-        addDefaultAuthorities();
     }
 
     public void addDefaultAuthorities() {

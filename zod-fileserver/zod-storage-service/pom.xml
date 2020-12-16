@@ -14,6 +14,7 @@
     <modules>
         <module>storage-service-api</module>
         <module>storage-service-app</module>
+        <module>storage-service-nbi</module>
     </modules>
     <build>
         <plugins>

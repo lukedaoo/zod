@@ -8,6 +8,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>spring-common-services</artifactId>
+    <name>zod-base/spring-common-services</name>
     <dependencies>
         <!-- Internal -->
         <dependency>
