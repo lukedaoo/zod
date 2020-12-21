@@ -13,5 +13,7 @@
         <module>zod-lib</module>
         <module>zod-base</module>
         <module>zod-fileserver</module>
+
+        <module>package</module>
     </modules>
 </project>

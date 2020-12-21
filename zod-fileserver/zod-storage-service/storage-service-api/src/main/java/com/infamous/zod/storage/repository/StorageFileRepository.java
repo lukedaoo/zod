@@ -2,11 +2,12 @@ package com.infamous.zod.storage.repository;
 
 import com.infamous.zod.storage.model.StorageFileVO;
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.util.Collection;
 import java.util.List;
 
 public interface StorageFileRepository {
-    UploadResult upload(List<StorageFileVO> files);
+
+    UploadResult upload(Collection<StorageFileVO> files);
 
     boolean upload(StorageFileVO file);
 
@@ -16,7 +17,7 @@ public interface StorageFileRepository {
 
     File findPhysicalFile(String id);
 
-    List<StorageFileVO> find(List<String> id);
+    List<StorageFileVO> find(Collection<String> id);
 
     List<StorageFileVO> findAll();
 }

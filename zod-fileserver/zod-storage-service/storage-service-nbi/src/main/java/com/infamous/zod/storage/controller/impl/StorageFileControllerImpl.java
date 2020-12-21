@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.StreamingOutput;
 import org.glassfish.jersey.media.multipart.BodyPart;
 import org.glassfish.jersey.media.multipart.ContentDisposition;
@@ -67,7 +68,7 @@ public class StorageFileControllerImpl implements StorageFileController {
             .build();
 
         return m_repository.upload(s)
-            ? Response.ok().build()
+            ? Response.ok().status(Status.CREATED).build()
             : Response.status(500).build();
     }
 
@@ -81,8 +82,8 @@ public class StorageFileControllerImpl implements StorageFileController {
     @Override
     public Response uploadFile(List<FormDataBodyPart> bodyParts) {
         Set<StorageFileVO> set = parseBodyPartsToSetOfDto(bodyParts);
-        UploadResult res = m_repository.upload(new ArrayList<>(set));
-        return Response.ok(res).build();
+        UploadResult res = m_repository.upload(set);
+        return Response.ok(res).status(Status.CREATED).build();
     }
 
     @Override

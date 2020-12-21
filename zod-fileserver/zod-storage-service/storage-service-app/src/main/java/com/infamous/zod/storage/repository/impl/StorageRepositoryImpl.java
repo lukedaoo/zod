@@ -10,6 +10,7 @@ import com.infamous.zod.storage.repository.StorageFileDAO;
 import com.infamous.zod.storage.repository.StorageFileRepository;
 import com.infamous.zod.storage.repository.UploadResult;
 import java.io.File;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -57,7 +58,7 @@ public class StorageRepositoryImpl implements StorageFileRepository {
 
 
     @Override
-    public UploadResult upload(List<StorageFileVO> files) {
+    public UploadResult upload(Collection<StorageFileVO> files) {
         UploadResult res = new UploadResult();
         List<StorageFileVO> data = new LinkedList<>();
 
@@ -69,6 +70,8 @@ public class StorageRepositoryImpl implements StorageFileRepository {
         res.setData(data);
         if (data.size() == files.size()) {
             res.setStatus("success");
+        } else {
+            res.setStatus("failure");
         }
         return res;
     }
@@ -93,7 +96,7 @@ public class StorageRepositoryImpl implements StorageFileRepository {
     }
 
     @Override
-    public List<StorageFileVO> find(List<String> id) {
+    public List<StorageFileVO> find(Collection<String> id) {
         List<StorageFile> sfs = m_dao
             .findById(id.stream().map(StorageFileKey::new).collect(Collectors.toList()));
         return m_converter.toDTO(sfs.parallelStream());

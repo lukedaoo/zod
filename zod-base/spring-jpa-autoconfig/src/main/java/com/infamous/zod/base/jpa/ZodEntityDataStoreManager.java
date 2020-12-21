@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public class ZodEntityDataStoreManager implements DataStoreManager {
 
-    private static final ZodLogger LOGGER = ZodLoggerUtil.getLogger(ZodEntityDataStoreManager.class, "persistence.app");
+    private static final ZodLogger LOGGER = ZodLoggerUtil.getLogger(ZodEntityDataStoreManager.class, "spring.jpa");
 
     private Map<String, DataStore> m_datastoreMap = new HashMap<>();
 

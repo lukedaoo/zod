@@ -25,11 +25,16 @@ public class StorageFileDAOImpl extends AbstractDAO<StorageFile, StorageFileKey>
     public List<StorageFile> findAll() {
         List<Object[]> objects = (List<Object[]>) findByNativeQuery(
             "SELECT id, fileName, enabled FROM StorageFile WHERE enabled = 1");
-        return objects.stream().map(objArr -> StorageFile.builder()
+        return objects.stream()
+            .map(this::buildStoreFile)
+            .collect(Collectors.toList());
+    }
+
+    private StorageFile buildStoreFile(Object[] objArr) {
+        return StorageFile.builder()
             .id((String) objArr[0])
             .fileName((String) objArr[1])
             .enabled((Boolean) objArr[2])
-            .build())
-            .collect(Collectors.toList());
+            .build();
     }
 }

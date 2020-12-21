@@ -3,6 +3,7 @@ package com.infamous.zod.base.rest;
 import com.infamous.framework.logging.ZodLogger;
 import java.util.function.Supplier;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 public abstract class BaseEndPoint {
 
@@ -20,7 +21,7 @@ public abstract class BaseEndPoint {
 
     private Response unknownResponse(Exception e) {
         logUnexpectedException(e);
-        return Response.status(500).entity(e.getMessage()).build();
+        return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
     }
 
     private void logUnexpectedException(Exception e) {
