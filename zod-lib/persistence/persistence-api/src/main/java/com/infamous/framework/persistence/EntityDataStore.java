@@ -86,6 +86,12 @@ public abstract class EntityDataStore implements DataStore {
     }
 
     @Override
+    public <E> List<E> findByNativeQuery(Class<E> clazz, String query) {
+        return getEntityManager().createNativeQuery(query, clazz)
+            .getResultList();
+    }
+
+    @Override
     public List findByNativeQuery(String query) {
         return getEntityManager().createNativeQuery(query)
             .getResultList();

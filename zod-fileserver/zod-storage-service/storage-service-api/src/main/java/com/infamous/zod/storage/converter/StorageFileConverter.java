@@ -16,7 +16,6 @@ public class StorageFileConverter extends ModelConverter<StorageFile, StorageFil
             .id(storageFile.getId())
             .fileName(storageFile.getFileName())
             .fileSize(storageFile.getFileSize())
-            .downloadUrl(storageFile.getDownloadUrl())
             .enabled(storageFile.isEnabled())
             .build());
     }
@@ -26,7 +25,6 @@ public class StorageFileConverter extends ModelConverter<StorageFile, StorageFil
             .id(vo.getId())
             .fileName(vo.getFileName())
             .fileSize(vo.getFileSize())
-            .downloadUrl(vo.getDownloadUrl())
             .enabled(vo.isEnabled())
             .extension(vo.getExtension())
             .build());

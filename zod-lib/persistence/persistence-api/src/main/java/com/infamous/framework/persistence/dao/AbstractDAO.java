@@ -3,7 +3,9 @@ package com.infamous.framework.persistence.dao;
 import com.infamous.framework.persistence.DataStore;
 import com.infamous.framework.persistence.DataStoreManager;
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import javax.persistence.LockModeType;
@@ -88,7 +90,11 @@ public abstract class AbstractDAO<T, PK extends Serializable> implements EntityD
 
     @Override
     public List<T> findById(List<PK> pks) {
-        return pks.stream().map(pk -> findById(pk))
+        if (pks == null) {
+            return Collections.emptyList();
+        }
+        return pks.stream().map(this::findById)
+            .filter(Objects::nonNull)
             .collect(Collectors.toList());
     }
 }

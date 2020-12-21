@@ -200,6 +200,42 @@ public class ZodLoggerImpl implements ZodLogger {
         return m_target.getTarget();
     }
 
+    @Override
+    public void fastLog(LogLevel level, String msg) {
+        if (isOperationEnabled(level)) {
+            log(level, msg);
+        }
+    }
+
+    @Override
+    public void fastLog(LogLevel level, String format, Object arg) {
+        if (isOperationEnabled(level)) {
+            log(level, format, arg);
+        }
+    }
+
+    @Override
+    public void fastLog(LogLevel level, String format, Object arg1, Object arg2) {
+        if (isOperationEnabled(level)) {
+            log(level, format, new Object[]{arg1, arg2});
+        }
+    }
+
+    @Override
+    public void fastLog(LogLevel level, String format, Object... arguments) {
+        if (isOperationEnabled(level)) {
+            log(level, format, arguments);
+        }
+    }
+
+    @Override
+    public void fastLog(LogLevel level, String msg, Throwable t) {
+        if (isOperationEnabled(level)) {
+            log(level, msg);
+        }
+    }
+
+
     private boolean isOperationEnabled(LogLevel logLevel) {
         return logLevel.getIsEnabledFunction().apply(this);
     }
@@ -238,13 +274,11 @@ public class ZodLoggerImpl implements ZodLogger {
     }
 
     private void log(LogLevel logLevel, String rawMessage, Object[] objects) {
-        if (isOperationEnabled(logLevel)) {
-            String message = prependDetail(rawMessage);
-            try {
-                invokeLog(logLevel, message, objects);
-            } finally {
-                resetMDC();
-            }
+        String message = prependDetail(rawMessage);
+        try {
+            invokeLog(logLevel, message, objects);
+        } finally {
+            resetMDC();
         }
     }
 

@@ -31,6 +31,7 @@ class FileServiceImplTest {
     public void setup() {
         m_root = Paths.get(ROOT);
         m_fileService = new FileServiceImpl();
+        m_fileService.setRootFolder(m_root);
     }
 
     @AfterEach
@@ -148,4 +149,11 @@ class FileServiceImplTest {
         assertEquals("existed", res[0]);
         assertEquals("existed/Kamehameha.txt", res[1]);
     }
+
+    @Test
+    public void testGetFilePhysical() {
+        File file = m_fileService.getFilePhysical("existed/Kamehameha.txt");
+        assertTrue(file.exists());
+    }
+
 }

@@ -1,6 +1,7 @@
 package com.infamous.zod.storage.repository.impl;
 
 import com.infamous.framework.file.FileService;
+import com.infamous.framework.file.FileStorageException;
 import com.infamous.zod.storage.converter.StorageFileConverter;
 import com.infamous.zod.storage.model.StorageFile;
 import com.infamous.zod.storage.model.StorageFileKey;
@@ -8,6 +9,7 @@ import com.infamous.zod.storage.model.StorageFileVO;
 import com.infamous.zod.storage.repository.StorageFileDAO;
 import com.infamous.zod.storage.repository.StorageFileRepository;
 import com.infamous.zod.storage.repository.UploadResult;
+import java.io.File;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -17,6 +19,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+@Transactional
 @Repository
 public class StorageRepositoryImpl implements StorageFileRepository {
 
@@ -34,7 +37,6 @@ public class StorageRepositoryImpl implements StorageFileRepository {
         m_fileService = coreFileService;
     }
 
-    @Transactional
     @Override
     public boolean upload(StorageFileVO file) {
         return saveToDisk(file) && saveToDB(file);
@@ -44,7 +46,6 @@ public class StorageRepositoryImpl implements StorageFileRepository {
         StorageFile sf = m_converter.toEntity(file);
         boolean res = m_dao.persist(sf);
         file.setId(sf.getId());
-        file.setDownloadUrl("/download/" + file.getId());
         return res;
     }
 
@@ -67,7 +68,7 @@ public class StorageRepositoryImpl implements StorageFileRepository {
         });
         res.setData(data);
         if (data.size() == files.size()) {
-            // res.setStatus(ApiStatus.SUCCESS.getStatus());
+            res.setStatus("success");
         }
         return res;
     }
@@ -81,6 +82,14 @@ public class StorageRepositoryImpl implements StorageFileRepository {
     public StorageFileVO find(String id) {
         StorageFile sf = m_dao.findById(new StorageFileKey(id));
         return sf != null ? m_converter.toDTO(sf) : null;
+    }
+
+    @Override
+    public File findPhysicalFile(String id) {
+        StorageFileVO file = find(id);
+        return Optional.ofNullable(file)
+            .map(f -> m_fileService.getFilePhysical(f.getFileName()))
+            .orElseThrow(() -> new FileStorageException("File with [" + id + "] does not exist"));
     }
 
     @Override

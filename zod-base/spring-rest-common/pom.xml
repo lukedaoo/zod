@@ -1,0 +1,31 @@
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://maven.apache.org/POM/4.0.0"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>zod-base</artifactId>
+        <groupId>com.infamous.zod</groupId>
+        <version>${revision}</version>
+    </parent>
+    <artifactId>spring-rest-common</artifactId>
+    <name>zod-base/spring-rest-common</name>
+    <dependencies>
+        <!-- External -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jersey</artifactId>
+            <version>${spring.boot.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.media</groupId>
+            <artifactId>jersey-media-multipart</artifactId>
+            <version>${jersey.media.multipart.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.infamous.framework</groupId>
+            <artifactId>advanced-logging-app</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
+</project>

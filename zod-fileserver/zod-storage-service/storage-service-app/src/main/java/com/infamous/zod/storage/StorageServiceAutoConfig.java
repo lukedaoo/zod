@@ -21,14 +21,14 @@ public class StorageServiceAutoConfig {
     }
 
     @Bean
-    public StorageFileDataStore storageFileDataStore(DataStoreManager dataStoreManager) {
+    public StorageFileDataStore createStorageFileDataStore(DataStoreManager dataStoreManager) {
         StorageFileDataStore dataStore = new StorageFileDataStore();
         dataStoreManager.register(StorageFileDataStore.DS_NAME, dataStore);
         return dataStore;
     }
 
     @Bean
-    public StorageFileConverter converter() {
+    public StorageFileConverter craeteConverter() {
         return new StorageFileConverter();
     }
 }

@@ -97,6 +97,24 @@ class EntityDataStoreTest {
         assertFalse(m_eds.isActive());
 
         executeInTx(() -> {
+            List<Person> personList = m_eds.findByNativeQuery(Person.class, "SELECT * FROM person");
+            assertNotNull(personList);
+
+            assertNotNull(personList);
+            assertEquals(personList.size(), 4);
+            assertEquals(personList.get(0), new Person("p1", "A"));
+            assertEquals(personList.get(1), new Person("p2", "B"));
+            assertEquals(personList.get(2), new Person("p3", "C"));
+            assertEquals(personList.get(3), new Person("p4", "D"));
+        });
+    }
+
+    @Test
+    public void testFindByNativeQuery_2() {
+        createPersons();
+        assertFalse(m_eds.isActive());
+
+        executeInTx(() -> {
             List<Object[]> persons = (List<Object[]>) m_eds.findByNativeQuery("SELECT * FROM person");
             assertNotNull(persons);
 
@@ -112,6 +130,7 @@ class EntityDataStoreTest {
             assertEquals(personList.get(3), new Person("p4", "D"));
         });
     }
+
 
     private void mergePersons() {
         executeInTx(() -> {

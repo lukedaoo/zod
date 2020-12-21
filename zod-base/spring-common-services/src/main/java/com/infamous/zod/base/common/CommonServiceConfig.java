@@ -10,13 +10,14 @@ import org.springframework.context.annotation.Lazy;
 public class CommonServiceConfig {
 
     @Bean
-    public FileService coreFileService() {
+    @Lazy
+    public FileService createCoreFileService() {
         return new FileServiceImpl();
     }
 
     @Bean
     @Lazy
-    public MessageSourceService messageSourceService() {
+    public MessageSourceService createMessageSourceService() {
         return new MessageSourceServiceImpl();
     }
 }

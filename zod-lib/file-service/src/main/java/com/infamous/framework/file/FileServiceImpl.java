@@ -95,9 +95,7 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public InputStream getFile(Path path, String fileName) {
-        String filePath = getFilePath(path, fileName);
-        File file = new File(filePath);
-        check(!file.exists(), "File [" + fileName + "] does not exist");
+        File file = getFilePhysical(path, fileName);
         try {
             return new FileInputStream(file);
         } catch (IOException e) {
@@ -112,8 +110,7 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public byte[] getFileAsByteArray(Path path, String fileName) {
-        String filePath = getFilePath(path, fileName);
-        File file = new File(filePath);
+        File file = getFilePhysical(path, fileName);
         byte[] bytesArray = new byte[(int) file.length()];
 
         try (FileInputStream fis = new FileInputStream(file)) {
@@ -127,6 +124,19 @@ public class FileServiceImpl implements FileService {
     @Override
     public byte[] getFileAsByteArray(String fileName) {
         return getFileAsByteArray(m_root, fileName);
+    }
+
+    @Override
+    public File getFilePhysical(Path path, String fileName) {
+        String filePath = getFilePath(path, fileName);
+        return new File(filePath);
+    }
+
+    @Override
+    public File getFilePhysical(String fileName) {
+        File file = getFilePhysical(m_root, fileName);
+        check(!file.exists(), "File [" + fileName + "] does not exist");
+        return file;
     }
 
     @Override

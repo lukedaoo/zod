@@ -1,5 +1,6 @@
 package com.infamous.framework.file;
 
+import java.io.File;
 import java.io.InputStream;
 import java.nio.file.Path;
 import java.util.List;
@@ -29,6 +30,10 @@ public interface FileService {
     byte[] getFileAsByteArray(Path path, String fileName);
 
     byte[] getFileAsByteArray(String fileName);
+
+    File getFilePhysical(Path path, String fileName);
+
+    File getFilePhysical(String fileName);
 
     List<String> listAll(Path location);
 

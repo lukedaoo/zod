@@ -1,0 +1,31 @@
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://maven.apache.org/POM/4.0.0"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>zod-media-streaming-parent</artifactId>
+        <groupId>com.infamous.zod</groupId>
+        <version>${revision}</version>
+    </parent>
+    <artifactId>media-streaming-api</artifactId>
+    <name>zod-fileserver/zod-media-streaming/media-streaming-api</name>
+    <dependencies>
+        <!-- Internal -->
+        <dependency>
+            <groupId>com.infamous.framework</groupId>
+            <artifactId>advanced-logging-app</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <!-- External -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jersey</artifactId>
+            <version>${spring.boot.version}</version>
+        </dependency>
+    </dependencies>
+</project>

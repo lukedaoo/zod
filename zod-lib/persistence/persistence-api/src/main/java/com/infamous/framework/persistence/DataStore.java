@@ -30,6 +30,8 @@ public interface DataStore {
 
     <E> boolean persist(E entity);
 
+    <E> List<E> findByNativeQuery(Class<E> clazz, String query);
+
     List findByNativeQuery(String query);
 
     <E> E findById(Class<E> clazz, Object primaryKey);

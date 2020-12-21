@@ -20,6 +20,7 @@
     <modules>
         <module>zod-embedded-ftp</module>
         <module>zod-storage-service</module>
+        <module>zod-media-streaming</module>
     </modules>
     <build>
         <plugins>

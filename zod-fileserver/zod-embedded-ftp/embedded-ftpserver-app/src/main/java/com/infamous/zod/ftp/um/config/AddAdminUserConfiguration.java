@@ -12,8 +12,9 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Configuration;
 
-//@DependsOn("ftpUserManager")
+@Configuration
 public class AddAdminUserConfiguration {
 
     private static final ZodLogger LOGGER = ZodLoggerUtil.getLogger(AddAdminUserConfiguration.class, "ftp.server");
@@ -51,9 +52,10 @@ public class AddAdminUserConfiguration {
                 .build();
             admin.addDefaultAuthorities();
             m_ftpUserManager.save(admin);
-            LOGGER.info("Added or updated admin user [" + m_adminProp.getUsername() + "]");
+            LOGGER.info("Added or updated admin user [" + m_adminProp.getUsername() + "] successfully");
         } catch (Exception e) {
             LOGGER.error("Error while adding or updating admin user. Stopping application", e);
+            SpringApplication.exit(m_appContext, () -> 1);
         }
     }
 }

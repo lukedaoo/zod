@@ -1,5 +1,8 @@
 package com.infamous.zod.storage.endpoint;
 
+import com.infamous.framework.logging.ZodLogger;
+import com.infamous.framework.logging.ZodLoggerUtil;
+import com.infamous.zod.base.rest.BaseEndPoint;
 import com.infamous.zod.storage.controller.StorageFileController;
 import java.io.InputStream;
 import java.util.List;
@@ -17,38 +20,34 @@ import javax.ws.rs.core.Response;
 import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 @Controller
 @Path("/storage/v1")
-public class StorageFileEndPointV1 {
+public class StorageFileEndPointV1 extends BaseEndPoint {
+
+    private static final ZodLogger LOGGER = ZodLoggerUtil.getLogger(StorageFileEndPointV1.class, "storage.service");
 
     private StorageFileController m_controller;
 
+    @Autowired
     public StorageFileEndPointV1(StorageFileController controller) {
         this.m_controller = controller;
+        postInitLog(() -> "Register StorageFileEndPointV1 - /storage/v1");
     }
 
     @GET
     @Path("/download/{id}")
     public Response download(@PathParam("id") String id) {
-        try {
-            return m_controller.download(id);
-        } catch (Exception e) {
-            return unknownResponse(e);
-        }
+        return executeWithTemplate(() -> m_controller.download(id));
     }
 
     @GET
     @Path("/download/multiple")
     public Response multipleDownload(@Context HttpServletRequest request, @QueryParam("id") List<String> ids) {
-        try {
-            return m_controller.multipleDownload(request, ids);
-        } catch (Exception e) {
-            return unknownResponse(e);
-        }
+        return executeWithTemplate(() -> m_controller.multipleDownload(request, ids));
     }
-
 
     @Path("/upload")
     @POST
@@ -56,47 +55,32 @@ public class StorageFileEndPointV1 {
     public Response uploadFile(@FormDataParam("file") InputStream content,
                                @FormDataParam("file") FormDataContentDisposition metadata,
                                @HeaderParam("Content-Length") long len) {
-        try {
-            return m_controller.uploadFile(content, metadata);
-        } catch (Exception e) {
-            return unknownResponse(e);
-        }
+        return executeWithTemplate(() -> m_controller.uploadFile(content, metadata));
     }
 
     @Path("/info/{id}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response info(@PathParam("id") String id) {
-        try {
-            return m_controller.info(id);
-        } catch (Exception e) {
-            return unknownResponse(e);
-        }
+        return executeWithTemplate(() -> m_controller.info(id));
     }
 
     @Path("/info")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response info() {
-        try {
-            return m_controller.getAll();
-        } catch (Exception e) {
-            return unknownResponse(e);
-        }
+        return executeWithTemplate(() -> m_controller.getAll());
     }
 
     @Path("/upload/multiple")
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     public Response uploadFile(@FormDataParam("files") List<FormDataBodyPart> bodyParts) {
-        try {
-            return m_controller.uploadFile(bodyParts);
-        } catch (Exception e) {
-            return unknownResponse(e);
-        }
+        return executeWithTemplate(() -> m_controller.uploadFile(bodyParts));
     }
 
-    private Response unknownResponse(Exception e) {
-        return Response.status(500).build();
+    @Override
+    protected ZodLogger getLogger() {
+        return LOGGER;
     }
 }

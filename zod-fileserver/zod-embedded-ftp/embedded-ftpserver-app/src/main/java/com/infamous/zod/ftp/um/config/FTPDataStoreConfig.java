@@ -1,5 +1,6 @@
 package com.infamous.zod.ftp.um.config;
 
+import com.infamous.framework.file.FileService;
 import com.infamous.framework.logging.ZodLogger;
 import com.infamous.framework.logging.ZodLoggerUtil;
 import com.infamous.framework.persistence.DataStoreManager;
@@ -15,6 +16,7 @@ import com.infamous.zod.ftp.um.FTPUserManager;
 import com.infamous.zod.ftp.um.impl.EncryptStrategy;
 import com.infamous.zod.ftp.um.impl.FTPUserDAOImpl;
 import com.infamous.zod.ftp.um.impl.FTPUserManagerRepository;
+import java.nio.file.Path;
 import org.springframework.context.annotation.Bean;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 
@@ -56,10 +58,10 @@ public class FTPDataStoreConfig {
     }
 
     @Bean
-    public FTPUserManager createUserManger(FTPUserDAO dao, PasswordEncryptor pe,
+    public FTPUserManager createUserManger(FTPUserDAO dao, PasswordEncryptor pe, FileService fileService,
                                            FTPServerConfigProperties serverConfig) {
-//        Path rootPath = fileService.createDirectory(serverConfig.getRootFolder());
-//        fileService.setRootFolder(rootPath);
+        Path rootPath = fileService.createDirectory(serverConfig.getRootFolder());
+        fileService.setRootFolder(rootPath);
         return new FTPUserManagerRepository(dao, pe, serverConfig);
     }
 }

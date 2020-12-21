@@ -28,8 +28,8 @@ public class StorageFile {
     private String fileName;
     private long fileSize;
     private String extension;
-    private String downloadUrl;
-    private boolean enabled;
+    @Column(columnDefinition="bit(1) default 1")
+    private boolean enabled = true;
 
     public String getId() {
         return id;
@@ -64,15 +64,6 @@ public class StorageFile {
 
     public StorageFile setExtension(String extension) {
         this.extension = extension;
-        return this;
-    }
-
-    public String getDownloadUrl() {
-        return downloadUrl;
-    }
-
-    public StorageFile setDownloadUrl(String downloadUrl) {
-        this.downloadUrl = downloadUrl;
         return this;
     }
 

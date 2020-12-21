@@ -19,6 +19,7 @@
     <modules>
         <module>spring-jpa-autoconfig</module>
         <module>spring-common-services</module>
+        <module>spring-rest-common</module>
     </modules>
     <dependencyManagement>
         <dependencies>
