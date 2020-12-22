@@ -15,5 +15,11 @@
     <packaging>pom</packaging>
     <properties>
         <revision>${release.version}</revision>
+        <app.basedir>${project.basedir}</app.basedir>
     </properties>
+    <modules>
+        <module>zod-base-image</module>
+        <module>zod-base-platform-image</module>
+        <module>zod-fileserver-image</module>
+    </modules>
 </project>

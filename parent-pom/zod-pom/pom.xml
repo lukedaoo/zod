@@ -51,6 +51,8 @@
         <maven.sunfire.version>3.0.0-M5</maven.sunfire.version>
         <maven.assembly.version>3.3.0</maven.assembly.version>
         <maven.complier.version>3.8.1</maven.complier.version>
+        <maven.dependency.version>3.1.2</maven.dependency.version>
+
 
         <build-helper-maven-plugin.version>3.2.0</build-helper-maven-plugin.version>
     </properties>
@@ -235,6 +237,11 @@
                         </path>
                     </annotationProcessorPaths>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>${maven.dependency.version}</version>
             </plugin>
         </plugins>
     </build>

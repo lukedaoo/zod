@@ -15,6 +15,6 @@ public enum EncryptStrategy {
         return Arrays.stream(EncryptStrategy.values())
             .filter(e -> e.toString().toLowerCase().equalsIgnoreCase(str))
             .findFirst()
-            .orElse(null);
+            .orElseThrow(() -> new IllegalArgumentException("Unsupported strategy " + str));
     }
 }

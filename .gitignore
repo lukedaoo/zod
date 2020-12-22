@@ -131,7 +131,6 @@ fabric.properties
 
 .flattened-pom.xml
 .metadata
-bin/
 tmp/
 *.tmp
 *.bak

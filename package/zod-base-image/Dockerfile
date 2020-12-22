@@ -1,4 +1,4 @@
-ARG OPEN_JDK_VERSION="15-alpine"
+ARG OPEN_JDK_VERSION="15-jdk-alpine"
 
 FROM openjdk:$OPEN_JDK_VERSION
 
