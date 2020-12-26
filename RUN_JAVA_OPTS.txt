@@ -1,0 +1,22 @@
+
+----- File Server ----
+-Dcom.atomikos.icatch.log_base_dir=./transaction-logs/fileserver
+-Dcom.atomikos.icatch.registered=true
+-Ddb.url=jdbc:mysql://localhost:3306/wanderer?createDatabaseIfNotExist=true
+-Ddb.username=<db_user> -Ddb.password=<db_password>
+-Ddb.dataSourceClassName=com.infamous.framework.jdbc.MariaDbDataSourceWrapper
+-Dhibernate.dialect=org.hibernate.dialect.MariaDBDialect
+-Dhibernate.hbm2ddl=update
+-Dftp.port=2121
+-Dftp.encryptor-strategy=salted
+-Dftp.salted=<salted_string>
+-Dftp.numOfLoginPerIp=3
+-Dftp.admin.username=wanderer
+-Dftp.admin.password=<ftp_password>
+-Dftp.admin.workspace=wanderer
+-Dftp.admin.idleTime=100
+-Dftp.admin.maxDownloadRate=0
+-Dftp.admin.maxUploadRate=0
+-Dftp.admin.maxConcurrentLogins=20
+-Dwarehouse.uri=${user.home}/Desktop/wanderer-ftp-root
+-Dftp.root=${warehouse.uri}

@@ -13,6 +13,7 @@
     <version>${revision}</version>
     <name>zod-lib/mariadb-java-client-wrapper</name>
     <dependencies>
+        <!-- External -->
         <dependency>
             <groupId>org.mariadb.jdbc</groupId>
             <artifactId>mariadb-java-client</artifactId>

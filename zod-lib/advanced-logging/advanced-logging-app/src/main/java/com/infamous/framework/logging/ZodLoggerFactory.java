@@ -22,6 +22,7 @@ public class ZodLoggerFactory implements AdvancedLoggerFactory<ZodLogger> {
 
     private static Map<LogKey, Set<String>> CATEGORIES = new ConcurrentHashMap<>();
     private static Map<String, LogKey> CATEGORIES_TO_LOGGER_KEY = new ConcurrentHashMap<>();
+
     static {
         SensitiveHashingServiceProvider.getInstance().use(new ZodSensitiveHashingService());
     }
@@ -36,6 +37,11 @@ public class ZodLoggerFactory implements AdvancedLoggerFactory<ZodLogger> {
         ZodSensitiveHashingService newInstance = new ZodSensitiveHashingService();
         block.accept(newInstance);
         SensitiveHashingServiceProvider.getInstance().use(newInstance);
+    }
+
+    @Override
+    public ZodLogger getLogger(Class<?> clazz, ApplicationName applicationName, LogType logType, LogScope logScope) {
+        return getLogger(clazz, applicationName.getName(), logType.getType(), logScope.getScope());
     }
 
     @Override
@@ -106,6 +112,11 @@ public class ZodLoggerFactory implements AdvancedLoggerFactory<ZodLogger> {
 
     private AdvancedLogger getInternalLogger(String category) {
         return new DefaultLogger(category);
+    }
+
+    public void reset() {
+        CATEGORIES.clear();
+        CATEGORIES_TO_LOGGER_KEY.clear();
     }
 }
 

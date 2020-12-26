@@ -13,25 +13,25 @@ public class FTPServerConfigProperties {
     @Value("${ftp.port}")
     private int m_port;
 
-    @Value("${ftp.user.admin.username}")
+    @Value("${ftp.admin.username}")
     private String m_username;
 
-    @Value("${ftp.user.admin.password}")
+    @Value("${ftp.admin.password}")
     private String m_password;
 
-    @Value("${ftp.user.admin.workspace}")
+    @Value("${ftp.admin.workspace}")
     private String m_workspace;
 
-    @Value("${ftp.user.admin.idleTime}")
+    @Value("${ftp.admin.idleTime}")
     private int m_idleTime;
 
-    @Value("${ftp.user.admin.maxDownloadRate}")
+    @Value("${ftp.admin.maxDownloadRate}")
     private int m_maxDownloadRate;
 
-    @Value("${ftp.user.admin.maxUploadRate}")
+    @Value("${ftp.admin.maxUploadRate}")
     private int m_maxUploadRate;
 
-    @Value("${ftp.user.admin.maxConcurrentLogins}")
+    @Value("${ftp.admin.maxConcurrentLogins}")
     private int m_maxConcurrentLogins;
 
     @Value("${ftp.numOfLoginPerIp:2}")

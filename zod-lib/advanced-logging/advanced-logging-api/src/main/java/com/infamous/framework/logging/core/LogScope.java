@@ -6,6 +6,6 @@ public enum LogScope {
     INTERNAL;
 
     public String getScope() {
-        return this.name();
+        return this.name().toLowerCase();
     }
 }

@@ -13,5 +13,4 @@ COPY ./target/$APP_NAME-$VERSION.jar $BASE_DIR/
 ADD /src/main/resources/* $BASE_DIR/
 RUN chmod 755  $BASE_DIR/*
 
-
 ENTRYPOINT ["/bin/sh", "-c", "source $BASE_DIR/start-app.sh && \"$@\"", "-s"]

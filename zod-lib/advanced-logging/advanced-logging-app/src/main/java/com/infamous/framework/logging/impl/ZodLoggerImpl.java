@@ -237,7 +237,7 @@ public class ZodLoggerImpl implements ZodLogger {
 
 
     private boolean isOperationEnabled(LogLevel logLevel) {
-        return logLevel.getIsEnabledFunction().apply(this);
+        return logLevel.getIsEnabledFunction().apply(m_target);
     }
 
     private void setMDC() {

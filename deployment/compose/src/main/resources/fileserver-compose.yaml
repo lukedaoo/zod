@@ -1,0 +1,33 @@
+version: "3"
+
+services:
+
+  app:
+    image: zod-fileserver-image
+    container_name: zod-fileserver
+    ports:
+      - "8080:58080"
+    environment:
+      - DB_USER=root
+      - DB_PASS=mysql
+      - DB_URL=jdbc:mariadb://mariadb:3306/wanderer
+    stdin_open: true
+    #entrypoint: /bin/sh
+    tty: true
+    networks:
+      - backend
+  mariadb:
+    image: mariadb
+    container_name: mariadb
+    ports:
+      - "3308:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: mysql
+      MYSQL_USER: root
+    stdin_open: true
+    tty: true
+    networks:
+      - backend
+networks:
+  backend:
+    driver: bridge

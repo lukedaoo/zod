@@ -10,7 +10,7 @@ public class JtaTransactionManagementConfig {
 
     @Bean(initMethod = "init", destroyMethod = "close")
     @ConditionalOnMissingBean(TransactionManager.class)
-    public UserTransactionManager atomikosTransactionManager() throws Exception {
+    public UserTransactionManager createAtomikosTransactionManager() throws Exception {
         UserTransactionManager manager = new UserTransactionManager();
         manager.setStartupTransactionService(false);
         manager.setForceShutdown(true);
@@ -19,7 +19,7 @@ public class JtaTransactionManagementConfig {
     }
 
     @Bean
-    public JtaTransactionManager transactionManager(UserTransactionManager atomikosTransactionManager) {
+    public JtaTransactionManager createTransactionManager(UserTransactionManager atomikosTransactionManager) {
         JtaTransactionManager transactionManager = new JtaTransactionManager();
         transactionManager.setTransactionManager(atomikosTransactionManager);
         transactionManager.setUserTransaction(atomikosTransactionManager);

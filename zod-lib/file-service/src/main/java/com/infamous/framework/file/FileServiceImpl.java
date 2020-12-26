@@ -27,7 +27,7 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public void setRootFolder(Path path) {
-        LOGGER.debug("Using folder [" + path + "] as root for File Service");
+        LOGGER.debug("Using folder [{}] as root for File Service", path);
         m_root = path;
     }
 

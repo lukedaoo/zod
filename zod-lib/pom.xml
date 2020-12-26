@@ -66,6 +66,11 @@
             </dependency>
             <dependency>
                 <groupId>com.infamous.framework</groupId>
+                <artifactId>db-utils</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.infamous.framework</groupId>
                 <artifactId>system-property-utils</artifactId>
                 <version>${revision}</version>
             </dependency>

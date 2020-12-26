@@ -18,10 +18,10 @@ public class JPASettings {
 
     @Builder
     public JPASettings(String url, String user, String password, String datasourceClassName) {
-        Objects.requireNonNull(url, "Url can not be null");
-        Objects.requireNonNull(user, "User/Username can not be null");
-        Objects.requireNonNull(password, "Password can not be null");
-        Objects.requireNonNull(datasourceClassName, "DataSourceClassName can not be null");
+        check(url, "Url can not be null");
+        check(user, "User/Username can not be null");
+        check(password, "Password can not be null");
+        check(datasourceClassName, "DataSourceClassName can not be null");
 
         this.m_databaseUrl = url;
         this.m_user = user;
@@ -33,8 +33,9 @@ public class JPASettings {
         m_options.put(key, val);
     }
 
-    public Optional<Object> get(String key) {
-        return Optional.ofNullable(m_options.get(key));
+    public Object get(String key) {
+        return Optional.ofNullable(m_options.get(key))
+            .orElseThrow(() -> new RuntimeException("Option [" + key + "] not found"));
     }
 
     @Override
@@ -54,5 +55,11 @@ public class JPASettings {
     @Override
     public int hashCode() {
         return Objects.hash(m_databaseUrl, m_user, m_password);
+    }
+
+    private void check(String input, String message) {
+        if (input == null || input.isEmpty()) {
+            throw new IllegalArgumentException(message);
+        }
     }
 }

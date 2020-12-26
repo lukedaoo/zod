@@ -13,10 +13,6 @@ public class LogKey {
 
     private @Getter final String m_logType;
 
-    public LogKey(ApplicationName application, LogType logType, LogScope logScope) {
-        this(application.getName(), logType.getType(), logScope.getScope());
-    }
-
     public LogKey(String applicationName, String logType, String logScope) {
         m_applicationName = applicationName;
         m_logType = logType;

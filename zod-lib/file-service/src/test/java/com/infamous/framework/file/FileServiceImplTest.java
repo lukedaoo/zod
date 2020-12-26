@@ -15,6 +15,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.List;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -47,6 +48,22 @@ class FileServiceImplTest {
                 }
             });
     }
+
+    @Test
+    public void testGetRootFolder() {
+        assertEquals(m_root, m_fileService.getRootFolder());
+    }
+
+    @Test
+    public void testListAll() {
+        List<String> actual = m_fileService.listAll();
+        assertNotNull(actual);
+
+        assertEquals(2, actual.size());
+        assertEquals("existed", actual.get(0));
+        assertEquals("existed/Kamehameha.txt", actual.get(1));
+    }
+
 
     @Test
     public void testCreateDirectory() {

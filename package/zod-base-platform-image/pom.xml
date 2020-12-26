@@ -12,11 +12,10 @@
     <version>${revision}</version>
     <name>package/zod-base-platform-image</name>
     <packaging>pom</packaging>
-
     <dependencies>
         <dependency>
-            <groupId>com.infamous.zod</groupId>
-            <artifactId>storage-service-nbi</artifactId>
+            <groupId>com.infamous.framework</groupId>
+            <artifactId>db-utils</artifactId>
             <version>${revision}</version>
         </dependency>
     </dependencies>
@@ -36,13 +35,13 @@
                         <configuration>
                             <artifactItems>
                                 <artifactItem>
-                                    <groupId>com.infamous.zod</groupId>
-                                    <artifactId>storage-service-nbi</artifactId>
+                                    <groupId>com.infamous.framework</groupId>
+                                    <artifactId>db-utils</artifactId>
                                     <version>${revision}</version>
                                     <type>jar</type>
                                     <overWrite>false</overWrite>
-                                    <outputDirectory>${project.build.directory}/</outputDirectory>
-                                    <destFileName>zod-fileserver.jar</destFileName>
+                                    <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                                    <destFileName>db-utils-${revision}.jar</destFileName>
                                 </artifactItem>
                             </artifactItems>
                         </configuration>
@@ -51,5 +50,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>

@@ -5,6 +5,10 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 
 public class JPACommonUtils {
 
+    private JPACommonUtils() {
+
+    }
+
     public static LocalContainerEntityManagerFactoryBean createEntityManagerFactory(
         Consumer<LocalContainerEntityManagerFactoryBean> consumer) {
         LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();

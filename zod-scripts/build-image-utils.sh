@@ -7,11 +7,11 @@ buildSingleImage() {
     TAG=$1
     LOCATION_DOCKER_FILE=$2
 
-    docker build -t $TAG $LOCATION_DOCKER_FILE
+    docker build --no-cache -t $TAG $LOCATION_DOCKER_FILE
 }
 
 buildImages() {
-    ZOD_FOLDER=$1
+    local ZOD_FOLDER=$1
 
     echo "Zod project folder: $ZOD_FOLDER"
     length=${#packages[@]}

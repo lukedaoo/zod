@@ -6,6 +6,6 @@ public enum LogType {
     CUSTOMER;
 
     public String getType() {
-        return this.name();
+        return this.name().toLowerCase();
     }
 }

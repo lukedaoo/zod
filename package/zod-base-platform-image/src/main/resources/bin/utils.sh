@@ -1,7 +1,10 @@
-#!/bin/bash
+#!/bin/sh
 
-log() {
-    echo "INFO [application=start.up, type=debug, scope=global] $@"
+source $BASE_DIR/bin/log.sh
+
+getDockerContainerId() {
+    local FULL_CONTAINER_ID=$(head -1 /proc/self/cgroup | cut -d/ -f3)
+    echo $FULL_CONTAINER_ID | cut -c1-20
 }
 
 getProperty() {
@@ -19,27 +22,31 @@ checkAndExport() {
 
     if [ -z "$PROP_VALUE" ]; then
         PROP_VALUE=$DEFAULT_VALUE
-        log "$PROP_KEY is NULL. Exporting $PROP_KEY using default value $DEFAULT_VALUE"
+        logInfo "$PROP_KEY is NULL. Exporting $PROP_KEY using default value $DEFAULT_VALUE"
     else
-        log "Export $PROP_KEY=$PROP_VALUE"
+        logInfo "Export $PROP_KEY=$PROP_VALUE"
     fi
     export PROP_KEY=PROP_VALUE
 }
 
 exportToEnvFromPropertiesFile() {
-    file=$1
-    if [ -f "$file" ]; then
-        log "Properties file [$file] found."
+    FILE=$1
+    #PROPERTIES=$2
+    if [ -f "$FILE" ]; then
+        logInfo "Properties file [$FILE] found."
 
-        while IFS='=' read -r key value; do
-            if [[ ${key} != *"pass"* ]]; then
-                log "Export ENV $key = $value"
+        while IFS= read -r line || [ -n "$line" ]; do
+            key=$(echo $line | cut -d "=" -f1)
+            value=$(echo $line | cut -d "=" -f2)
+            if [[ -z "$(echo $key | grep -i pass)" ]]; then
+                logInfo "Export ENV $key = $value"
             else
-                log "Export ENV $key"
+                logInfo "Export ENV $key = ******"
             fi
-            export $key=$value
-        done <$file
+            #export $key=$value
+            #PROPERTIES["$key"]=$value
+        done <$FILE
     else
-        log "Properties file [$file] does not found."
+        logInfo "Properties file [$FILE] does not found."
     fi
 }

@@ -4,11 +4,13 @@ import com.infamous.framework.common.SystemPropertyUtils;
 import com.infamous.framework.persistence.DataStoreManager;
 import com.infamous.framework.persistence.JPASettings;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Lazy;
 
 public class JtaDataSourceBasicConfig {
 
+    @Lazy
     @Bean
-    public JPASettings dataSourceConfig() {
+    public JPASettings createDataSourceConfig() {
         return JPASettings.builder()
             .url(getProp("db.url"))
             .user(getProp("db.username"))

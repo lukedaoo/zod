@@ -15,5 +15,6 @@
         <module>zod-fileserver</module>
 
         <module>package</module>
+        <module>deployment</module>
     </modules>
 </project>

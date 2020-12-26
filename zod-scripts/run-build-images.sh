@@ -1,5 +1,8 @@
 #!/bin/sh
 
 ZOD_FOLDER="$(dirname "$PWD")"
-source ./build-image-utils.sh
+cd $ZOD_FOLDER
+
+source ./zod-scripts/build-image-utils.sh
+
 buildImages $ZOD_FOLDER

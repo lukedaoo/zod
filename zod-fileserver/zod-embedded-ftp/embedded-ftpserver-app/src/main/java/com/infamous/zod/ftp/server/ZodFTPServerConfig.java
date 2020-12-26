@@ -44,7 +44,7 @@ public class ZodFTPServerConfig {
         dataConnectionConfigurationFactory.setPassiveIpCheck(false);
         dataConnectionConfigurationFactory.setIdleTime(1000);
         factory.setDataConnectionConfiguration(dataConnectionConfigurationFactory.createDataConnectionConfiguration());
-        LOGGER.info("FTP Server will run at port: " + port);
+        LOGGER.info("FTP Server is running at port: " + port);
         return factory.createListener();
     }
 

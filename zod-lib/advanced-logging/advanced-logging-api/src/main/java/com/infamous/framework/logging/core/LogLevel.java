@@ -61,23 +61,23 @@ public enum LogLevel {
     private static class CheckLogEnabledHelper {
 
         public static boolean isDebugEnabled(AdvancedLogger logger) {
-            return logger.getTarget().isDebugEnabled();
+            return logger.isDebugEnabled();
         }
 
         public static boolean isInfoEnabled(AdvancedLogger logger) {
-            return logger.getTarget().isInfoEnabled();
+            return logger.isInfoEnabled();
         }
 
         public static boolean isWarningEnabled(AdvancedLogger logger) {
-            return logger.getTarget().isWarnEnabled();
+            return logger.isWarnEnabled();
         }
 
         public static boolean isErrorEnabled(AdvancedLogger logger) {
-            return logger.getTarget().isErrorEnabled();
+            return logger.isErrorEnabled();
         }
 
         public static boolean isTraceEnabled(AdvancedLogger logger) {
-            return logger.getTarget().isTraceEnabled();
+            return logger.isTraceEnabled();
         }
 
         public static boolean isDisabled(AdvancedLogger logger) {

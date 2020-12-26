@@ -6,6 +6,7 @@ import com.infamous.framework.persistence.DataStore;
 import com.infamous.framework.persistence.DataStoreManager;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 public class ZodEntityDataStoreManager implements DataStoreManager {
@@ -19,31 +20,39 @@ public class ZodEntityDataStoreManager implements DataStoreManager {
 
     @Override
     public DataStore getDatastore(String name) {
-        return m_datastoreMap.get(name);
+        return Optional.ofNullable(m_datastoreMap.get(name))
+            .orElseThrow(() -> new IllegalArgumentException("Datastore [" + name + "] was not registered"));
     }
 
     @Override
     public void register(String name, DataStore dataStore) {
-        LOGGER.info("Register Datastore [" + name + "]");
+        Objects.requireNonNull(dataStore);
         m_datastoreMap.put(name, dataStore);
+        LOGGER.info("Registered Datastore [" + name + "]");
     }
 
     @Override
     public void unregister(String name) {
-        LOGGER.info("Unregister Datastore [" + name + "]");
+        close(name);
         m_datastoreMap.remove(name);
+        LOGGER.info("Unregistered Datastore [" + name + "]");
     }
 
     @Override
     public void close(String name) {
-        Optional.ofNullable(m_datastoreMap.get(name))
-            .ifPresent(ds -> ds.getEntityManager().close());
+        getDatastore(name).getEntityManager().close();
+        LOGGER.info("Datastore [" + name + "] is closed");
     }
 
     @Override
     public void destroy() {
-        m_datastoreMap.keySet().forEach(this::close);
+        m_datastoreMap.keySet().forEach(name -> {
+            try {
+                close(name);
+            } catch (Exception e) {
+                LOGGER.error("Error while closing Datastore [" + name + "]", e);
+            }
+        });
         m_datastoreMap.clear();
-        LOGGER.info("Destroy DatastoreManager");
     }
 }
