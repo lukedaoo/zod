@@ -37,7 +37,6 @@ public class DynamicEndPointHandler<T> implements InvocationHandler {
             });
         }
         return method.invoke(m_target, args);
-
     }
 
     private Response executeWithTemplate(Supplier<Response> supplier) {

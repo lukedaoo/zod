@@ -36,7 +36,7 @@ public class MediaStreamingServiceImpl implements MediaStreamingService {
                 asset);
             return Optional.of(output);
         } catch (IOException e) {
-            LOGGER.error("Error while creating media output. Asset: " + asset.getName() + ". Range:", mediaRange);
+            LOGGER.error("Error while creating media output. Asset: " + asset.getName() + ". Range:" + mediaRange);
             return Optional.empty();
         }
     }

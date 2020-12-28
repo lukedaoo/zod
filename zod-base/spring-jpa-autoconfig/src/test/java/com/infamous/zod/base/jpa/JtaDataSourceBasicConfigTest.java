@@ -16,7 +16,7 @@ class JtaDataSourceBasicConfigTest {
     public void setup() {
         m_config = new JtaDataSourceBasicConfig();
         System.setProperty("db.url", "DB_URL");
-        System.setProperty("db.user", "sa");
+        System.setProperty("db.username", "sa");
         System.setProperty("db.password", "sa");
         System.setProperty("db.dataSourceClassName", "com.infamous.jdbc.BasicDataSource");
     }
@@ -24,7 +24,7 @@ class JtaDataSourceBasicConfigTest {
     @AfterEach
     public void tearDown() {
         System.clearProperty("db.url");
-        System.clearProperty("db.user");
+        System.clearProperty("db.username");
         System.clearProperty("db.password");
         System.clearProperty("db.dataSourceClassName");
     }

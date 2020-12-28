@@ -1,7 +1,7 @@
 package com.infamous.zod.base.rest;
 
 import com.infamous.framework.logging.ZodLogger;
-import com.infamous.framework.logging.ZodLoggerUtil;
+import java.util.Objects;
 import java.util.function.Consumer;
 import lombok.Getter;
 
@@ -9,16 +9,14 @@ public class ProxyEndpointContext<T> {
 
     private @Getter final T m_target;
     private @Getter final Class<?> m_interface;
-    private @Getter ZodLogger m_logger;
+    private @Getter final ZodLogger m_logger;
 
     private @Getter Consumer<T> m_postInit;
 
-    public ProxyEndpointContext(ProxyEndpointContextBuilder<T> builder) {
+    private ProxyEndpointContext(ProxyEndpointContextBuilder<T> builder) {
         m_target = builder.m_target;
         m_interface = builder.m_interface;
-        m_logger = builder.m_logger == null
-            ? ZodLoggerUtil.getLogger(BaseEndPoint.class, "endpoint")
-            : builder.m_logger;
+        m_logger = builder.m_logger;
         m_postInit = builder.m_postInit;
     }
 
@@ -34,16 +32,19 @@ public class ProxyEndpointContext<T> {
         }
 
         public ProxyEndpointContextBuilder<T> anInterface(Class<?> anInterface) {
+            Objects.requireNonNull(anInterface);
             m_interface = anInterface;
             return this;
         }
 
         public ProxyEndpointContextBuilder<T> target(T target) {
+            Objects.requireNonNull(target);
             m_target = target;
             return this;
         }
 
         public ProxyEndpointContextBuilder<T> logger(ZodLogger logger) {
+            Objects.requireNonNull(logger);
             m_logger = logger;
             return this;
         }
