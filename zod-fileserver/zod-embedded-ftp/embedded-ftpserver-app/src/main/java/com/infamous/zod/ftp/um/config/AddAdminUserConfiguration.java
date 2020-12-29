@@ -19,20 +19,22 @@ public class AddAdminUserConfiguration {
 
     private static final ZodLogger LOGGER = ZodLoggerUtil.getLogger(AddAdminUserConfiguration.class, "ftp.server");
 
-    @Autowired
-    private FTPServerConfigProperties m_adminProp;
+    private final FTPServerConfigProperties m_adminProp;
+    private final FTPUserManager m_ftpUserManager;
+    private final FTPDataStore m_ds;
+    private final ApplicationContext m_appContext;
 
     @Autowired
-    private FTPUserManager m_ftpUserManager;
-
-    @Autowired
-    private FTPDataStore m_ds;
-
-    @Autowired
-    private ApplicationContext m_appContext;
+    public AddAdminUserConfiguration(FTPServerConfigProperties serverConfig, FTPUserManager um, FTPDataStore ds,
+                                     ApplicationContext appContext) {
+        this.m_adminProp = serverConfig;
+        this.m_ftpUserManager = um;
+        this.m_ds = ds;
+        this.m_appContext = appContext;
+    }
 
     @PostConstruct
-    public void addOrUpdateAdminUser() {
+    public void doPostConstruct() {
         try {
             if (!m_ds.isOpen()) {
                 throw new IllegalStateException("Can not open connection to DB!");
@@ -54,7 +56,7 @@ public class AddAdminUserConfiguration {
             m_ftpUserManager.save(admin);
             LOGGER.info("Added or updated admin user [" + m_adminProp.getUsername() + "] successfully");
         } catch (Exception e) {
-            LOGGER.error("Error while adding or updating admin user. Stopping application", e);
+            LOGGER.error("Error while adding or updating FTP admin user. Stopping application", e);
             SpringApplication.exit(m_appContext, () -> 1);
         }
     }

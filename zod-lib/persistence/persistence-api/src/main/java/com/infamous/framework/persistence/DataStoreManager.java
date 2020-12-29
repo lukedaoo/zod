@@ -10,5 +10,9 @@ public interface DataStoreManager {
 
     void close(String name);
 
+    default boolean isRegistered(String name) {
+        return getDatastore(name) != null;
+    }
+
     void destroy();
 }

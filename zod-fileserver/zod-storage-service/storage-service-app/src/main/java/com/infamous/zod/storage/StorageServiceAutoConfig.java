@@ -13,7 +13,7 @@ public class StorageServiceAutoConfig {
 
 
     @Bean(name = "storageFileEMF")
-    public LocalContainerEntityManagerFactoryBean createStorageFileEMF() {
+    public LocalContainerEntityManagerFactoryBean createStorageFileEmf() {
         return JPACommonUtils.createEntityManagerFactory((emf) -> {
             emf.setPersistenceUnitName("fileserver-ds");
             emf.setPersistenceXmlLocation("classpath:META-INF/persistence.xml");

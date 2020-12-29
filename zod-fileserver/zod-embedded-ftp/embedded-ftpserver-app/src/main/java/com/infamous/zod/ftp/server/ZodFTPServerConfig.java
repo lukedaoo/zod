@@ -16,15 +16,13 @@ import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.DependsOn;
 
 public class ZodFTPServerConfig {
 
-    private static final ZodLogger LOGGER = ZodLoggerUtil
-        .getLogger(ZodFTPServerConfig.class, "ftp.server");
+    private static final ZodLogger LOGGER = ZodLoggerUtil.getLogger(ZodFTPServerConfig.class, "ftp.server");
 
     @Bean
-    public FTPServerConfigProperties configProperties() {
+    public FTPServerConfigProperties createConfigProperties() {
         return new FTPServerConfigProperties();
     }
 
@@ -37,19 +35,19 @@ public class ZodFTPServerConfig {
     }
 
     @Bean
-    public Listener nioListener(@Value("${ftp.port:2121}") int port) {
+    public Listener createNioListener(@Value("${ftp.port:2121}") int port) {
         ListenerFactory factory = new ListenerFactory();
         factory.setPort(port);
         DataConnectionConfigurationFactory dataConnectionConfigurationFactory = new DataConnectionConfigurationFactory();
         dataConnectionConfigurationFactory.setPassiveIpCheck(false);
-        dataConnectionConfigurationFactory.setIdleTime(1000);
+        dataConnectionConfigurationFactory.setIdleTime(2000);
         factory.setDataConnectionConfiguration(dataConnectionConfigurationFactory.createDataConnectionConfiguration());
         LOGGER.info("FTP Server is running at port: " + port);
         return factory.createListener();
     }
 
     @Bean(name = "ftpServer")
-    public FtpServer server(FileSystemFactory fileSystemFactory, Listener listener, UserManager um) {
+    public FtpServer createServer(FileSystemFactory fileSystemFactory, Listener listener, UserManager um) {
         FtpServerFactory serverFactory = new FtpServerFactory();
         serverFactory.setFileSystem(fileSystemFactory);
         serverFactory.setListeners(Collections.singletonMap("default", listener));

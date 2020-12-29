@@ -9,6 +9,7 @@ import com.infamous.zod.ftp.model.FTPUserKey;
 import com.infamous.zod.ftp.um.FTPUserDAO;
 import com.infamous.zod.ftp.um.FTPUserManager;
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import javax.transaction.Transactional;
@@ -94,9 +95,6 @@ public class FTPUserManagerRepository implements FTPUserManager {
         } catch (FtpException e) {
             throw new AuthenticationFailedException(e);
         }
-        if (u == null) {
-            throw new AuthenticationFailedException("User doesn't exist");
-        }
         if (!m_passwordEncryptor.matches(auth.getPassword(), u.getPassword())) {
             throw new AuthenticationFailedException("Authentication failed");
         }
@@ -106,7 +104,9 @@ public class FTPUserManagerRepository implements FTPUserManager {
 
     @Override
     public String getAdminName() {
-        return ((FTPUser) m_dao.findByNativeQuery("SELECT * FROM FTPUser WHERE isAdmin = 'true'").get(0)).getName();
+        List list = m_dao
+            .findByNativeQuery("SELECT username FROM FTPUser WHERE isAdmin = 'true'");
+        return !isEmptyList(list) ? (String) list.get(0) : null;
     }
 
     @Override
@@ -122,5 +122,9 @@ public class FTPUserManagerRepository implements FTPUserManager {
 
     private boolean isEmptyString(String str) {
         return str == null || str.isEmpty();
+    }
+
+    private boolean isEmptyList(List list) {
+        return list == null || list.isEmpty();
     }
 }

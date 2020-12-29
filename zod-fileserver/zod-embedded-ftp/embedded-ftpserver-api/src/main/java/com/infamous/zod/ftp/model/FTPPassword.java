@@ -18,9 +18,6 @@ public class FTPPassword {
         // https://www.ibm.com/support/knowledgecenter/SSLTBW_2.1.0/com.ibm.zos.v2r1.halg001/rdftpass.htm
         for (int i = 0, len = password.length(); i < len; i++) {
             char c = password.charAt(i);
-            if (c == ':') {
-                throw new IllegalArgumentException("Password can not contain ':'");
-            }
             if (c == '/') {
                 throw new IllegalArgumentException("Password can not contain '/'");
             }

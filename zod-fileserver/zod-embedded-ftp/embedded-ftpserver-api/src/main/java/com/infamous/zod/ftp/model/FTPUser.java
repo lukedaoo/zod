@@ -14,8 +14,6 @@ import javax.persistence.IdClass;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
 import org.apache.ftpserver.ftplet.Authority;
 import org.apache.ftpserver.ftplet.AuthorizationRequest;
 import org.apache.ftpserver.ftplet.User;
@@ -26,7 +24,6 @@ import org.apache.ftpserver.usermanager.impl.WritePermission;
 @Entity(name = "FTPUser")
 @Table(name = "FTPUser")
 @IdClass(FTPUserKey.class)
-@Builder
 @AllArgsConstructor
 public class FTPUser implements User {
 
@@ -37,7 +34,7 @@ public class FTPUser implements User {
     private String workspace;
     private boolean enabled;
 
-    private int idleTime;
+    private int idleTime; // ms
     private boolean isAdmin;
 
     private int maxDownloadRate = 0;
@@ -46,13 +43,12 @@ public class FTPUser implements User {
     private int maxConcurrentLogins;
 
     @Transient
-    private final Map<String, Authority> authorities = new HashMap<>();
+    private final Map<String, Authority> authorities = new HashMap<>(3);
 
     @Transient
-    private final Map<String, Authority> adminAuthorities = new HashMap<>();
+    private final Map<String, Authority> adminAuthorities = new HashMap<>(3);
 
     public FTPUser() {
-
     }
 
     public FTPUser(FTPUserName username, FTPPassword password) {
@@ -142,5 +138,99 @@ public class FTPUser implements User {
     @Override
     public String getHomeDirectory() {
         return workspace;
+    }
+
+    public static FTPUser.FTPUserBuilder builder() {
+        return new FTPUser.FTPUserBuilder();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        FTPUser ftpUser = (FTPUser) o;
+        return Objects.equals(username, ftpUser.username);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(username);
+    }
+
+    public static class FTPUserBuilder {
+
+        private String username;
+        private String password;
+        private String workspace;
+        private boolean enabled;
+        private int idleTime;
+        private boolean isAdmin;
+        private int maxDownloadRate;
+        private int maxUploadRate;
+        private int maxConcurrentLogins;
+
+        FTPUserBuilder() {
+        }
+
+        public FTPUser.FTPUserBuilder username(String username) {
+            this.username = new FTPUserName(username).getUsername();
+            return this;
+        }
+
+        public FTPUser.FTPUserBuilder password(String password) {
+            this.password = new FTPPassword(password).getPassword();
+            return this;
+        }
+
+        public FTPUser.FTPUserBuilder workspace(String workspace) {
+            this.workspace = workspace;
+            return this;
+        }
+
+        public FTPUser.FTPUserBuilder enabled(boolean enabled) {
+            this.enabled = enabled;
+            return this;
+        }
+
+        public FTPUser.FTPUserBuilder idleTime(int idleTime) {
+            this.idleTime = idleTime;
+            return this;
+        }
+
+        public FTPUser.FTPUserBuilder isAdmin(boolean isAdmin) {
+            this.isAdmin = isAdmin;
+            return this;
+        }
+
+        public FTPUser.FTPUserBuilder maxDownloadRate(int maxDownloadRate) {
+            this.maxDownloadRate = maxDownloadRate;
+            return this;
+        }
+
+        public FTPUser.FTPUserBuilder maxUploadRate(int maxUploadRate) {
+            this.maxUploadRate = maxUploadRate;
+            return this;
+        }
+
+        public FTPUser.FTPUserBuilder maxConcurrentLogins(int maxConcurrentLogins) {
+            this.maxConcurrentLogins = maxConcurrentLogins;
+            return this;
+        }
+
+        public FTPUser build() {
+            return new FTPUser(this.username, this.password, this.workspace, this.enabled, this.idleTime, this.isAdmin,
+                this.maxDownloadRate, this.maxUploadRate, this.maxConcurrentLogins);
+        }
+
+        public String toString() {
+            return "FTPUser.FTPUserBuilder(username=" + this.username + ", password=" + this.password + ", workspace="
+                + this.workspace + ", enabled=" + this.enabled + ", idleTime=" + this.idleTime + ", isAdmin="
+                + this.isAdmin + ", maxDownloadRate=" + this.maxDownloadRate + ", maxUploadRate=" + this.maxUploadRate
+                + ", maxConcurrentLogins=" + this.maxConcurrentLogins + ")";
+        }
     }
 }

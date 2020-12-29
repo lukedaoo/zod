@@ -25,7 +25,7 @@ public class FTPDataStoreConfig {
     private static final ZodLogger LOGGER = ZodLoggerUtil.getLogger(FTPDataStoreConfig.class, "ftp.server");
 
     @Bean(name = "ftpServerEMF")
-    public LocalContainerEntityManagerFactoryBean createFTPEMF() {
+    public LocalContainerEntityManagerFactoryBean createEmf() {
         return JPACommonUtils.createEntityManagerFactory((emf) -> {
             emf.setPersistenceUnitName("ftp-ds");
             emf.setPersistenceXmlLocation("classpath:META-INF/persistence-ftp.xml");
@@ -48,12 +48,12 @@ public class FTPDataStoreConfig {
     public PasswordEncryptor createPasswordEncryptor(FTPServerConfigProperties config) {
         EncryptStrategy et = EncryptStrategy.find(config.getEncryptorStrategy());
         LOGGER.info("Using '" + et + "' strategy for password encryptor");
-        if (et == EncryptStrategy.MD5) {
-            return new DefaultPasswordEncryptor();
-        } else if (et == EncryptStrategy.SALTED) {
+        if (et == EncryptStrategy.SALTED) {
             return new SaltedPasswordEncryptor();
-        } else {
+        } else if (et == EncryptStrategy.CLEAR) {
             return new ClearTextPasswordEncryptor();
+        } else {
+            return new DefaultPasswordEncryptor();
         }
     }
 

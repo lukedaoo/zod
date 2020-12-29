@@ -1,5 +1,6 @@
 package com.infamous.zod.ftp;
 
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Value;
 
 public class FTPServerConfigProperties {
@@ -77,7 +78,7 @@ public class FTPServerConfigProperties {
     }
 
     public String getSalted() {
-        return m_salted;
+        return Optional.ofNullable(m_salted).orElse("");
     }
 
     public int getPort() {
