@@ -5,6 +5,8 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
@@ -30,9 +32,7 @@ public class DynamicEndPointHandler<T> implements InvocationHandler {
                 try {
                     return (Response) method.invoke(m_target, args);
                 } catch (Exception e) {
-                    throw new RuntimeException(
-                        "Exception occurred while executing method " + m_target.getClass().getSimpleName() +
-                            "#" + method.getName(), e);
+                    throw new RuntimeException(e.getCause());
                 }
             });
         }
@@ -49,7 +49,11 @@ public class DynamicEndPointHandler<T> implements InvocationHandler {
 
     private Response unknownResponse(Exception e) {
         logUnexpectedException(e);
-        return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
+        return Response
+            .status(Status.INTERNAL_SERVER_ERROR)
+            .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
+            .entity(e.getMessage())
+            .build();
     }
 
     private void logUnexpectedException(Exception e) {

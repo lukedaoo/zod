@@ -265,8 +265,19 @@ class FTPUserManagerRepositoryTestWithHSQL {
     }
 
     @Test
-    public void testIsAdmin() {
-
+    public void testIsAdmin() throws Exception {
+        executeInTx(() -> {
+            FTPUser user1 = FTPUser.builder()
+                .username("admin")
+                .password("password")
+                .workspace("/root/")
+                .isAdmin(true)
+                .build();
+            m_repo.save(user1);
+        });
+        executeInTx(() -> {
+            assertTrue(m_repo.isAdmin("admin"));
+        });
     }
 
     private void executeInTx(Template template) throws Exception {

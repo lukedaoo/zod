@@ -4,7 +4,7 @@ LABEL AUTHOR="Luke D <https://github.com/infamousSs>"
 LABEL IMAGE_NAME="zod-base-platform-image"
 LABEL DATE="DEC 21 2020"
 
-ENV APP_FULL_NAME=Zod_File_Server
+ENV APP_FULL_NAME="Zod File Server"
 ENV APP_NAME=zod-fileserver
 ENV VERSION=1.0.0-SNAPSHOT
 

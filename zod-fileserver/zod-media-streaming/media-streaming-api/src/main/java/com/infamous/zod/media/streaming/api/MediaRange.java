@@ -12,23 +12,32 @@ public class MediaRange {
     private @Getter final int m_limit;
 
     public static MediaRange of(int from, int to, long limit) {
-        if (from >= limit) {
+        if (to >= limit) {
             to = (int) limit - 1;
         }
-        return new MediaRange(from, to, (int)limit);
+        return new MediaRange(from, to, (int) limit);
     }
 
     public static MediaRange of(String rangeString, long limit) {
-        String[] ranges = rangeString.split("=")[1].split("-");
+        Objects.requireNonNull(rangeString, "RangeString is required");
+        String[] ranges = split(rangeString);
 
         final int from = Integer.parseInt(ranges[0]);
-        int to = 0;
+        int to;
         if (ranges.length == 2) {
             to = Integer.parseInt(ranges[1]);
         } else {
             to = MediaStreamingFrame.CHUNK_SIZE + from;
         }
         return of(from, to, limit);
+    }
+
+    private static String[] split(String range) {
+        try {
+            return range.split("=")[1].split("-");
+        } catch (Exception e) {
+            throw new IllegalArgumentException("The format of rangeString is invalid. Range: " + range);
+        }
     }
 
     public int calculateLength() {
@@ -46,7 +55,8 @@ public class MediaRange {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("{");
+        final StringBuilder sb = new StringBuilder();
+        sb.append("{");
         sb.append("from=").append(m_from);
         sb.append(", to=").append(m_to);
         sb.append('}');
@@ -63,11 +73,12 @@ public class MediaRange {
         }
         MediaRange that = (MediaRange) o;
         return m_from == that.m_from &&
-            m_to == that.m_to;
+            m_to == that.m_to &&
+            m_limit == that.m_limit;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(m_from, m_to);
+        return Objects.hash(m_from, m_to, m_limit);
     }
 }

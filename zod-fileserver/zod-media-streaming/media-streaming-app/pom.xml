@@ -10,6 +10,7 @@
     <artifactId>media-streaming-app</artifactId>
     <name>zod-fileserver/zod-media-streaming/media-streaming-app</name>
     <dependencies>
+        <!-- Internal -->
         <dependency>
             <groupId>com.infamous.zod</groupId>
             <artifactId>media-streaming-api</artifactId>
@@ -24,6 +25,19 @@
             <groupId>com.infamous.zod</groupId>
             <artifactId>spring-rest-common</artifactId>
             <version>${revision}</version>
+        </dependency>
+        <!-- External -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>${mockito.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>

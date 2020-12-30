@@ -44,7 +44,6 @@ class FTPDataStoreConfigTest {
 
     @AfterEach
     public void tearDown() {
-        m_dataStoreManager.destroy();
         m_fileService.delete(ROOT + "/ftp");
     }
 

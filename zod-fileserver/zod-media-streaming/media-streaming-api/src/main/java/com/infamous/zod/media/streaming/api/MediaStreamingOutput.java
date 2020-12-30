@@ -2,7 +2,6 @@ package com.infamous.zod.media.streaming.api;
 
 import com.infamous.framework.logging.ZodLogger;
 import com.infamous.framework.logging.ZodLoggerUtil;
-import com.infamous.framework.logging.core.LogLevel;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -18,13 +17,6 @@ public final class MediaStreamingOutput implements StreamingOutput {
     private final String m_fileName;
     private final RandomAccessFile m_raf;
     private final byte[] m_buffer;
-
-    public MediaStreamingOutput(int length, String fileName, RandomAccessFile raf) {
-        this.m_length = length;
-        this.m_raf = raf;
-        this.m_fileName = fileName;
-        this.m_buffer = new byte[4096];
-    }
 
     public MediaStreamingOutput(int len, int from, File asset) throws IOException {
         this.m_length = len;
@@ -47,7 +39,7 @@ public final class MediaStreamingOutput implements StreamingOutput {
                 LOGGER.trace("Broken pipe", e);
                 return;
             }
-            LOGGER.warn("Unexpected exception while streaming file", e);
+            LOGGER.warn("Unexpected exception while streaming file [" + m_fileName + "]", e);
         } finally {
             m_raf.close();
         }

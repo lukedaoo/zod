@@ -3,9 +3,12 @@ package com.infamous.zod.storage;
 import com.infamous.zod.base.common.ZodCommonServiceAutoConfig;
 import com.infamous.zod.base.jpa.ZodJpaAutoConfig;
 import com.infamous.zod.ftp.server.EnableZodFTPServer;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
@@ -22,4 +25,6 @@ public class StorageServiceApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
     }
+
+
 }

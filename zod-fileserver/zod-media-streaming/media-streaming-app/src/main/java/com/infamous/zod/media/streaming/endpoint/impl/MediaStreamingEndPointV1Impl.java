@@ -21,7 +21,6 @@ public class MediaStreamingEndPointV1Impl implements MediaStreamingEndPointV1 {
         m_controller = controller;
     }
 
-
     @Path("/{fileId}")
     @GET
     @Produces("audio/mp3")

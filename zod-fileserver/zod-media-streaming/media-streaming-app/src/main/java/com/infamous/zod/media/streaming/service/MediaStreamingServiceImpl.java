@@ -7,7 +7,6 @@ import com.infamous.zod.media.streaming.api.MediaStreamingFrame;
 import com.infamous.zod.media.streaming.api.MediaStreamingOutput;
 import com.infamous.zod.media.streaming.api.MediaStreamingService;
 import java.io.File;
-import java.io.IOException;
 import java.util.Objects;
 import java.util.Optional;
 import org.springframework.stereotype.Component;
@@ -27,16 +26,16 @@ public class MediaStreamingServiceImpl implements MediaStreamingService {
         MediaRange mediaRange = MediaRange.of(range, asset.length());
         return createMediaOutput(asset, mediaRange)
             .map(mediaOutput -> MediaStreamingFrame.of(mediaOutput, mediaRange))
-            .orElseThrow();
+            .orElseThrow(() -> new IllegalStateException("Empty frame is created"));
     }
 
     private Optional<MediaStreamingOutput> createMediaOutput(File asset, MediaRange mediaRange) {
         try {
-            MediaStreamingOutput output = new MediaStreamingOutput(mediaRange.calculateLength(), mediaRange.getFrom(),
-                asset);
+            MediaStreamingOutput output =
+                new MediaStreamingOutput(mediaRange.calculateLength(), mediaRange.getFrom(), asset);
             return Optional.of(output);
-        } catch (IOException e) {
-            LOGGER.error("Error while creating media output. Asset: " + asset.getName() + ". Range:" + mediaRange);
+        } catch (Exception e) {
+            LOGGER.error("Error while creating media output. Asset: " + asset.getName() + ". Range:" + mediaRange, e);
             return Optional.empty();
         }
     }

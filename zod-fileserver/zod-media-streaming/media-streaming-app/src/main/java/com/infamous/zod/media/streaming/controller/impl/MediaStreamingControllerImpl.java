@@ -46,7 +46,8 @@ public class MediaStreamingControllerImpl implements MediaStreamingController {
                 }
             };
             return Response
-                .ok(streamer).status(200)
+                .ok(streamer)
+                .status(Response.Status.PARTIAL_CONTENT)
                 .header(HttpHeaders.CONTENT_LENGTH, asset.length())
                 .build();
         }
