@@ -2,6 +2,8 @@ package com.infamous.zod.storage.repository.impl;
 
 import com.infamous.framework.file.FileService;
 import com.infamous.framework.file.FileStorageException;
+import com.infamous.framework.logging.ZodLogger;
+import com.infamous.framework.logging.ZodLoggerUtil;
 import com.infamous.zod.storage.converter.StorageFileConverter;
 import com.infamous.zod.storage.model.StorageFile;
 import com.infamous.zod.storage.model.StorageFileKey;
@@ -24,6 +26,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class StorageRepositoryImpl implements StorageFileRepository {
 
+    private static final ZodLogger LOGGER = ZodLoggerUtil.getLogger(StorageRepositoryImpl.class, "storage.service");
+
     private StorageFileDAO m_dao;
     private StorageFileConverter m_converter;
     private FileService m_fileService;
@@ -40,20 +44,31 @@ public class StorageRepositoryImpl implements StorageFileRepository {
 
     @Override
     public boolean upload(StorageFileVO file) {
-        return saveToDisk(file) && saveToDB(file);
+
+        long fileSize = saveToDisk(file).orElseThrow(() -> new FileStorageException("File size isn't present"));
+        file.setFileSize(fileSize);
+
+        try {
+            String dbId = saveToDB(file).orElseThrow(() -> new FileStorageException("DB Id isn't present"));
+            file.setId(dbId);
+        } catch (Exception e) {
+            LOGGER.warn("Exception occurred while saving to DB. Rollback transaction and delete file..", e);
+            m_fileService.deleteByFileName(file.getFileName());
+            return false;
+        }
+        return true;
     }
 
-    private boolean saveToDB(StorageFileVO file) {
+    private Optional<String> saveToDB(StorageFileVO file) {
         StorageFile sf = m_converter.toEntity(file);
         boolean res = m_dao.persist(sf);
-        file.setId(sf.getId());
-        return res;
+
+        return res ? Optional.of(sf.getId()) : Optional.empty();
     }
 
-    private boolean saveToDisk(StorageFileVO file) {
+    private Optional<Long> saveToDisk(StorageFileVO file) {
         long size = m_fileService.store(file.getContent(), file.getFileName());
-        file.setFileSize(size);
-        return size >= 0;
+        return size >= 0 ? Optional.of(size) : Optional.empty();
     }
 
 
@@ -63,8 +78,12 @@ public class StorageRepositoryImpl implements StorageFileRepository {
         List<StorageFileVO> data = new LinkedList<>();
 
         files.forEach(f -> {
-            if (upload(f)) {
-                data.add(f);
+            try {
+                if (upload(f)) {
+                    data.add(f);
+                }
+            } catch (Exception e) {
+                LOGGER.error("Error while uploading file [" + f.getFileName() + "]", e);
             }
         });
         res.setData(data);

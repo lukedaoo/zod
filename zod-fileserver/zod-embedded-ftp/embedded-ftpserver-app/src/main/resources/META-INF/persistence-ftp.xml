@@ -30,7 +30,7 @@
 
             <property name="hibernate.connection.provider_class" value="org.hibernate.hikaricp.internal.HikariCPConnectionProvider"/>
             <property name="hibernate.jdbc.batch_size" value="200"/>
-            <property name="hibernate.hikari.maximumPoolSize" value="75"/>
+            <property name="hibernate.hikari.maximumPoolSize" value="3"/>
             <property name="hibernate.hikari.minimumIdle" value="5"/>
             <property name="hibernate.hikari.idleTimeout" value="3000"/>
             <property name="hibernate.order_inserts" value="true"/>

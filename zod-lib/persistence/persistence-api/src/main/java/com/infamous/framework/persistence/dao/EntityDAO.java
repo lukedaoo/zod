@@ -2,6 +2,7 @@ package com.infamous.framework.persistence.dao;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.Query;
 
 public interface EntityDAO<E, PK extends Serializable> {
 
@@ -28,4 +29,6 @@ public interface EntityDAO<E, PK extends Serializable> {
     int deleteAll();
 
     List findByNativeQuery(String query);
+
+    Query createNativeQuery(String query);
 }

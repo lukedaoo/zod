@@ -7,8 +7,11 @@ import lombok.Getter;
 @EqualsAndHashCode
 public class FTPUserKey implements Serializable {
 
-    @Getter
     private String username;
+
+    public String getUsername() {
+        return username;
+    }
 
     public FTPUserKey() {
 

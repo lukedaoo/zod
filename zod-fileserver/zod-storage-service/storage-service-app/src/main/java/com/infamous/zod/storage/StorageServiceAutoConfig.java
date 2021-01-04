@@ -28,7 +28,7 @@ public class StorageServiceAutoConfig {
     }
 
     @Bean
-    public StorageFileConverter craeteConverter() {
+    public StorageFileConverter createConverter() {
         return new StorageFileConverter();
     }
 }

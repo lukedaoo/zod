@@ -15,6 +15,8 @@ public interface FileService {
 
     boolean delete(String location);
 
+    boolean deleteByFileName(String fileName);
+
     long store(Path path, InputStream is, String fileName);
 
     long store(InputStream is, String fileName);

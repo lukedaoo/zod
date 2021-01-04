@@ -57,6 +57,11 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
+    public boolean deleteByFileName(String fileName) {
+        return delete(m_root.resolve(fileName).toString());
+    }
+
+    @Override
     public long store(Path path, InputStream is, String fileName) {
         check(path == null, "Path not found");
         check(is == null, "InputStream is null");

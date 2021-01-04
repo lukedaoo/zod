@@ -9,6 +9,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import javax.persistence.LockModeType;
+import javax.persistence.Query;
 
 public abstract class AbstractDAO<T, PK extends Serializable> implements EntityDAO<T, PK> {
 
@@ -96,5 +97,10 @@ public abstract class AbstractDAO<T, PK extends Serializable> implements EntityD
         return pks.stream().map(this::findById)
             .filter(Objects::nonNull)
             .collect(Collectors.toList());
+    }
+
+    @Override
+    public Query createNativeQuery(String query) {
+       return getDataStore().getEntityManager().createNativeQuery(query);
     }
 }

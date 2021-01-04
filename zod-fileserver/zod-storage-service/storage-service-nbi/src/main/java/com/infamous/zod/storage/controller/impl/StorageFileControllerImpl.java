@@ -56,8 +56,8 @@ public class StorageFileControllerImpl implements StorageFileController {
     public Response multipleDownload(HttpServletRequest request, List<String> ids) {
         return Optional.ofNullable(m_repository.find(ids))
             .filter(list -> !list.isEmpty())
-            .map(list -> comressAndBuildResponse(request, list))
-            .orElseThrow(() -> new FileStorageException("Not found files [" + ids + "]"));
+            .map(list -> compressAndBuildResponse(request, list))
+            .orElseThrow(() -> new FileStorageException("Not found files with id(s) [" + ids + "]"));
     }
 
     @Override
@@ -69,7 +69,7 @@ public class StorageFileControllerImpl implements StorageFileController {
 
         return m_repository.upload(s)
             ? Response.ok().status(Status.CREATED).build()
-            : Response.status(500).build();
+            : Response.status(Status.INTERNAL_SERVER_ERROR).build();
     }
 
     @Override
@@ -107,27 +107,6 @@ public class StorageFileControllerImpl implements StorageFileController {
         return new StringBuilder("compressed-").append(sessionId).append(".zip").toString();
     }
 
-    private void compress(List<StorageFileVO> files, java.io.OutputStream outputStream) {
-        try (ZipOutputStream out = new ZipOutputStream(new BufferedOutputStream(outputStream))) {
-            files.forEach(f -> compressSingleFile(out, f));
-        } catch (IOException e) {
-            LOGGER.error("Error while compressing files", e);
-        }
-    }
-
-    private void compressSingleFile(ZipOutputStream out, StorageFileVO f) {
-        byte[] data = m_repository.download(f);
-        ZipEntry entry = new ZipEntry(f.getFileName());
-        try {
-            entry.setSize(data.length);
-            out.putNextEntry(entry);
-            out.write(data);
-            out.closeEntry();
-        } catch (IOException e) {
-            LOGGER.error("Error while compressing file [" + f.getFileName() + "]", e);
-        }
-    }
-
     private Set<StorageFileVO> parseBodyPartsToSetOfDto(List<FormDataBodyPart> bodyParts) {
         Set<StorageFileVO> set = new HashSet<>(bodyParts.size());
         bodyParts.forEach(bodyPart -> {
@@ -147,7 +126,7 @@ public class StorageFileControllerImpl implements StorageFileController {
             .build();
     }
 
-    private Response comressAndBuildResponse(HttpServletRequest request, List<StorageFileVO> list) {
+    private Response compressAndBuildResponse(HttpServletRequest request, List<StorageFileVO> list) {
         StreamingOutput zipStream = outputStream -> compress(list, outputStream);
         String fileName = generateCompressName(request.getSession(true).getId());
 
@@ -156,5 +135,26 @@ public class StorageFileControllerImpl implements StorageFileController {
             .type(MediaType.TEXT_PLAIN)
             .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileName + "\"")
             .build();
+    }
+
+    private void compress(List<StorageFileVO> files, java.io.OutputStream outputStream) {
+        try (ZipOutputStream out = new ZipOutputStream(new BufferedOutputStream(outputStream))) {
+            files.forEach(f -> compressSingleFile(out, f));
+        } catch (IOException e) {
+            LOGGER.error("Error while compressing files", e);
+        }
+    }
+
+    private void compressSingleFile(ZipOutputStream out, StorageFileVO f) {
+        byte[] data = m_repository.download(f);
+        ZipEntry entry = new ZipEntry(f.getFileName());
+        try {
+            entry.setSize(data.length);
+            out.putNextEntry(entry);
+            out.write(data);
+            out.closeEntry();
+        } catch (IOException e) {
+            LOGGER.error("Error while compressing file [" + f.getFileName() + "]", e);
+        }
     }
 }
