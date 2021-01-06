@@ -84,7 +84,7 @@ class FileServiceImplTest {
     @Test
     public void testDelete() {
         testCreateDirectory();
-        m_fileService.delete(m_root.toString() + "/testFolder");
+        m_fileService.delete(m_root, "testFolder");
 
         assertFalse(new File(m_root.toString() + "/testFolder").exists());
     }
@@ -97,10 +97,11 @@ class FileServiceImplTest {
         assertTrue(Files.exists(m_root.resolve("testFiles")));
         m_fileService.setRootFolder(m_root.resolve("testFiles"));
 
-        m_fileService.store(new FileInputStream(new File(m_root.resolve("existed/Kamehameha.txt").toString())), "test_newText.txt");
+        m_fileService.store(new FileInputStream(new File(m_root.resolve("existed/Kamehameha.txt").toString())),
+            "test_newText.txt");
 
         assertTrue(Files.exists(m_root.resolve("testFiles/test_newText.txt")));
-        m_fileService.deleteByFileName("test_newText.txt");
+        m_fileService.delete("test_newText.txt");
 
         assertFalse(new File(m_root.toString() + "/testFolder/test_newText").exists());
     }

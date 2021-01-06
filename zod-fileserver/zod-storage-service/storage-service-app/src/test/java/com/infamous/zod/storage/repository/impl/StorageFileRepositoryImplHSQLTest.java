@@ -42,11 +42,11 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class StorageRepositoryImplHSQLTest {
+class StorageFileRepositoryImplHSQLTest {
 
     private static final String ROOT = "src/test/resources";
 
-    private StorageRepositoryImpl m_repo;
+    private StorageFileRepositoryImpl m_repo;
     private StorageFileDAO m_fileDAO;
     private FileService m_fileService;
     private StorageFileConverter m_converter;
@@ -64,7 +64,7 @@ class StorageRepositoryImplHSQLTest {
         m_fileService = new FileServiceImpl();
         m_fileService.setRootFolder(Path.of(ROOT));
         m_converter = new StorageFileConverter();
-        m_repo = new StorageRepositoryImpl(m_fileDAO, m_converter, m_fileService);
+        m_repo = new StorageFileRepositoryImpl(m_fileDAO, m_converter, m_fileService);
     }
 
     @AfterEach
@@ -123,7 +123,7 @@ class StorageRepositoryImplHSQLTest {
         m_fileDAO = mock(StorageFileDAO.class);
         when(m_fileDAO.persist(m_converter.toEntity(vo))).thenThrow(RuntimeException.class);
 
-        m_repo = new StorageRepositoryImpl(m_fileDAO, m_converter, m_fileService);
+        m_repo = new StorageFileRepositoryImpl(m_fileDAO, m_converter, m_fileService);
         executeInTx(() -> {
             boolean res = m_repo.upload(vo);
             assertFalse(res);
@@ -142,7 +142,7 @@ class StorageRepositoryImplHSQLTest {
         m_fileDAO = mock(StorageFileDAO.class);
         when(m_fileDAO.persist(m_converter.toEntity(vo))).thenReturn(false);
 
-        m_repo = new StorageRepositoryImpl(m_fileDAO, m_converter, m_fileService);
+        m_repo = new StorageFileRepositoryImpl(m_fileDAO, m_converter, m_fileService);
         executeInTx(() -> {
             boolean res = m_repo.upload(vo);
             assertFalse(res);
@@ -176,7 +176,7 @@ class StorageRepositoryImplHSQLTest {
         m_fileDAO = mock(StorageFileDAO.class);
         when(m_fileDAO.persist(any(StorageFile.class))).thenReturn(false);
 
-        m_repo = new StorageRepositoryImpl(m_fileDAO, m_converter, m_fileService);
+        m_repo = new StorageFileRepositoryImpl(m_fileDAO, m_converter, m_fileService);
 
         executeInTx(() -> {
             UploadResult res = m_repo.upload(list);

@@ -43,8 +43,8 @@ class FTPDataStoreConfigTest {
     }
 
     @AfterEach
-    public void tearDown() {
-        m_fileService.delete(ROOT + "/ftp");
+    public void tearDown() throws Exception {
+        Files.deleteIfExists(Path.of(ROOT + "/ftp"));
     }
 
     @Test

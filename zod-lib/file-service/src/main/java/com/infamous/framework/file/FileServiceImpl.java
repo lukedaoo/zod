@@ -46,19 +46,19 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public boolean delete(String location) {
-        Path path = Paths.get(location);
+    public boolean delete(Path path, String fileName) {
+        Path exactlyPath = path.resolve(fileName);
         try {
-            Files.deleteIfExists(path);
+            Files.deleteIfExists(exactlyPath);
         } catch (IOException e) {
-            throw new FileStorageException("Failed to deleting [" + location + "]", e);
+            throw new FileStorageException("Failed to deleting [" + fileName + "]", e);
         }
         return false;
     }
 
     @Override
-    public boolean deleteByFileName(String fileName) {
-        return delete(m_root.resolve(fileName).toString());
+    public boolean delete(String fileName) {
+        return delete(m_root, fileName);
     }
 
     @Override

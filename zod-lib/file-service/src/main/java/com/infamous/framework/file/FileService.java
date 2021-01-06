@@ -13,9 +13,9 @@ public interface FileService {
 
     Path createDirectory(String direction);
 
-    boolean delete(String location);
+    boolean delete(Path path, String fileName);
 
-    boolean deleteByFileName(String fileName);
+    boolean delete(String fileName);
 
     long store(Path path, InputStream is, String fileName);
 

@@ -11,7 +11,6 @@ import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -57,7 +56,7 @@ public class StorageFileControllerImpl implements StorageFileController {
         return Optional.ofNullable(m_repository.find(ids))
             .filter(list -> !list.isEmpty())
             .map(list -> compressAndBuildResponse(request, list))
-            .orElseThrow(() -> new FileStorageException("Not found files with id(s) [" + ids + "]"));
+            .orElseThrow(() -> new FileStorageException("Not found files with id(s) " + ids));
     }
 
     @Override
@@ -68,7 +67,7 @@ public class StorageFileControllerImpl implements StorageFileController {
             .build();
 
         return m_repository.upload(s)
-            ? Response.ok().status(Status.CREATED).build()
+            ? Response.status(Status.CREATED).build()
             : Response.status(Status.INTERNAL_SERVER_ERROR).build();
     }
 

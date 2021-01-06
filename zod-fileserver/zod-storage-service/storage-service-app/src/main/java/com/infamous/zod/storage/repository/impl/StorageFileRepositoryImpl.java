@@ -24,19 +24,19 @@ import org.springframework.stereotype.Repository;
 
 @Transactional
 @Repository
-public class StorageRepositoryImpl implements StorageFileRepository {
+public class StorageFileRepositoryImpl implements StorageFileRepository {
 
-    private static final ZodLogger LOGGER = ZodLoggerUtil.getLogger(StorageRepositoryImpl.class, "storage.service");
+    private static final ZodLogger LOGGER = ZodLoggerUtil.getLogger(StorageFileRepositoryImpl.class, "storage.service");
 
     private StorageFileDAO m_dao;
     private StorageFileConverter m_converter;
     private FileService m_fileService;
 
-    public StorageRepositoryImpl() {
+    public StorageFileRepositoryImpl() {
     }
 
     @Autowired
-    public StorageRepositoryImpl(StorageFileDAO dao, StorageFileConverter converter, FileService coreFileService) {
+    public StorageFileRepositoryImpl(StorageFileDAO dao, StorageFileConverter converter, FileService coreFileService) {
         m_dao = dao;
         m_converter = converter;
         m_fileService = coreFileService;
@@ -53,7 +53,7 @@ public class StorageRepositoryImpl implements StorageFileRepository {
             file.setId(dbId);
         } catch (Exception e) {
             LOGGER.warn("Exception occurred while saving to DB. Rollback transaction and delete file..", e);
-            m_fileService.deleteByFileName(file.getFileName());
+            m_fileService.delete(file.getFileName());
             return false;
         }
         return true;
