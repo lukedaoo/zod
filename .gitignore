@@ -216,3 +216,5 @@ others
 .bitmap
 */.bit
 */.bit/*
+
+/zod-scripts/test/*

@@ -25,16 +25,16 @@ createDatabase() {
 
     local DB_NAME=$(findDbNameFromDbUrl $DB_URL)
 
-    for i in {1..$MAX_CREATION_DB_RETRY}
-    do
+    for i in $(seq 1 $MAX_CREATION_DB_RETRY); do
         STATUS=$(java -jar $DB_UTILS_JAR "createDatabase" $DB_DRIVER $DB_URL $DB_USER $DB_PASS "false")
         if [ "$STATUS" == "SUCCESS" ]; then
             logInfo "Database is created..."
             break
         else
             logInfo "Waiting to create Database ${DB_NAME} ..."
-            logInfo "$(($MAX_CREATION_DB_RETRY - $i)) attempts remains"
-            if [ "$i" == "$MAX_CREATION_DB_RETRY" ]; then
+            local remains="$(($MAX_CREATION_DB_RETRY - $i))"
+            logInfo "$remains attempts remains"
+            if [ $remains -eq "0" ]; then
                 logInfo "Database ${DB_NAME} is not created"
                 exit 1
             fi
@@ -50,8 +50,7 @@ waitingToDB() {
 
     local DB_NAME=$(findDbNameFromDbUrl $DB_URL)
 
-    for i in {1..$MAX_RETRY_CHECKING_DB}
-    do
+    for i in $(seq 1 $MAX_RETRY_CHECKING_DB); do
         STATUS=$(java -jar $DB_UTILS_JAR "checkStatus" $DB_DRIVER $DB_URL $DB_USER $DB_PASS "false")
         if [ "$STATUS" == "SUCCESS" ]; then
             logInfo "Database is started..."
@@ -65,8 +64,9 @@ waitingToDB() {
         else
             logDebug $STATUS
             logInfo "Waiting to Database is started ..."
-            logInfo "$(($MAX_RETRY_CHECKING_DB - $i)) attempts remains"
-            if [ "$i" == "$MAX_RETRY_CHECKING_DB" ]; then
+            local remains="$(($MAX_RETRY_CHECKING_DB - $i))"
+            logInfo "$remains attempts remains"
+            if [ $remains -eq "0" ]; then
                 logInfo "Database is not started"
                 exit 1
             fi
@@ -74,4 +74,3 @@ waitingToDB() {
         fi
     done
 }
-

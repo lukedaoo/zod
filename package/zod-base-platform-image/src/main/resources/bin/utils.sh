@@ -11,6 +11,7 @@ getProperty() {
     PROPERTY_FILE=$1
     PROP_KEY=$2
     PROP_VALUE=$(cat $PROPERTY_FILE | grep "$PROP_KEY" | cut -d'=' -f2-)
+    echo $PROP_VALUE
 }
 
 checkAndExport() {
@@ -31,6 +32,7 @@ checkAndExport() {
 
 exportToEnvFromPropertiesFile() {
     FILE=$1
+    #ENV_FILE=$2
     #PROPERTIES=$2
     if [ -f "$FILE" ]; then
         logInfo "Properties file [$FILE] found."
@@ -43,10 +45,19 @@ exportToEnvFromPropertiesFile() {
             else
                 logInfo "Export ENV $key = ******"
             fi
-            #export $key=$value
+            export $key=$value
             #PROPERTIES["$key"]=$value
+            #echo "export $key=$value" >> $2
         done <$FILE
     else
         logInfo "Properties file [$FILE] does not found."
     fi
+}
+
+
+appendJavaOpts() {
+    local KEY=$1
+    local VALUE=$2
+
+    echo " -D$KEY=$VALUE"
 }

@@ -17,4 +17,4 @@ ADD /src/main/resources/lib/* $BASE_DIR/lib/
 COPY ./target/lib/* $BASE_DIR/lib/
 RUN chmod 755  $BASE_DIR/lib/*
 
-WORKDIR $BASE_DIR/
+ENTRYPOINT ["/bin/sh", "-c", ". $BASE_DIR/start-app.sh"]

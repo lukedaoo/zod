@@ -10,7 +10,10 @@ ENV VERSION=1.0.0-SNAPSHOT
 
 COPY ./target/$APP_NAME-$VERSION.jar $BASE_DIR/
 
+ADD src/main/resources/bin/start-server.sh $BASE_DIR/bin/start-server.sh
+RUN chmod 755 $BASE_DIR/bin/start-server.sh
+
 ADD /src/main/resources/* $BASE_DIR/
 RUN chmod 755  $BASE_DIR/*
 
-ENTRYPOINT ["/bin/sh", "-c", "source $BASE_DIR/start-app.sh && \"$@\"", "-s"]
+WORKDIR $BASE_DIR/
