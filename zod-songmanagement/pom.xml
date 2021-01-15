@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0     http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.infamous</groupId>
+        <artifactId>zod-pom</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+        <relativePath>../parent-pom/zod-pom/pom.xml</relativePath>
+    </parent>
+    <groupId>com.infamous.zod</groupId>
+    <artifactId>zod-songmanagement-parent</artifactId>
+    <version>${revision}</version>
+    <name>zod-songmanagement-parent</name>
+    <packaging>pom</packaging>
+    <properties>
+        <revision>${release.version}</revision>
+    </properties>
+    <modules>
+        <module>song-mgmt-api</module>
+        <module>song-mgmt-app</module>
+    </modules>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>flatten-maven-plugin</artifactId>
+                <configuration>
+                    <updatePomFile>true</updatePomFile>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>flatten</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>flatten</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>flatten.clean</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

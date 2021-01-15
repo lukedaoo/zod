@@ -1,5 +1,6 @@
 #!/bin/sh
 source $BASE_DIR/bin/log.sh
+source $BASE_DIR/bin/utils.sh
 
 MAX_CREATION_DB_RETRY=60
 MAX_RETRY_CHECKING_DB=180

@@ -13,7 +13,7 @@
         <module>zod-lib</module>
         <module>zod-base</module>
         <module>zod-fileserver</module>
-
+        <module>zod-songmanagement</module>
         <module>package</module>
         <module>deployment</module>
     </modules>

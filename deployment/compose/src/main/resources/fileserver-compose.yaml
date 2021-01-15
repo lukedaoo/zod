@@ -11,7 +11,7 @@ services:
       - DB_USER=root
       - DB_PASS=mysql
       - DB_URL=jdbc:mariadb://mariadb:3306/wanderer
-      - WAREHOUSE_URI=./warehouse-root
+      - WAREHOUSE_URI=/warehouse-root
       - FTP_USER=admin
       - FTP_PASS=admin
     stdin_open: true

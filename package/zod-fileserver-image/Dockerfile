@@ -13,7 +13,10 @@ COPY ./target/$APP_NAME-$VERSION.jar $BASE_DIR/
 ADD src/main/resources/bin/start-server.sh $BASE_DIR/bin/start-server.sh
 RUN chmod 755 $BASE_DIR/bin/start-server.sh
 
-ADD /src/main/resources/* $BASE_DIR/
+ADD /src/main/resources/env.properties $BASE_DIR/
+ADD /src/main/resources/java-opts.properties $BASE_DIR/
+ADD /src/main/resources/start-app.sh $BASE_DIR/
+
 RUN chmod 755  $BASE_DIR/*
 
 WORKDIR $BASE_DIR/

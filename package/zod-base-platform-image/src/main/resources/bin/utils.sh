@@ -2,6 +2,11 @@
 
 source $BASE_DIR/bin/log.sh
 
+title() {
+    echo "============ $1 ============"
+}
+
+
 getDockerContainerId() {
     local FULL_CONTAINER_ID=$(head -1 /proc/self/cgroup | cut -d/ -f3)
     echo $FULL_CONTAINER_ID | cut -c1-20
@@ -27,7 +32,7 @@ checkAndExport() {
     else
         logInfo "Export $PROP_KEY=$PROP_VALUE"
     fi
-    export PROP_KEY=PROP_VALUE
+    export $PROP_KEY=$PROP_VALUE
 }
 
 exportToEnvFromPropertiesFile() {
@@ -55,7 +60,8 @@ exportToEnvFromPropertiesFile() {
 }
 
 
-appendJavaOpts() {
+d() {
+    #Append java opts
     local KEY=$1
     local VALUE=$2
 

@@ -39,6 +39,7 @@
         <mina.ftpserver.version>1.1.1</mina.ftpserver.version>  <!-- Mina FTP Server -->
         <jersey.media.multipart.version>2.32</jersey.media.multipart.version>
         <glassfish.hk2.version>3.0.0</glassfish.hk2.version>
+        <jackson.version>2.11.3</jackson.version>
 
         <!-- Testing -->
         <junit.version>5.7.0</junit.version>
@@ -157,6 +158,11 @@
                 <groupId>org.apache.ftpserver</groupId>
                 <artifactId>ftpserver-core</artifactId>
                 <version>${mina.ftpserver.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson.version}</version>
             </dependency>
             <!-- Testing -->
             <dependency>

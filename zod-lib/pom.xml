@@ -26,6 +26,8 @@
         <module>mariadb-java-client-wrapper</module>
         <module>file-service</module>
         <module>model-converter</module>
+        <module>http-fwk</module>
+        <module>http-fwk/http-fwk-java-callengine</module>
     </modules>
     <dependencyManagement>
         <dependencies>

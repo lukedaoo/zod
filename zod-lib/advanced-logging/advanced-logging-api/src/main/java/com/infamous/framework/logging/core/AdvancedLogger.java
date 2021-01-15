@@ -2,6 +2,7 @@ package com.infamous.framework.logging.core;
 
 import com.infamous.framework.sensitive.core.MessageDigestAlgorithm;
 import com.infamous.framework.sensitive.core.SensitiveObject;
+import org.slf4j.Logger;
 
 public interface AdvancedLogger {
 
