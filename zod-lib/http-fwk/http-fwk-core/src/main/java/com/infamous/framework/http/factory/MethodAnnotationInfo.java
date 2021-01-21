@@ -6,7 +6,6 @@ import com.infamous.framework.http.HttpConfig;
 import com.infamous.framework.http.Rest;
 import com.infamous.framework.http.core.HttpRequestWithBody;
 import com.infamous.framework.http.core.HttpRestClientCreation;
-import java.io.ObjectInputFilter.Config;
 import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.HashMap;
@@ -22,12 +21,13 @@ class MethodAnnotationInfo {
             return Collections.emptyMap();
         }
 
-        Map<String, String> headerMap = new HashMap<>();
-
         String[] headerValues = m_headers.value();
+
         if (headerValues.length == 0) {
             throw Utils.methodError(method, "@Headers annotation is empty.");
         }
+        Map<String, String> headerMap = new HashMap<>(headerValues.length);
+
         for (String header : headerValues) {
             int colon = header.indexOf(':');
             if (colon == -1 || colon == 0 || colon == header.length() - 1) {
@@ -48,9 +48,5 @@ class MethodAnnotationInfo {
             throw Utils.methodError(method, "@Rest is required");
         }
         return HttpRestClientCreation.getInstance(config).create(baseUrl, m_rest.url(), m_rest.method(), objectMapper);
-    }
-
-    String getContentType() {
-        return m_rest.contentType();
     }
 }

@@ -4,13 +4,13 @@ import java.io.File;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.Optional;
 import java.util.Set;
-import java.util.TreeSet;
 
 public class HttpRequestMultiPart extends BaseRequest<MultipartBody> implements MultipartBody {
 
-    private Set<BodyPart> m_parameters = new TreeSet<>();
+    private Set<BodyPart> m_parameters = new LinkedHashSet<>();
     private Charset m_charset;
 
     public HttpRequestMultiPart(HttpRequestBody httpRequest) {
@@ -41,6 +41,12 @@ public class HttpRequestMultiPart extends BaseRequest<MultipartBody> implements 
     public MultipartBody part(String name, byte[] bytes, String contentType, String fileName) {
         addPart(new ByteArrayPart(name, bytes, contentType, fileName));
         return null;
+    }
+
+    @Override
+    public MultipartBody part(BodyPart multiPartInfo) {
+        addPart(multiPartInfo);
+        return this;
     }
 
     @Override

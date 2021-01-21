@@ -10,7 +10,8 @@ import com.infamous.framework.http.core.HttpRequestMultiPart;
 import com.infamous.framework.http.core.HttpRequestWithBody;
 import java.io.InputStream;
 import java.util.Collection;
-import java.util.Optional;
+import java.util.HashMap;
+import java.util.Map;
 
 abstract class ParameterHandler<T> {
 
@@ -44,7 +45,6 @@ abstract class ParameterHandler<T> {
             m_converter = stringConverter;
         }
 
-
         @Override
         public HttpRequest apply(HttpRequest request, T value) throws Exception {
             return request.pathParam(m_name, m_converter.converter(value), m_encoded);
@@ -68,7 +68,7 @@ abstract class ParameterHandler<T> {
             if (value instanceof Collection) {
                 return request.queryParam(m_name, (Collection<?>) value, m_encoded);
             } else {
-                return request.queryParam(m_name, value, m_encoded);
+                return request.queryParam(m_name, m_converter.converter(value), m_encoded);
             }
         }
     }
@@ -78,51 +78,76 @@ abstract class ParameterHandler<T> {
         private final String m_name;
         private final String m_contentType;
         private final String m_fileName;
+        private final Map<Class<?>, HttpRequest> m_cache = new HashMap<>(2);
 
         public Part(com.infamous.framework.http.Part part) {
             m_name = part.value();
             m_contentType = part.contentType();
+            // static file name
             m_fileName = part.fileName();
         }
 
         @Override
         public HttpRequest apply(HttpRequest request, T value) throws Exception {
-            Optional<HttpRequestWithBody> requestWithBody = Optional.empty();
-            Optional<HttpRequestMultiPart> requestMultiPart = Optional.empty();
+            HttpRequest finalRequest = request;
 
-            if (request instanceof HttpRequestWithBody) {
-                requestWithBody = Optional.of((HttpRequestWithBody) request);
-            } else if (request instanceof HttpRequestMultiPart) {
-                requestMultiPart = Optional.of((HttpRequestMultiPart) request);
-            } else {
-                throw new ZodHttpException(
-                    "HttpRequest type doesn't support @Part param. Type: " + request.getClass().getTypeName());
-            }
-            if (value instanceof InputStream) {
-                if (m_fileName.isEmpty()) {
-                    throw new ZodHttpException("@Part with InputStream must have fileName");
+            if (value instanceof Collection) {
+                for (Object var : (Collection) value) {
+                    finalRequest = appendPart(var, finalRequest);
                 }
-                if (requestWithBody.isPresent()) {
-                    return requestWithBody.get().part(m_name, (InputStream) value, m_contentType, m_fileName);
+                return finalRequest;
+            }
+
+            finalRequest = appendPart(value, finalRequest);
+
+            return finalRequest;
+        }
+
+        private HttpRequest appendPart(Object value, HttpRequest request) {
+
+            if (value instanceof InputStream) {
+                if (isHttpMultiPartRequest(request)) {
+                    return castToHttpMultiPartRequest(request)
+                        .part(m_name, (InputStream) value, m_contentType, m_fileName);
                 } else {
-                    return requestMultiPart.get().part(m_name, (InputStream) value, m_contentType, m_fileName);
+                    return castToHttpRequestWithBody(request)
+                        .part(m_name, (InputStream) value, m_contentType, m_fileName);
                 }
             } else if (value instanceof byte[]) {
-                if (m_fileName.isEmpty()) {
-                    throw new ZodHttpException("@Part with byte[] must have fileName");
-                }
-                if (requestWithBody.isPresent()) {
-                    return requestWithBody.get().part(m_name, (byte[]) value, m_contentType, m_fileName);
+                if (isHttpMultiPartRequest(request)) {
+                    return castToHttpMultiPartRequest(request).part(m_name, (byte[]) value, m_contentType, m_fileName);
                 } else {
-                    return requestMultiPart.get().part(m_name, (byte[]) value, m_contentType, m_fileName);
+                    return castToHttpRequestWithBody(request).part(m_name, (byte[]) value, m_contentType, m_fileName);
+                }
+            } else if (value instanceof BodyPart) {
+                if (isHttpMultiPartRequest(request)) {
+                    return castToHttpMultiPartRequest(request).part((BodyPart) value);
+                } else {
+                    return castToHttpRequestWithBody(request).part((BodyPart) value);
                 }
             } else {
-                if (requestWithBody.isPresent()) {
-                    return requestWithBody.get().part(m_name, value, m_contentType);
+                if (isHttpMultiPartRequest(request)) {
+                    return castToHttpMultiPartRequest(request).part(m_name, value, m_contentType);
                 } else {
-                    return requestMultiPart.get().part(m_name, value, m_contentType);
+                    return castToHttpRequestWithBody(request).part(m_name, value, m_contentType);
                 }
             }
+        }
+
+        private boolean isHttpMultiPartRequest(HttpRequest request) {
+            return request instanceof HttpRequestMultiPart;
+        }
+
+        private boolean isHttpRequestWithBody(HttpRequest request) {
+            return !isHttpMultiPartRequest(request);
+        }
+
+        private HttpRequestMultiPart castToHttpMultiPartRequest(HttpRequest request) {
+            return (HttpRequestMultiPart) request;
+        }
+
+        private HttpRequestWithBody castToHttpRequestWithBody(HttpRequest request) {
+            return (HttpRequestWithBody) request;
         }
     }
 
@@ -141,6 +166,8 @@ abstract class ParameterHandler<T> {
                     return ((HttpRequestWithBody) request).body((String) value);
                 } else if (value instanceof byte[]) {
                     return ((HttpRequestWithBody) request).body((byte[]) value);
+                } else if (value instanceof BodyPart) {
+                    return ((HttpRequestWithBody) request).body((BodyPart) value);
                 } else {
                     return ((HttpRequestWithBody) request).body(m_requestBodyConverter.converter(value));
                 }

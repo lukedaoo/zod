@@ -16,6 +16,8 @@ public interface HttpRequestWithBody extends HttpRequest<HttpRequestWithBody> {
 
     MultipartBody part(String name, byte[] bytes, String contentType, String fileName);
 
+    MultipartBody part(BodyPart multiPartInfo);
+
     HttpRequestWithBody charset(Charset charset);
 
     default HttpRequestWithBody noCharset() {

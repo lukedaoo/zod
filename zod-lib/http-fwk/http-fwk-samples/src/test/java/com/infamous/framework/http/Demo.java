@@ -37,12 +37,6 @@ public class Demo {
                 e.printStackTrace();
             }
         });
-
-        StorageFileVO storageFileVO = new StorageFileVO();
-        storageFileVO.setId("123");
-        storageFileVO.setFileName("abcxx");
-
-        client.upload(storageFileVO);
     }
 }
 
@@ -67,6 +61,7 @@ interface StorageFileClient {
     @Rest(method = HttpMethod.POST, url = "/upload")
     Object upload(@Body StorageFileVO storageFileVO);
 }
+
 class GitHubUserVO {
     private String m_login;
     private String m_id;

@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 
-public interface MultipartBody extends HttpRequest<MultipartBody>, RequestBody {
+interface MultipartBody extends HttpRequest<MultipartBody>, RequestBody {
 
     MultipartBody part(String name, String value, String contentType);
 
@@ -14,6 +14,7 @@ public interface MultipartBody extends HttpRequest<MultipartBody>, RequestBody {
 
     MultipartBody part(String name, byte[] bytes, String contentType, String fileName);
 
-    MultipartBody charset(Charset charset);
+    MultipartBody part(BodyPart multiPartInfo);
 
+    MultipartBody charset(Charset charset);
 }

@@ -2,6 +2,7 @@ package com.infamous.framework.http.factory;
 
 import com.infamous.framework.converter.ConvertProcessor;
 import com.infamous.framework.converter.Converter;
+import com.infamous.framework.http.core.RawHttpResponse;
 
 class BuiltInConverterFactory extends ConverterFactory {
 
@@ -27,6 +28,5 @@ class BuiltInConverterFactory extends ConverterFactory {
             }
             return INSTANCE;
         }
-
     }
 }

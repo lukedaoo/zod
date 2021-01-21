@@ -41,6 +41,11 @@ public class HttpRequestBody extends BaseRequest<HttpRequestWithBody> implements
     }
 
     @Override
+    public MultipartBody part(BodyPart multiPartInfo) {
+        return new HttpRequestMultiPart(this).part(multiPartInfo);
+    }
+
+    @Override
     public HttpRequestWithBody charset(Charset charset) {
         m_charset = charset;
         return this;

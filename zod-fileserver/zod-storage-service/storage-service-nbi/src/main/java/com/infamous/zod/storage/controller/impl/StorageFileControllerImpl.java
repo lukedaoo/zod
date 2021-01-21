@@ -67,7 +67,7 @@ public class StorageFileControllerImpl implements StorageFileController {
             .build();
 
         return m_repository.upload(s)
-            ? Response.status(Status.CREATED).build()
+            ? Response.status(Status.CREATED).entity(s).build()
             : Response.status(Status.INTERNAL_SERVER_ERROR).build();
     }
 

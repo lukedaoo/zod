@@ -1,7 +1,10 @@
 package com.infamous.framework.http.engine;
 
+import com.infamous.framework.http.ZodHttpException;
 import com.infamous.framework.http.core.RawHttpResponse;
 import com.infamous.framework.http.core.RawHttpResponseBase;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.http.HttpResponse;
 import java.util.HashMap;
@@ -34,12 +37,25 @@ public class JavaHttpResponse extends RawHttpResponseBase implements RawHttpResp
 
     @Override
     public InputStream getContent() {
-        throw new UnsupportedOperationException("");
+        Object o = m_response.body();
+        if (o instanceof InputStream) {
+            return (InputStream) o;
+        } else if (o instanceof byte[]) {
+            return new ByteArrayInputStream((byte[]) o);
+        }
+        return new ByteArrayInputStream(String.valueOf(o).getBytes());
     }
 
     @Override
     public byte[] getContentAsBytes() {
-        throw new UnsupportedOperationException("");
+        InputStream initialStream = getContent();
+        try {
+            byte[] targetArray = new byte[initialStream.available()];
+            initialStream.read(targetArray);
+            return targetArray;
+        } catch (IOException e) {
+            throw new ZodHttpException(e);
+        }
     }
 
     @Override

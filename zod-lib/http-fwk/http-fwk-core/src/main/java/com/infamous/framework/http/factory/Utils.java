@@ -21,8 +21,7 @@ class Utils {
     public static RuntimeException methodError(Method method, Throwable cause, String message, Object... args) {
         message = String.format(message, args);
         return new ZodHttpException(
-            message
-                + "\n    for method "
+            message + " for method "
                 + method.getDeclaringClass().getSimpleName()
                 + "."
                 + method.getName(),

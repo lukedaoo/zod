@@ -18,6 +18,7 @@
         <module>http-fwk-samples</module>
         <module>http-fwk-jackson-converter</module>
         <module>http-fwk-apachehttpclient-callengine</module>
+        <module>http-fwk-basic-pom</module>
     </modules>
     <build>
         <plugins>
