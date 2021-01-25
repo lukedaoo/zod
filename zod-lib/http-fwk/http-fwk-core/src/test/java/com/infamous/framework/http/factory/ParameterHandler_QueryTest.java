@@ -46,7 +46,7 @@ public class ParameterHandler_QueryTest {
     }
 
 
-    private QueryParam getAnnotation() {
-        return (QueryParam) (RestClientTest.class.getMethods()[2]).getParameterAnnotations()[0][0];
+    private QueryParam getAnnotation() throws NoSuchMethodException {
+        return (QueryParam) (RestClientTest.class.getMethod("testQuery", String.class)).getParameterAnnotations()[0][0];
     }
 }

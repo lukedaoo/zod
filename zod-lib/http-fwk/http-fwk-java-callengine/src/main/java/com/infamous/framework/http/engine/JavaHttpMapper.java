@@ -42,7 +42,8 @@ class JavaHttpMapper {
             if (part instanceof BodyAsString) {
                 return builder.method(httpMethod,
                     BodyPublishers.ofString(((BodyAsString) part).getValue()));
-            } else if (part instanceof BodyAsByteArray) {
+            }
+            if (part instanceof BodyAsByteArray) {
                 return builder.method(httpMethod,
                     BodyPublishers.ofByteArray(((BodyAsByteArray) part).getValue()));
             }

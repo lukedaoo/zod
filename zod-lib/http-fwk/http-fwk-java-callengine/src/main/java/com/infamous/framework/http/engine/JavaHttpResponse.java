@@ -6,15 +6,16 @@ import com.infamous.framework.http.core.RawHttpResponseBase;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Type;
 import java.net.http.HttpResponse;
 import java.util.HashMap;
 import java.util.Map;
 
 public class JavaHttpResponse extends RawHttpResponseBase implements RawHttpResponse {
 
-    private HttpResponse<?> m_response;
+    private final HttpResponse m_response;
 
-    public JavaHttpResponse(HttpResponse<?> response) {
+    public JavaHttpResponse(HttpResponse response) {
         m_response = response;
     }
 
@@ -48,8 +49,7 @@ public class JavaHttpResponse extends RawHttpResponseBase implements RawHttpResp
 
     @Override
     public byte[] getContentAsBytes() {
-        InputStream initialStream = getContent();
-        try {
+        try (InputStream initialStream = getContent()) {
             byte[] targetArray = new byte[initialStream.available()];
             initialStream.read(targetArray);
             return targetArray;

@@ -8,10 +8,9 @@ import com.infamous.framework.http.core.BodyPart;
 import com.infamous.framework.http.core.HttpRequest;
 import com.infamous.framework.http.core.HttpRequestMultiPart;
 import com.infamous.framework.http.core.HttpRequestWithBody;
+import java.io.File;
 import java.io.InputStream;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 
 abstract class ParameterHandler<T> {
 
@@ -78,7 +77,6 @@ abstract class ParameterHandler<T> {
         private final String m_name;
         private final String m_contentType;
         private final String m_fileName;
-        private final Map<Class<?>, HttpRequest> m_cache = new HashMap<>(2);
 
         public Part(com.infamous.framework.http.Part part) {
             m_name = part.value();
@@ -90,6 +88,10 @@ abstract class ParameterHandler<T> {
         @Override
         public HttpRequest apply(HttpRequest request, T value) throws Exception {
             HttpRequest finalRequest = request;
+
+            if (!(finalRequest instanceof HttpRequestWithBody) && !(finalRequest instanceof HttpRequestMultiPart)) {
+                throw new ZodHttpException("HttpRequest doesn't support @Part");
+            }
 
             if (value instanceof Collection) {
                 for (Object var : (Collection) value) {
@@ -119,6 +121,12 @@ abstract class ParameterHandler<T> {
                 } else {
                     return castToHttpRequestWithBody(request).part(m_name, (byte[]) value, m_contentType, m_fileName);
                 }
+            } else if (value instanceof File) {
+                if (isHttpMultiPartRequest(request)) {
+                    return castToHttpMultiPartRequest(request).part(m_name, (File) value, m_contentType);
+                } else {
+                    return castToHttpRequestWithBody(request).part(m_name, (File) value, m_contentType);
+                }
             } else if (value instanceof BodyPart) {
                 if (isHttpMultiPartRequest(request)) {
                     return castToHttpMultiPartRequest(request).part((BodyPart) value);
@@ -136,10 +144,6 @@ abstract class ParameterHandler<T> {
 
         private boolean isHttpMultiPartRequest(HttpRequest request) {
             return request instanceof HttpRequestMultiPart;
-        }
-
-        private boolean isHttpRequestWithBody(HttpRequest request) {
-            return !isHttpMultiPartRequest(request);
         }
 
         private HttpRequestMultiPart castToHttpMultiPartRequest(HttpRequest request) {

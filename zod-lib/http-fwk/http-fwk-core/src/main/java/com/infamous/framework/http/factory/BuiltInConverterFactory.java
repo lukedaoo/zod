@@ -2,11 +2,14 @@ package com.infamous.framework.http.factory;
 
 import com.infamous.framework.converter.ConvertProcessor;
 import com.infamous.framework.converter.Converter;
-import com.infamous.framework.http.core.RawHttpResponse;
 
 class BuiltInConverterFactory extends ConverterFactory {
 
-    public Converter<Object, String> getStringConverter() {
+    private BuiltInConverterFactory() {
+
+    }
+
+    public static Converter<Object, String> getStringConverter() {
         return ToStringConverter.getInstance();
     }
 

@@ -18,8 +18,6 @@ import com.infamous.framework.logging.core.AdvancedLogger;
 import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.Test;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 
 class RequestFactoryTest {
 
@@ -29,12 +27,6 @@ class RequestFactoryTest {
         ConverterFactory cf = mock(ConverterFactory.class);
         when(cf.getObjectMapper()).thenReturn(mock(ObjectMapper.class));
         Converter converter = mock(Converter.class);
-        when(converter.converter(any())).then(new Answer<Object>() {
-            @Override
-            public Object answer(InvocationOnMock invocationOnMock) throws Throwable {
-                return 99;
-            }
-        });
         when(cf.responseBodyConverter(any())).thenReturn(converter);
 
         CallEngine callEngine = mock(CallEngine.class);
@@ -49,7 +41,7 @@ class RequestFactoryTest {
             .build();
 
         HttpRequest request = HttpRestClientCreation.getInstance(factory.config())
-            .create("http://localhost:8080", "/test", HttpMethod.GET, factory.getObjectMapper());
+            .create("http://localhost:8080", "/test", HttpMethod.GET, factory.objectMapper());
 
         List<ParameterHandler<?>> parameterHandlers = Collections.singletonList(mockParameterHandler(request));
         RequestFactory requestFactory = new RequestFactory(factory, request, parameterHandlers);

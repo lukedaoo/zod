@@ -29,8 +29,8 @@ public class ParameterHandler_PathTest {
     }
 
 
-    private PathParam getAnnotation() {
-        return (PathParam) (RestClientTest.class.getMethods()[1]).getParameterAnnotations()[0][0];
+    private PathParam getAnnotation() throws NoSuchMethodException {
+        return (PathParam) (RestClientTest.class.getMethod("testPath", String.class)).getParameterAnnotations()[0][0];
     }
 }
 

@@ -9,9 +9,9 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 public @interface Rest {
 
-    HttpMethod method();
+    HttpMethod method() default HttpMethod.GET;
 
-    String url();
+    String url() default "";
 
     String contentType() default "application/json";
 }

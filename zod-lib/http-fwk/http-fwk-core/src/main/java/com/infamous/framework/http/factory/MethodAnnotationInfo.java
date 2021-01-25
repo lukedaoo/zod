@@ -24,7 +24,7 @@ class MethodAnnotationInfo {
         String[] headerValues = m_headers.value();
 
         if (headerValues.length == 0) {
-            throw Utils.methodError(method, "@Headers annotation is empty.");
+            throw Utils.methodError(method, "@Headers annotation is empty");
         }
         Map<String, String> headerMap = new HashMap<>(headerValues.length);
 

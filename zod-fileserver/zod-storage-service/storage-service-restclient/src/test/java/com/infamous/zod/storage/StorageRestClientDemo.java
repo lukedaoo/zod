@@ -24,7 +24,6 @@ class StorageRestClientDemo {
 
     private static final String BASE_URL = "http://localhost:8080/storage/v1";
 
-
     public static void main(String[] args) throws ExecutionException, InterruptedException, IOException {
         StorageRestClient m_client;
 

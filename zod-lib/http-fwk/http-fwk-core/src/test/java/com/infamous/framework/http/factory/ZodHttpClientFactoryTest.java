@@ -78,7 +78,7 @@ class ZodHttpClientFactoryTest {
         assertNotNull(factory.logger());
         assertNotNull(factory.config());
 
-        factory.getObjectMapper();
+        factory.objectMapper();
         factory.requestBodyConverter(mock(Type.class));
         factory.responseBodyConverter(mock(Type.class));
 

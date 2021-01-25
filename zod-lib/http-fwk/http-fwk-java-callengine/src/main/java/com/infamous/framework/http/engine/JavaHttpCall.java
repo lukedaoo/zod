@@ -18,9 +18,9 @@ import java.util.concurrent.CompletableFuture;
 
 public class JavaHttpCall implements Call {
 
-    private HttpRequest m_rawRequest;
-    private Type m_returnType;
-    private java.net.http.HttpRequest m_request;
+    private final HttpRequest m_rawRequest;
+    private final Type m_returnType;
+    private final java.net.http.HttpRequest m_request;
 
     public JavaHttpCall(HttpRequest rawRequest, java.net.http.HttpRequest request, Type returnType) {
         m_rawRequest = rawRequest;

@@ -63,10 +63,10 @@ public final class ZodHttpClientFactory {
     }
 
     Converter<Object, String> stringConverter() {
-        return BuiltInConverterFactory.ToStringConverter.getInstance();
+        return BuiltInConverterFactory.getStringConverter();
     }
 
-    ObjectMapper getObjectMapper() {
+    ObjectMapper objectMapper() {
         return m_converterFactory.getObjectMapper();
     }
 

@@ -28,8 +28,8 @@ public class ParameterHandler_HeaderTest {
         verifyNoMoreInteractions(request);
     }
 
-    private Header getAnnotation() {
-        return (Header) (RestClientTest.class.getMethods()[0]).getParameterAnnotations()[0][0];
+    private Header getAnnotation() throws NoSuchMethodException {
+        return (Header) (RestClientTest.class.getMethod("testHeader", String.class)).getParameterAnnotations()[0][0];
     }
 }
 

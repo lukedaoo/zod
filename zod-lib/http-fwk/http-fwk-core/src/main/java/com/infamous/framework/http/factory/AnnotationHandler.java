@@ -45,12 +45,16 @@ class AnnotationHandler {
         Type returnType = method.getGenericReturnType();
 
         if (returnType == void.class) {
-            throw Utils.methodError(method, "Service methods cannot return void.");
+            throw Utils.methodError(method, "Service methods cannot return void");
         }
 
-        if (state.isUseAsync() && returnType instanceof ParameterizedType) {
-            if (((ParameterizedType) returnType).getRawType() != CompletableFuture.class) {
-                throw Utils.methodError(method, "Service method async must return CompletableFuture");
+        if (state.isUseAsync()) {
+            if (returnType instanceof ParameterizedType) {
+                if (((ParameterizedType) returnType).getRawType() != CompletableFuture.class) {
+                    throw Utils.methodError(method, "Service method async must return CompletableFuture");
+                }
+            } else {
+                throw Utils.methodError(method, "Service method must is a ParameterizedType of CompletableFuture");
             }
         }
 
@@ -62,9 +66,6 @@ class AnnotationHandler {
     }
 
     private static Type getActualReturnType(Type type) {
-        if (type == null) {
-            throw new IllegalArgumentException("");
-        }
         if (type instanceof ParameterizedType) {
             if (((ParameterizedType) type).getRawType() == CompletableFuture.class) {
                 return ((ParameterizedType) type).getActualTypeArguments()[0];
@@ -139,7 +140,7 @@ class AnnotationHandler {
 
         Map<String, String> headers = methodAnnotationInfo.extractHeaders(method);
         HttpRequestWithBody request = methodAnnotationInfo
-            .extractToRequest(method, clientFactory.baseUrl(), clientFactory.config(), clientFactory.getObjectMapper());
+            .extractToRequest(method, clientFactory.baseUrl(), clientFactory.config(), clientFactory.objectMapper());
 
         request.headers(headers);
 
@@ -158,12 +159,10 @@ class AnnotationHandler {
 
         void useMultipartBody() {
             m_useMultiPartBody = true;
-            m_useEntityBody = false;
             m_hasBody = true;
         }
 
         void useEntityBody() {
-            m_useMultiPartBody = false;
             m_useEntityBody = true;
             m_hasBody = true;
         }
