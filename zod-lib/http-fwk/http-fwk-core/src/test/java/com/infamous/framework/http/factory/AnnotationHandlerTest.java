@@ -21,7 +21,7 @@ class AnnotationHandlerTest {
     @BeforeEach
     public void setup() {
         ConverterFactory mockConverter = mock(ConverterFactory.class);
-        when(mockConverter.getObjectMapper()).thenReturn(mock(ObjectMapper.class));
+        when(mockConverter.objectMapper()).thenReturn(mock(ObjectMapper.class));
         m_factory = ZodHttpClientFactory.builder()
             .baseUrl("http://localhost:8080")
             .config(new HttpConfig())

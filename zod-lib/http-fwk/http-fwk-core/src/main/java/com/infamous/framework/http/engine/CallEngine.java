@@ -5,5 +5,5 @@ import java.lang.reflect.Type;
 
 public interface CallEngine {
 
-    Call transformFrom(Type returnType, HttpRequest request);
+    Call transform(Type returnType, HttpRequest request);
 }

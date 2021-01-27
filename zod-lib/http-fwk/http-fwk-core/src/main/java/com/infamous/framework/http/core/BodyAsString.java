@@ -1,9 +1,9 @@
 package com.infamous.framework.http.core;
 
-public class BodyAsString extends BodyPart<String> {
+class BodyAsString extends BodyPart<String> {
 
     public BodyAsString(String value) {
-        super(value, null, null);
+        super(null, value, null);
     }
 
     @Override

@@ -6,8 +6,6 @@ import java.nio.charset.Charset;
 
 public interface HttpRequestWithBody extends HttpRequest<HttpRequestWithBody> {
 
-    MultipartBody multiPartContent();
-
     MultipartBody part(String name, Object value, String contentType);
 
     MultipartBody part(String name, File file, String contentType);
@@ -29,6 +27,10 @@ public interface HttpRequestWithBody extends HttpRequest<HttpRequestWithBody> {
     RequestBodyEntity body(Object body);
 
     RequestBodyEntity body(byte[] body);
+
+    RequestBodyEntity body(InputStream is);
+
+    RequestBodyEntity body(File file);
 
     RequestBodyEntity body(BodyPart<?> bodyPart);
 

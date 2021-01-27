@@ -1,8 +1,6 @@
 package com.infamous.framework.http.engine;
 
 import com.infamous.framework.http.ZodHttpException;
-import com.infamous.framework.http.core.BodyAsByteArray;
-import com.infamous.framework.http.core.BodyAsString;
 import com.infamous.framework.http.core.BodyPart;
 import com.infamous.framework.http.core.HttpRequest;
 import com.infamous.framework.http.core.RequestBody;
@@ -12,6 +10,7 @@ import java.io.InputStream;
 import java.math.BigInteger;
 import java.net.http.HttpRequest.BodyPublisher;
 import java.net.http.HttpRequest.BodyPublishers;
+import java.net.http.HttpRequest.Builder;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -23,42 +22,42 @@ import java.util.Random;
 
 class JavaHttpMapper {
 
+    private JavaHttpMapper() {
+        throw new IllegalArgumentException();
+    }
 
     static java.net.http.HttpRequest.Builder mapBody(java.net.http.HttpRequest.Builder builder, HttpRequest request) {
         String httpMethod = request.getMethod().name();
         Optional<RequestBody> body = request.getBody();
         return body
             .map(bodyEntity -> mapEntity(builder, httpMethod, bodyEntity))
-            .orElse(builder);
+            .orElse(builder.copy().method(httpMethod, BodyPublishers.noBody()));
     }
 
-    private static java.net.http.HttpRequest.Builder mapEntity(java.net.http.HttpRequest.Builder builder,
-                                                               String httpMethod, RequestBody bodyEntity) {
+    private static Builder mapEntity(Builder builder, String httpMethod, RequestBody bodyEntity) {
+        if (bodyEntity.isEmpty()) {
+            return builder.method(httpMethod, BodyPublishers.noBody());
+        }
+        try {
+            return doMapEntity(builder, httpMethod, bodyEntity);
+        } catch (Exception e) {
+            throw new ZodHttpException(e);
+        }
+    }
+
+    private static java.net.http.HttpRequest.Builder doMapEntity(java.net.http.HttpRequest.Builder builder,
+                                                                 String httpMethod, RequestBody bodyEntity)
+        throws IOException {
+
         if (bodyEntity.isBodyEntity()) {
-            BodyPart part = bodyEntity.entity();
-            if (bodyEntity.isEmpty()) {
-                return builder.method(httpMethod, BodyPublishers.noBody());
-            }
-            if (part instanceof BodyAsString) {
-                return builder.method(httpMethod,
-                    BodyPublishers.ofString(((BodyAsString) part).getValue()));
-            }
-            if (part instanceof BodyAsByteArray) {
-                return builder.method(httpMethod,
-                    BodyPublishers.ofByteArray(((BodyAsByteArray) part).getValue()));
-            }
-        } else if (bodyEntity.isMultiPart()) {
+            return builder.method(httpMethod, ofEntityData(bodyEntity, bodyEntity.getCharset()));
+        } else {
             String boundary = new BigInteger(256, new Random()).toString();
             Collection<BodyPart> parts = bodyEntity.multiParts();
-            try {
-                return builder
-                    .header("Content-Type", "multipart/form-data;boundary=" + boundary)
-                    .method(httpMethod, ofMimeMultipartData(parts, boundary, bodyEntity.getCharset()));
-            } catch (IOException e) {
-                throw new ZodHttpException(e);
-            }
+            return builder
+                .header("Content-Type", "multipart/form-data;boundary=" + boundary)
+                .method(httpMethod, ofMimeMultipartData(parts, boundary, bodyEntity.getCharset()));
         }
-        return builder;
     }
 
     private static BodyPublisher ofMimeMultipartData(Collection<BodyPart> bodyPartCollection,
@@ -71,19 +70,8 @@ class JavaHttpMapper {
             String name = bodyPart.getName();
             String contentType = bodyPart.getContentType();
             String fileName = bodyPart.getFileName();
-            Class<?> type = bodyPart.getPartType();
-            byte[] values;
 
-            if (type == byte[].class) {
-                values = (byte[]) bodyPart.getValue();
-            } else if (type == InputStream.class || type.getSuperclass() == InputStream.class) {
-                values = readAllByte((InputStream) bodyPart.getValue());
-            } else if (type == File.class) {
-                File f = (File) bodyPart.getValue();
-                values = Files.readAllBytes(Path.of(f.getPath()));
-            } else {
-                values = String.valueOf(bodyPart.getValue()).getBytes(charset);
-            }
+            byte[] values = parseBodyPartValueToByteArray(bodyPart, charset);
 
             byteArrays.add(separator);
 
@@ -97,8 +85,34 @@ class JavaHttpMapper {
         return BodyPublishers.ofByteArrays(byteArrays);
     }
 
+    private static byte[] parseBodyPartValueToByteArray(BodyPart bodyPart, Charset charset) throws IOException {
+        Object bodyPartValue = bodyPart.getValue();
+        if (bodyPartValue instanceof byte[]) {
+            return (byte[]) bodyPartValue;
+        } else if (bodyPartValue instanceof InputStream) {
+            return ((InputStream) bodyPartValue).readAllBytes();
+        } else if (bodyPartValue instanceof File) {
+            File f = (File) bodyPartValue;
+            return Files.readAllBytes(Path.of(f.getPath()));
+        } else {
+            return String.valueOf(bodyPart.getValue()).getBytes(charset);
+        }
+    }
 
-    private static byte[] readAllByte(InputStream is) throws IOException {
-        return is.readAllBytes();
+    private static BodyPublisher ofEntityData(RequestBody bodyEntity, Charset charset) throws IOException {
+
+        BodyPart part = bodyEntity.entity();
+
+        Object value = part.getValue();
+        if (value instanceof byte[]) {
+            return BodyPublishers.ofByteArray((byte[]) value);
+        } else if (value instanceof InputStream) {
+            return BodyPublishers.ofInputStream(() -> (InputStream) value);
+        } else if (value instanceof File) {
+            Path path = Path.of(((File) value).getPath());
+            return BodyPublishers.ofFile(path);
+        } else {
+            return BodyPublishers.ofString(String.valueOf(value), charset);
+        }
     }
 }

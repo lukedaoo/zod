@@ -139,8 +139,7 @@ class AnnotationHandler {
         }
 
         Map<String, String> headers = methodAnnotationInfo.extractHeaders(method);
-        HttpRequestWithBody request = methodAnnotationInfo
-            .extractToRequest(method, clientFactory.baseUrl(), clientFactory.config(), clientFactory.objectMapper());
+        HttpRequestWithBody request = methodAnnotationInfo.extractToRequest(method, clientFactory);
 
         request.headers(headers);
 

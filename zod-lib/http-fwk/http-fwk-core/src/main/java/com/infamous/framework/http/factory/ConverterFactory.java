@@ -8,7 +8,7 @@ import java.lang.reflect.Type;
 
 public abstract class ConverterFactory {
 
-    public ObjectMapper getObjectMapper() {
+    public ObjectMapper objectMapper() {
         return null;
     }
 

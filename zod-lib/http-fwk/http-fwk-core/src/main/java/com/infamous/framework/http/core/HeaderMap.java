@@ -6,14 +6,10 @@ import java.util.Objects;
 
 class HeaderMap {
 
-    private Map<String, String> m_headers;
+    private final Map<String, String> m_headers;
 
     public HeaderMap() {
         m_headers = new HashMap<>();
-    }
-
-    public HeaderMap(Map<String, String> map) {
-        m_headers = map;
     }
 
     public void add(String key, String value) {

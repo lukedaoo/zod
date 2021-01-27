@@ -2,18 +2,14 @@ package com.infamous.framework.http.engine;
 
 import com.infamous.framework.http.ZodHttpException;
 import com.infamous.framework.http.core.HttpRequest;
-import com.infamous.framework.http.core.HttpRequestBody;
-import com.infamous.framework.http.core.HttpRequestBodyEntity;
-import com.infamous.framework.http.core.HttpRequestMultiPart;
 import com.infamous.framework.http.core.RawHttpResponse;
+import java.io.File;
 import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.net.http.HttpClient;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandler;
 import java.net.http.HttpResponse.BodyHandlers;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.util.concurrent.CompletableFuture;
 
 public class JavaHttpCall implements Call {
@@ -42,7 +38,8 @@ public class JavaHttpCall implements Call {
 
     @Override
     public CompletableFuture<RawHttpResponse> executeAsync() {
-        HttpClient client = HttpClient.newBuilder().build();
+        HttpClient client = HttpClient.newBuilder()
+            .build();
         try {
             return client.sendAsync(m_request, getBodyHandler())
                 .thenApply(o -> new JavaHttpResponse((HttpResponse) o));
@@ -61,24 +58,11 @@ public class JavaHttpCall implements Call {
         return m_request;
     }
 
-    private Charset getCharset() {
-        if (m_rawRequest instanceof HttpRequestBody) {
-            return ((HttpRequestBody) m_rawRequest).getCharset();
-        }
-        if (m_rawRequest instanceof HttpRequestMultiPart) {
-            return ((HttpRequestMultiPart) m_rawRequest).getCharset();
-        }
-        if (m_rawRequest instanceof HttpRequestBodyEntity) {
-            return ((HttpRequestBodyEntity) m_rawRequest).getCharset();
-        }
-        return StandardCharsets.UTF_8;
-    }
-
     private BodyHandler getBodyHandler() {
         if (m_returnType == byte[].class) {
             return BodyHandlers.ofByteArray();
         }
-        if (m_returnType == InputStream.class) {
+        if (m_returnType == InputStream.class || m_returnType == File.class) {
             return BodyHandlers.ofInputStream();
         }
         return BodyHandlers.ofString();

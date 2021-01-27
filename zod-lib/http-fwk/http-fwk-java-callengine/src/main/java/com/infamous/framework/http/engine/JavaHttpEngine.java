@@ -7,8 +7,17 @@ import java.util.Map;
 
 public class JavaHttpEngine implements CallEngine {
 
+    private static JavaHttpEngine INSTANCE = new JavaHttpEngine();
+
+    private JavaHttpEngine() {
+    }
+
+    public static JavaHttpEngine getInstance() {
+        return INSTANCE;
+    }
+
     @Override
-    public Call transformFrom(Type returnType, HttpRequest request) {
+    public Call transform(Type returnType, HttpRequest request) {
         java.net.http.HttpRequest.Builder javaHttpRequestBuilder =
             java.net.http.HttpRequest.newBuilder()
                 .uri(URI.create(request.getUrl()));

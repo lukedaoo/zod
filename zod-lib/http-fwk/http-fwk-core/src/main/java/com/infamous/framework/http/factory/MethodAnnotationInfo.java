@@ -1,8 +1,6 @@
 package com.infamous.framework.http.factory;
 
-import com.infamous.framework.converter.ObjectMapper;
 import com.infamous.framework.http.Headers;
-import com.infamous.framework.http.HttpConfig;
 import com.infamous.framework.http.Rest;
 import com.infamous.framework.http.core.HttpRequestWithBody;
 import com.infamous.framework.http.core.HttpRestClientCreation;
@@ -43,10 +41,12 @@ class MethodAnnotationInfo {
         return headerMap;
     }
 
-    HttpRequestWithBody extractToRequest(Method method, String baseUrl, HttpConfig config, ObjectMapper objectMapper) {
+    HttpRequestWithBody extractToRequest(Method method, ZodHttpClientFactory clientFactory) {
         if (m_rest == null) {
             throw Utils.methodError(method, "@Rest is required");
         }
-        return HttpRestClientCreation.getInstance(config).create(baseUrl, m_rest.url(), m_rest.method(), objectMapper);
+        return HttpRestClientCreation.getInstance(clientFactory)
+            .create(clientFactory.baseUrl(), m_rest.url(), m_rest.method(),
+                clientFactory.objectMapper());
     }
 }

@@ -25,12 +25,12 @@ class RequestFactoryTest {
     public void testCreateEngine() throws Exception {
 
         ConverterFactory cf = mock(ConverterFactory.class);
-        when(cf.getObjectMapper()).thenReturn(mock(ObjectMapper.class));
+        when(cf.objectMapper()).thenReturn(mock(ObjectMapper.class));
         Converter converter = mock(Converter.class);
         when(cf.responseBodyConverter(any())).thenReturn(converter);
 
         CallEngine callEngine = mock(CallEngine.class);
-        when(callEngine.transformFrom(any(), any())).thenReturn(mock(Call.class));
+        when(callEngine.transform(any(), any())).thenReturn(mock(Call.class));
 
         var factory = ZodHttpClientFactory.builder()
             .baseUrl("http://localhost:8080")

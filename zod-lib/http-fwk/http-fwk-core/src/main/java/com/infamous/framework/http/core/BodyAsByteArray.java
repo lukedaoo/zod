@@ -1,9 +1,9 @@
 package com.infamous.framework.http.core;
 
-public class BodyAsByteArray extends BodyPart<byte[]> {
+class BodyAsByteArray extends BodyPart<byte[]> {
 
     public BodyAsByteArray(byte[] value) {
-        super(value, null, null);
+        super(null, value, null);
     }
 
     @Override

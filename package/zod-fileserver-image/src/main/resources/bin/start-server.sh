@@ -4,6 +4,8 @@ source $BASE_DIR/bin/utils.sh
 
 setupJavaOptions() {
     local EXTRA_JAVA_OPTS="-Dcom.atomikos.icatch.registered=true -Dcom.atomikos.icatch.log_base_dir=./transaction-logs/$APP_NAME"
+    EXTRA_JAVA_OPTS="$EXTRA_JAVA_OPTS $(d "app.full.name" $APP_FULL_NAME)"
+    EXTRA_JAVA_OPTS="$EXTRA_JAVA_OPTS $(d "app.name" $APP_NAME)"
     EXTRA_JAVA_OPTS="$EXTRA_JAVA_OPTS $(d "warehouse.uri" $WAREHOUSE_URI)"
     EXTRA_JAVA_OPTS="$EXTRA_JAVA_OPTS $(d "db.url" $DB_URL)"
     EXTRA_JAVA_OPTS="$EXTRA_JAVA_OPTS $(d "db.username" $DB_USER)"

@@ -16,11 +16,6 @@ public class HttpRequestBody extends BaseRequest<HttpRequestWithBody> implements
     }
 
     @Override
-    public MultipartBody multiPartContent() {
-        return null;
-    }
-
-    @Override
     public MultipartBody part(String name, Object value, String contentType) {
         return new HttpRequestMultiPart(this).part(name, value, contentType);
     }
@@ -64,6 +59,16 @@ public class HttpRequestBody extends BaseRequest<HttpRequestWithBody> implements
     @Override
     public RequestBodyEntity body(byte[] body) {
         return new HttpRequestBodyEntity(this).body(body);
+    }
+
+    @Override
+    public RequestBodyEntity body(InputStream is) {
+       return new HttpRequestBodyEntity(this).body(is);
+    }
+
+    @Override
+    public RequestBodyEntity body(File file) {
+        return new HttpRequestBodyEntity(this).body(file);
     }
 
     @Override

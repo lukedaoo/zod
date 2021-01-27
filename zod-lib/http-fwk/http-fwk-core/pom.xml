@@ -11,6 +11,7 @@
     <artifactId>http-fwk-core</artifactId>
     <name>zod-lib/http-fwk/http-fwk-core</name>
     <dependencies>
+        <!-- Internal -->
         <dependency>
             <groupId>com.infamous.framework</groupId>
             <artifactId>advanced-logging-api</artifactId>
@@ -21,6 +22,7 @@
             <artifactId>model-converter</artifactId>
             <version>${revision}</version>
         </dependency>
+        <!-- External -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>

@@ -1,5 +1,7 @@
 package com.infamous.framework.http.core;
 
+import java.io.File;
+import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.Optional;
 
@@ -16,24 +18,37 @@ public class HttpRequestBodyEntity extends BaseRequest<RequestBodyEntity> implem
 
     @Override
     public RequestBodyEntity body(byte[] bodyBytes) {
-        m_body = new BodyAsByteArray(bodyBytes);
+        m_body = BodyPartFactory.body(bodyBytes);
         return this;
     }
 
     @Override
     public RequestBodyEntity body(String bodyAsString) {
-        m_body = new BodyAsString(bodyAsString);
+        m_body = BodyPartFactory.body(bodyAsString);
+        return this;
+    }
+
+    @Override
+    public RequestBodyEntity body(InputStream is) {
+        m_body = BodyPartFactory.body(is);
+        return this;
+    }
+
+    @Override
+    public RequestBodyEntity body(File file) {
+        m_body = BodyPartFactory.body(file);
         return this;
     }
 
     @Override
     public RequestBodyEntity body(Object body) {
-        return body(getObjectMapper().writeValue(body));
+        m_body = BodyPartFactory.body(body, getObjectMapper());
+        return this;
     }
 
     @Override
     public RequestBodyEntity body(BodyPart<?> bodyPart) {
-        m_body = bodyPart;
+        m_body = BodyPartFactory.body(bodyPart);
         return this;
     }
 

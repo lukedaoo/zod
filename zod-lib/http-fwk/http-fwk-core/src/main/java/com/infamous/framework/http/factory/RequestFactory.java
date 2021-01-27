@@ -29,7 +29,7 @@ public class RequestFactory {
             }
         }
         CallEngine callEngine = m_clientFactory.getCallEngine();
-        return callEngine.transformFrom(returnType, m_request);
+        return callEngine.transform(returnType, m_request);
     }
 
     public ZodHttpClientFactory getClientFactory() {

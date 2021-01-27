@@ -4,20 +4,21 @@ import java.io.InputStream;
 
 class InputStreamPart extends BodyPart<InputStream> {
 
-    private String fileName;
-
-    InputStreamPart(String name, InputStream value, String contentType) {
-        super(value, name, contentType);
-    }
+    private String m_fileName;
 
     InputStreamPart(String name, InputStream value, String contentType, String fileName) {
-        super(value, name, contentType);
-        this.fileName = fileName;
+        super(name, value, contentType);
+        this.m_fileName = isEmpty(fileName) ? randomFileName(): fileName;
+    }
+
+    InputStreamPart(String name, InputStream value, String contentType) {
+        super(name, value, contentType);
+        this.m_fileName = randomFileName();
     }
 
     @Override
     public String getFileName() {
-        return fileName;
+        return m_fileName;
     }
 
     @Override
@@ -27,6 +28,6 @@ class InputStreamPart extends BodyPart<InputStream> {
 
     @Override
     public String toString() {
-        return String.format("%s=%s", getName(), fileName);
+        return String.format("%s=%s", getName(), m_fileName);
     }
 }

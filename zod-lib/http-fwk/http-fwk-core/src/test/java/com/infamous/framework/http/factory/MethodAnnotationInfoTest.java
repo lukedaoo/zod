@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import com.infamous.framework.converter.ObjectMapper;
 import com.infamous.framework.http.Headers;
@@ -12,11 +13,27 @@ import com.infamous.framework.http.HttpConfig;
 import com.infamous.framework.http.Rest;
 import com.infamous.framework.http.ZodHttpException;
 import com.infamous.framework.http.core.HttpRequest;
+import com.infamous.framework.http.engine.CallEngine;
 import java.lang.reflect.Method;
 import java.util.Map;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class MethodAnnotationInfoTest {
+
+    private ZodHttpClientFactory m_factory;
+
+    @BeforeEach
+    public void setup() {
+        ConverterFactory converterFactory = mock(ConverterFactory.class);
+        when(converterFactory.objectMapper()).thenReturn(mock(ObjectMapper.class));
+        m_factory = ZodHttpClientFactory.builder()
+            .baseUrl("http://localhost:8080")
+            .converterFactory(converterFactory)
+            .callEngine(mock(CallEngine.class))
+            .config(new HttpConfig())
+            .build();
+    }
 
     @Test
     public void testExtractHeader() throws NoSuchMethodException {
@@ -59,9 +76,7 @@ class MethodAnnotationInfoTest {
         MethodAnnotationInfo methodAnnotationInfo = new MethodAnnotationInfo();
         methodAnnotationInfo.m_rest = getRest("testRest");
 
-        HttpRequest request = methodAnnotationInfo
-            .extractToRequest(getMethod("testRest"), "http://localhost:8080", new HttpConfig(), mock(
-                ObjectMapper.class));
+        HttpRequest request = methodAnnotationInfo.extractToRequest(getMethod("testRest"), m_factory);
 
         assertNotNull(request);
     }
@@ -72,9 +87,7 @@ class MethodAnnotationInfoTest {
         methodAnnotationInfo.m_rest = null;
 
         assertThrows(ZodHttpException.class,
-            () -> methodAnnotationInfo
-                .extractToRequest(getMethod("testRest"), "http://localhost:8080", new HttpConfig(), mock(
-                    ObjectMapper.class)));
+            () -> methodAnnotationInfo.extractToRequest(getMethod("testRest"), m_factory));
     }
 
     private Method getMethod(String name) throws NoSuchMethodException {

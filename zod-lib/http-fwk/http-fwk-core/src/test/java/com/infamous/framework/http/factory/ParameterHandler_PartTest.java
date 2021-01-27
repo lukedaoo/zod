@@ -2,11 +2,11 @@ package com.infamous.framework.http.factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
@@ -37,42 +37,60 @@ public class ParameterHandler_PartTest {
     @Test
     public void test_whenHttpRequestIsInstanceOfHttpRequestWithBody() throws Exception {
         HttpRequestWithBody request = testCaseFor(HttpRequestWithBody.class);
-        verify(request).part("files", "1234", "");
-        verify(request).part("files", 123, "");
-        verify(request).part(eq("files"), any(byte[].class), eq(""), eq(""));
-        verify(request).part(eq("files"), any(InputStream.class), eq(""), eq(""));
-        verify(request).part(eq("files"), any(File.class), eq(""));
-        verify(request).part(any(BodyPart.class));
+        verify(request, times(6)).part(any(BodyPart.class));
         verifyNoMoreInteractions(request);
     }
 
     @Test
     public void test_whenValueIsCollection() throws Exception {
         int[] times = {0};
+        boolean[] invoked = new boolean[]{false, false};
         HttpRequestWithBody request = mockHttpRequest(HttpRequestWithBody.class);
         HttpRequestMultiPart requestMultiPart = mock(HttpRequestMultiPart.class);
 
         doAnswer((invocationOnMock -> {
             times[0]++;
             if (times[0] == 1) {
-                assertEquals("files", invocationOnMock.getArgument(0));
-                assertEquals("12", invocationOnMock.getArgument(1));
-                assertEquals("", invocationOnMock.getArgument(2));
+                BodyPart bodyPart = invocationOnMock.getArgument(0);
+                assertEquals("files", bodyPart.getName());
+                assertEquals("12", bodyPart.getValue());
+                assertEquals("application/x-www-form-urlencoded", bodyPart.getContentType());
+
+                invoked[0] = true;
+
                 return requestMultiPart;
             }
             return null;
-        })).when(request).part(anyString(), anyString(), anyString());
+        })).when(request).part(any(BodyPart.class));
+
+        doAnswer(invocationOnMock -> {
+            times[0]++;
+            if (times[0] == 2) {
+                BodyPart bodyPart = invocationOnMock.getArgument(0);
+                assertEquals("files", bodyPart.getName());
+                assertEquals("123", bodyPart.getValue());
+                assertEquals("application/x-www-form-urlencoded", bodyPart.getContentType());
+
+                invoked[1] = true;
+            }
+
+            return null;
+        }).when(requestMultiPart).part(any(BodyPart.class));
 
         ParameterHandler.Part parameterHandler = new ParameterHandler.Part(getAnnotation());
 
         apply(parameterHandler, request, Arrays.asList("12", "123"));
 
-        assertEquals(times[0], 1);
+        assertEquals(times[0], 2);
+        assertTrue(invoked[0]);
+        assertTrue(invoked[1]);
     }
 
     @Test
     public void test_whenHttpRequestIsInstanceOfHttpRequestMultiPart() throws Exception {
         HttpRequestMultiPart request = testCaseFor(HttpRequestMultiPart.class);
+        verify(request, times(6)).part(any(BodyPart.class));
+        verifyNoMoreInteractions(request);
     }
 
     private <T> T mockHttpRequest(Class<T> clazz) {

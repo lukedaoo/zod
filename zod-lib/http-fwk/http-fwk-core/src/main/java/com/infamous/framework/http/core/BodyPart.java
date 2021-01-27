@@ -1,5 +1,7 @@
 package com.infamous.framework.http.core;
 
+import java.util.UUID;
+
 public abstract class BodyPart<T> implements Comparable {
 
     private final String m_name;
@@ -7,7 +9,7 @@ public abstract class BodyPart<T> implements Comparable {
     private final String m_contentType;
     private final Class<?> m_partType;
 
-    protected BodyPart(T value, String name, String contentType) {
+    protected BodyPart(String name, T value, String contentType) {
         this.m_name = name;
         this.m_value = value;
         this.m_contentType = contentType;
@@ -23,7 +25,7 @@ public abstract class BodyPart<T> implements Comparable {
     }
 
     public String getContentType() {
-        if (m_contentType == null || m_contentType.isEmpty()) {
+        if (isEmpty(m_contentType)) {
             if (isFile()) {
                 return "application/octet-stream";
             }
@@ -46,6 +48,14 @@ public abstract class BodyPart<T> implements Comparable {
             return getName().compareTo(((BodyPart) o).getName());
         }
         return 0;
+    }
+
+    protected String randomFileName() {
+        return UUID.randomUUID().toString() + ".tmp";
+    }
+
+    protected boolean isEmpty(String str) {
+        return str == null || str.isEmpty();
     }
 
     abstract public boolean isFile();

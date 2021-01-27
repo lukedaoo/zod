@@ -11,8 +11,8 @@ import static org.mockito.Mockito.when;
 
 import com.infamous.framework.converter.Converter;
 import com.infamous.framework.http.ZodHttpException;
-import com.infamous.framework.http.core.BodyAsString;
 import com.infamous.framework.http.core.BodyPart;
+import com.infamous.framework.http.core.BodyPartFactory;
 import com.infamous.framework.http.core.HttpRequest;
 import com.infamous.framework.http.core.HttpRequestWithBody;
 import com.infamous.framework.http.factory.ParameterHandler.Body;
@@ -35,7 +35,7 @@ public class ParameterHandler_BodyTest {
     public void test() throws Exception {
 
         Converter converter = mock(Converter.class);
-        when(converter.converter(any())).then(invocationOnMock -> new BodyAsString("123"));
+        when(converter.converter(any())).then(invocationOnMock -> BodyPartFactory.body("123"));
 
         ParameterHandler.Body parameterHandler = new Body(converter);
 
@@ -46,10 +46,7 @@ public class ParameterHandler_BodyTest {
         parameterHandler.apply(request, mock(BodyPart.class));
         parameterHandler.apply(request, new Object());
 
-        verify(request).body(any(String.class));
-        verify(request).body(any(byte[].class));
-        verify(request, times(2)).body(any(BodyPart.class));
-
+        verify(request, times(4)).body(any(BodyPart.class));
         verifyNoMoreInteractions(request);
     }
 

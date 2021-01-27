@@ -37,7 +37,7 @@ public class JacksonConverterFactory extends ConverterFactory {
     }
 
     @Override
-    public ObjectMapper getObjectMapper() {
+    public ObjectMapper objectMapper() {
         return m_objectMapper;
     }
 

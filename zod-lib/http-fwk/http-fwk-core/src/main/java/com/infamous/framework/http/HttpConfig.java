@@ -4,4 +4,8 @@ package com.infamous.framework.http;
 // - timeout
 public class HttpConfig {
 
+
+    public void shutdown() {
+
+    }
 }

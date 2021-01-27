@@ -6,7 +6,6 @@ import com.infamous.framework.http.core.RawHttpResponseBase;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Type;
 import java.net.http.HttpResponse;
 import java.util.HashMap;
 import java.util.Map;

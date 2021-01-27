@@ -5,12 +5,12 @@ import com.infamous.framework.http.PathParam;
 import com.infamous.framework.http.QueryParam;
 import com.infamous.framework.http.ZodHttpException;
 import com.infamous.framework.http.core.BodyPart;
+import com.infamous.framework.http.core.BodyPartFactory;
 import com.infamous.framework.http.core.HttpRequest;
 import com.infamous.framework.http.core.HttpRequestMultiPart;
 import com.infamous.framework.http.core.HttpRequestWithBody;
-import java.io.File;
-import java.io.InputStream;
 import java.util.Collection;
+import java.util.Optional;
 
 abstract class ParameterHandler<T> {
 
@@ -106,39 +106,11 @@ abstract class ParameterHandler<T> {
         }
 
         private HttpRequest appendPart(Object value, HttpRequest request) {
-
-            if (value instanceof InputStream) {
-                if (isHttpMultiPartRequest(request)) {
-                    return castToHttpMultiPartRequest(request)
-                        .part(m_name, (InputStream) value, m_contentType, m_fileName);
-                } else {
-                    return castToHttpRequestWithBody(request)
-                        .part(m_name, (InputStream) value, m_contentType, m_fileName);
-                }
-            } else if (value instanceof byte[]) {
-                if (isHttpMultiPartRequest(request)) {
-                    return castToHttpMultiPartRequest(request).part(m_name, (byte[]) value, m_contentType, m_fileName);
-                } else {
-                    return castToHttpRequestWithBody(request).part(m_name, (byte[]) value, m_contentType, m_fileName);
-                }
-            } else if (value instanceof File) {
-                if (isHttpMultiPartRequest(request)) {
-                    return castToHttpMultiPartRequest(request).part(m_name, (File) value, m_contentType);
-                } else {
-                    return castToHttpRequestWithBody(request).part(m_name, (File) value, m_contentType);
-                }
-            } else if (value instanceof BodyPart) {
-                if (isHttpMultiPartRequest(request)) {
-                    return castToHttpMultiPartRequest(request).part((BodyPart) value);
-                } else {
-                    return castToHttpRequestWithBody(request).part((BodyPart) value);
-                }
+            BodyPart bodyPart = BodyPartFactory.part(m_name, value, m_contentType, Optional.of(m_fileName));
+            if (isHttpMultiPartRequest(request)) {
+                return castToHttpMultiPartRequest(request).part(bodyPart);
             } else {
-                if (isHttpMultiPartRequest(request)) {
-                    return castToHttpMultiPartRequest(request).part(m_name, value, m_contentType);
-                } else {
-                    return castToHttpRequestWithBody(request).part(m_name, value, m_contentType);
-                }
+                return castToHttpRequestWithBody(request).part(bodyPart);
             }
         }
 
@@ -166,15 +138,7 @@ abstract class ParameterHandler<T> {
         @Override
         public HttpRequest apply(HttpRequest request, T value) throws Exception {
             if (request instanceof HttpRequestWithBody) {
-                if (value instanceof String) {
-                    return ((HttpRequestWithBody) request).body((String) value);
-                } else if (value instanceof byte[]) {
-                    return ((HttpRequestWithBody) request).body((byte[]) value);
-                } else if (value instanceof BodyPart) {
-                    return ((HttpRequestWithBody) request).body((BodyPart) value);
-                } else {
-                    return ((HttpRequestWithBody) request).body(m_requestBodyConverter.converter(value));
-                }
+                return ((HttpRequestWithBody) request).body(m_requestBodyConverter.converter(value));
             }
             throw new ZodHttpException(
                 "HttpRequest type doesn't support @Body param. Type: " + request.getClass().getTypeName());

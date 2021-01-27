@@ -22,7 +22,7 @@ public final class ZodHttpClientFactory {
     public ZodHttpClientFactory(Builder builder) {
         Objects.requireNonNull(builder.m_httpConfig, "Config == null");
         Objects.requireNonNull(builder.m_converterFactory, "ConverterFactory == null");
-        Objects.requireNonNull(builder.m_converterFactory.getObjectMapper(), "ObjectMapper == null");
+        Objects.requireNonNull(builder.m_converterFactory.objectMapper(), "ObjectMapper == null");
         Objects.requireNonNull(builder.m_calEngine, "CallEngine == null");
 
         this.m_baseUrl = builder.m_baseUrl;
@@ -62,12 +62,12 @@ public final class ZodHttpClientFactory {
         }
     }
 
-    Converter<Object, String> stringConverter() {
+    public Converter<Object, String> stringConverter() {
         return BuiltInConverterFactory.getStringConverter();
     }
 
-    ObjectMapper objectMapper() {
-        return m_converterFactory.getObjectMapper();
+    public ObjectMapper objectMapper() {
+        return m_converterFactory.objectMapper();
     }
 
     public CallEngine getCallEngine() {

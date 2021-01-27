@@ -5,7 +5,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 
-class Path {
+final class Path {
 
     private String m_rawUrl;
     private StringBuilder m_relativeUrl;
@@ -15,23 +15,16 @@ class Path {
     public Path(String baseUrl, String url) {
         check(url == null, new IllegalArgumentException("url can not be NULL"));
         if (baseUrl != null) {
-            baseUrl = baseUrl.toLowerCase();
-            check(!baseUrl.startsWith("http") && !baseUrl.startsWith("https"),
-                new IllegalArgumentException("Base url must be start with http or https"));
+            check(!isStartWithProtocol(baseUrl),
+                new IllegalArgumentException("Base url must start with http or https"));
         }
         if (baseUrl == null) {
-            if (!isStartWithProtocol(url)) {
-                throw new ZodHttpException("url must start with protocol (http or https)");
-            }
+            check(!isStartWithProtocol(url), new IllegalArgumentException("url must start with http or https"));
             this.m_rawUrl = url;
         } else {
             this.m_rawUrl = new StringBuilder().append(baseUrl).append(url).toString();
         }
         this.m_relativeUrl = new StringBuilder().append(m_rawUrl);
-    }
-
-    public Path(String url) {
-        this(null, url);
     }
 
     public void appendQueryParam(String key, Collection<?> value, boolean encoded) {
@@ -64,9 +57,9 @@ class Path {
             .append(key).append("}").toString();
         int index = m_relativeUrl.indexOf(pathParamPattern);
         if (index != -1) {
-            m_relativeUrl.replace(index, index + pathParamPattern.length(), value);
+            m_relativeUrl.replace(index, index + pathParamPattern.length(), encoded ? encode(value) : value);
         } else {
-            throw new IllegalArgumentException("@PathParam must has format {path}. Invalid for path: " + key);
+            throw new ZodHttpException("@PathParam must has format {path}. Invalid for path: " + key);
         }
     }
 
@@ -95,6 +88,7 @@ class Path {
     }
 
     public void useUrl(String url) {
+        check(!isStartWithProtocol(url), new IllegalArgumentException("url must start with http or https"));
         m_relativeUrl = new StringBuilder().append(url);
         m_rawUrl = url;
     }

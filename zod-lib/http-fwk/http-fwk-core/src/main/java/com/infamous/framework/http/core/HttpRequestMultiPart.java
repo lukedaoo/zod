@@ -33,14 +33,14 @@ public class HttpRequestMultiPart extends BaseRequest<MultipartBody> implements 
 
     @Override
     public MultipartBody part(String name, InputStream stream, String contentType, String fileName) {
-        addPart(new InputStreamPart(name, stream, contentType, fileName));
+        addPart(BodyPartFactory.part(name, stream, contentType, fileName));
         return this;
     }
 
     @Override
     public MultipartBody part(String name, byte[] bytes, String contentType, String fileName) {
-        addPart(new ByteArrayPart(name, bytes, contentType, fileName));
-        return null;
+        addPart(BodyPartFactory.part(name, bytes, contentType, fileName));
+        return this;
     }
 
     @Override
@@ -61,13 +61,8 @@ public class HttpRequestMultiPart extends BaseRequest<MultipartBody> implements 
     }
 
     private void addPart(String name, Object value, String contentType) {
-        if (value instanceof InputStream) {
-            addPart(new InputStreamPart(name, (InputStream) value, contentType));
-        } else if (value instanceof File) {
-            addPart(new FilePart((File) value, name, contentType));
-        } else {
-            addPart(new ParamPart(name, value, contentType));
-        }
+        BodyPart bodyPart = BodyPartFactory.part(name, value, contentType);
+        addPart(bodyPart);
     }
 
     private void addPart(BodyPart<?> value) {

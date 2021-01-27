@@ -27,7 +27,7 @@ class ZodHttpClientFactoryTest {
     @BeforeEach
     public void setup() {
         m_cf = mock(ConverterFactory.class);
-        when(m_cf.getObjectMapper()).thenReturn(mock(ObjectMapper.class));
+        when(m_cf.objectMapper()).thenReturn(mock(ObjectMapper.class));
     }
 
 
@@ -82,7 +82,7 @@ class ZodHttpClientFactoryTest {
         factory.requestBodyConverter(mock(Type.class));
         factory.responseBodyConverter(mock(Type.class));
 
-        verify(m_cf, times(2)).getObjectMapper();
+        verify(m_cf, times(2)).objectMapper();
         verify(m_cf).requestBodyConverter(any());
         verify(m_cf).responseBodyConverter(any());
         verifyNoMoreInteractions(m_cf);

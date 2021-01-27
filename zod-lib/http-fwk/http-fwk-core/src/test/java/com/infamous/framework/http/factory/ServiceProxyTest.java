@@ -27,7 +27,7 @@ class ServiceProxyTest {
     @BeforeEach
     public void setup() {
         ConverterFactory cf = mock(ConverterFactory.class);
-        when(cf.getObjectMapper()).thenReturn(mock(ObjectMapper.class));
+        when(cf.objectMapper()).thenReturn(mock(ObjectMapper.class));
         Converter converter = mock(Converter.class);
         when(converter.converter(any())).then(new Answer<Object>() {
             @Override
@@ -38,7 +38,7 @@ class ServiceProxyTest {
         when(cf.responseBodyConverter(any())).thenReturn(converter);
 
         CallEngine callEngine = mock(CallEngine.class);
-        when(callEngine.transformFrom(any(), any())).thenReturn(mock(Call.class));
+        when(callEngine.transform(any(), any())).thenReturn(mock(Call.class));
 
         m_factory = ZodHttpClientFactory.builder()
             .baseUrl("http://localhost:8080")
