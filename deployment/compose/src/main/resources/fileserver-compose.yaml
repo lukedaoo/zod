@@ -14,6 +14,8 @@ services:
       - WAREHOUSE_URI=/warehouse-root
       - FTP_USER=admin
       - FTP_PASS=admin
+      - FLUENT_HOST=fluent-bit
+      - FLUENT_PORT=514
     stdin_open: true
     #entrypoint: /bin/sh
     tty: true
@@ -27,6 +29,15 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: mysql
       MYSQL_USER: root
+    stdin_open: true
+    tty: true
+    networks:
+      - backend
+  fluent-bit:
+    image: zod-fluent-bit-image
+    container_name: zod-fluent-bit
+    ports:
+      - "5514:514"
     stdin_open: true
     tty: true
     networks:

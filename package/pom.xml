@@ -19,6 +19,7 @@
     </properties>
     <modules>
         <module>zod-base-image</module>
+        <module>zod-fluent-bit-image</module>
         <module>zod-base-platform-image</module>
         <module>zod-fileserver-image</module>
     </modules>

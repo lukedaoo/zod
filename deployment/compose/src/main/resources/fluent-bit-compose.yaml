@@ -1,0 +1,16 @@
+version: "3"
+
+services:
+
+  fluent-bit:
+    image: zod-fluent-bit-image
+    container_name: zod-fluent-bit
+    ports:
+      - "5514:514"
+    stdin_open: true
+    tty: true
+    networks:
+      - backend
+networks:
+  backend:
+    driver: bridge

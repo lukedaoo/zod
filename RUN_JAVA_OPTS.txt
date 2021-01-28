@@ -1,5 +1,8 @@
 
 ----- File Server ----
+-DLog4jContextSelector=org.apache.logging.log4j.core.async.AsyncLoggerContextSelector
+-Dapp.full.name="Zod File Server"
+-Dapp.name=zod-fileserver
 -Dcom.atomikos.icatch.log_base_dir=./transaction-logs/fileserver
 -Dcom.atomikos.icatch.registered=true
 -Ddb.url=jdbc:mysql://localhost:3306/wanderer?createDatabaseIfNotExist=true

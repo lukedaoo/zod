@@ -38,10 +38,10 @@ class StorageRestClientDemo {
         m_client = clientFactory.create(StorageRestClient.class);
 
 //        testDownload(m_client);
-//        testMultipleDownload(m_client);
+//        testMultipleDownload(m_client, ids);
 //        testUpload(m_client);
 //        testMultipleUpload(m_client);
-//        testInfo(m_client);
+//        testInfo(m_client, "id");
 //        testAllInfos(m_client);
     }
 
@@ -51,8 +51,8 @@ class StorageRestClientDemo {
         System.out.println(infos);
     }
 
-    private static void testInfo(StorageRestClient m_client) throws InterruptedException, ExecutionException {
-        StorageFileVO info = m_client.info("021d65fe-5c61-42e6-b508-c540871abc8d").get();
+    private static void testInfo(StorageRestClient m_client, String id) throws InterruptedException, ExecutionException {
+        StorageFileVO info = m_client.info(id).get();
         System.out.println(info);
     }
 
@@ -106,9 +106,8 @@ class StorageRestClientDemo {
         });
     }
 
-    private static void testMultipleDownload(StorageRestClient m_client) {
-        var multipleDownloadRes = m_client
-            .multipleDownload(List.of("6b05e317-4f4a-4702-82f4-4ded478db559", "5705560e-636d-408d-b96e-dbd0fab35855"));
+    private static void testMultipleDownload(StorageRestClient m_client, List<String> ids) {
+        var multipleDownloadRes = m_client.multipleDownload(ids);
         ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.execute(() -> {
             try {
@@ -129,8 +128,8 @@ class StorageRestClientDemo {
         });
     }
 
-    private static void testDownload(StorageRestClient m_client) {
-        var downloadRes = m_client.download("aae6e770-2727-40bf-850d-d9a6bedc3047");
+    private static void testDownload(StorageRestClient m_client, String id) {
+        var downloadRes = m_client.download(id);
 
         ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.execute(() -> {

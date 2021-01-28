@@ -28,6 +28,8 @@
         <spring.version>5.3.3</spring.version>
         <spring.boot.version>2.4.2</spring.boot.version>
         <spring.log4j2.version>${spring.boot.version}</spring.log4j2.version>
+        <disruptor.version>3.4.2</disruptor.version>
+        <conversantmedia.discruptor.version>1.2.15</conversantmedia.discruptor.version>
         <!-- Utilities -->
         <lombok.version>1.18.16</lombok.version>
 
@@ -87,6 +89,16 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-log4j2</artifactId>
                 <version>${spring.log4j2.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.lmax</groupId>
+                <artifactId>disruptor</artifactId>
+                <version>${disruptor.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.conversantmedia</groupId>
+                <artifactId>disruptor</artifactId>
+                <version>${conversantmedia.discruptor.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>

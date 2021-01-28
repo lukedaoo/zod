@@ -3,7 +3,9 @@
 source $BASE_DIR/bin/utils.sh
 
 setupJavaOptions() {
-    local EXTRA_JAVA_OPTS="-Dcom.atomikos.icatch.registered=true -Dcom.atomikos.icatch.log_base_dir=./transaction-logs/$APP_NAME"
+    local EXTRA_JAVA_OPTS="-Dcom.atomikos.icatch.registered=true
+        -Dcom.atomikos.icatch.log_base_dir=./transaction-logs/$APP_NAME
+        -DLog4jContextSelector=org.apache.logging.log4j.core.async.AsyncLoggerContextSelector"
     EXTRA_JAVA_OPTS="$EXTRA_JAVA_OPTS $(d "app.full.name" $APP_FULL_NAME)"
     EXTRA_JAVA_OPTS="$EXTRA_JAVA_OPTS $(d "app.name" $APP_NAME)"
     EXTRA_JAVA_OPTS="$EXTRA_JAVA_OPTS $(d "warehouse.uri" $WAREHOUSE_URI)"
@@ -25,6 +27,8 @@ setupJavaOptions() {
     EXTRA_JAVA_OPTS="$EXTRA_JAVA_OPTS $(d "ftp.admin.maxUploadRate" $(readJavaOptsFromFile "FTP_MAX_UPLOAD_RATE"))"
     EXTRA_JAVA_OPTS="$EXTRA_JAVA_OPTS $(d "ftp.admin.maxConcurrentLogins" $(readJavaOptsFromFile "FTP_MAX_CONCURRENT_LOGIN"))"
     EXTRA_JAVA_OPTS="$EXTRA_JAVA_OPTS $(d "ftp.root" $WAREHOUSE_URI)"
+    EXTRA_JAVA_OPTS="$EXTRA_JAVA_OPTS $(d "fluent.host" $FLUENT_HOST)"
+    EXTRA_JAVA_OPTS="$EXTRA_JAVA_OPTS $(d "fluent.port" $FLUENT_PORT)"
 
     local FINAL_JAVA_OPTS="$JAVA_OPTS $EXTRA_JAVA_OPTS"
     export JAVA_OPTS=$FINAL_JAVA_OPTS

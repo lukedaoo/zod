@@ -14,7 +14,7 @@ public class JtaTransactionManagementConfig {
         UserTransactionManager manager = new UserTransactionManager();
         manager.setStartupTransactionService(false);
         manager.setForceShutdown(true);
-        manager.setTransactionTimeout(600000);
+        manager.setTransactionTimeout(300000);
         return manager;
     }
 
