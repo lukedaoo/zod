@@ -7,6 +7,7 @@ services:
     container_name: zod-fileserver
     ports:
       - "5080:8080"
+      - "5009:5005"
     environment:
       - DB_USER=root
       - DB_PASS=mysql
@@ -16,11 +17,15 @@ services:
       - FTP_PASS=admin
       - FLUENT_HOST=fluent-bit
       - FLUENT_PORT=514
+    #  - DEBUG=true
     stdin_open: true
     #entrypoint: /bin/sh
     tty: true
     networks:
       - backend
+    depends_on:
+      - mariadb
+      - es
   mariadb:
     image: mariadb
     container_name: mariadb
@@ -42,6 +47,37 @@ services:
     tty: true
     networks:
       - backend
+  es:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.10.2
+    container_name: es
+    environment:
+      - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    ports:
+      - 9200:9200
+    stdin_open: true
+    tty: true
+    networks:
+      - backend
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.10.2
+    container_name: kibana
+    ports:
+      - 5601:5601
+    environment:
+      - ELASTICSEARCH_HOSTS=http://es:9200
+    stdin_open: true
+    tty: true
+    networks:
+      - backend
+    depends_on:
+      - es
+
 networks:
   backend:
     driver: bridge

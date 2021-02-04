@@ -19,6 +19,7 @@
     <modules>
         <module>song-mgmt-api</module>
         <module>song-mgmt-app</module>
+        <module>song-mgmt-nbi</module>
     </modules>
     <build>
         <plugins>

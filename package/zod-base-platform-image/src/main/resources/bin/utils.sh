@@ -59,6 +59,10 @@ exportToEnvFromPropertiesFile() {
     fi
 }
 
+readJavaOptsFromFile() {
+    local KEY=$1
+    getProperty $BASE_DIR/java-opts.properties $KEY
+}
 
 d() {
     #Append java opts
@@ -66,4 +70,26 @@ d() {
     local VALUE=$2
 
     echo " -D$KEY=$VALUE"
+}
+
+debugOn() {
+    local DEBUG_PORT=$1
+    echo " -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:$DEBUG_PORT"
+}
+
+getDebugAgent() {
+    if [[ "$DEBUG" == "false" ]]; then
+        echo ""
+        return;
+    fi
+
+    local DEBUG_AGENT=""
+    local DEBUG_PORT=$(readJavaOptsFromFile "DEBUG_PORT")
+
+    if [ -z "$DEBUG_PORT" ]; then
+        DEBUG_PORT="5005"
+    fi
+    DEBUG_AGENT=$(debugOn $DEBUG_PORT)
+
+    echo "$DEBUG_AGENT"
 }

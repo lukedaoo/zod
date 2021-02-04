@@ -49,9 +49,7 @@ public class JavaHttpResponse extends RawHttpResponseBase implements RawHttpResp
     @Override
     public byte[] getContentAsBytes() {
         try (InputStream initialStream = getContent()) {
-            byte[] targetArray = new byte[initialStream.available()];
-            initialStream.read(targetArray);
-            return targetArray;
+            return initialStream.readAllBytes();
         } catch (IOException e) {
             throw new ZodHttpException(e);
         }

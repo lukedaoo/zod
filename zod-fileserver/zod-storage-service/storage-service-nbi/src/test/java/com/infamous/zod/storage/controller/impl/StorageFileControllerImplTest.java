@@ -13,7 +13,7 @@ import static org.mockito.Mockito.when;
 import com.infamous.framework.file.FileStorageException;
 import com.infamous.zod.storage.model.StorageFileVO;
 import com.infamous.zod.storage.repository.StorageFileRepository;
-import com.infamous.zod.storage.repository.UploadResult;
+import com.infamous.zod.base.rest.entity.UploadResult;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;

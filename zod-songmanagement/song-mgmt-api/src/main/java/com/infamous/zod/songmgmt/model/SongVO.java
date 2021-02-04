@@ -1,20 +1,26 @@
 package com.infamous.zod.songmgmt.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import java.util.Objects;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Builder
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
+@JsonInclude(Include.NON_NULL)
 public class SongVO {
 
-    private long m_id;
+    private Long m_id;
     private String m_title;
     @Builder.Default
     private boolean m_enabled = true;
     private String m_fileId;
+    private String m_fileName;
 
     @Override
     public boolean equals(Object o) {

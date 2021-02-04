@@ -14,6 +14,7 @@ import java.util.concurrent.CompletableFuture;
 
 public class JavaHttpCall implements Call {
 
+    private static final HttpClient CLIENT = HttpClient.newBuilder().build();
     private final HttpRequest m_rawRequest;
     private final Type m_returnType;
     private final java.net.http.HttpRequest m_request;
@@ -38,10 +39,8 @@ public class JavaHttpCall implements Call {
 
     @Override
     public CompletableFuture<RawHttpResponse> executeAsync() {
-        HttpClient client = HttpClient.newBuilder()
-            .build();
         try {
-            return client.sendAsync(m_request, getBodyHandler())
+            return CLIENT.sendAsync(m_request, getBodyHandler())
                 .thenApply(o -> new JavaHttpResponse((HttpResponse) o));
         } catch (Exception e) {
             throw new ZodHttpException(e);

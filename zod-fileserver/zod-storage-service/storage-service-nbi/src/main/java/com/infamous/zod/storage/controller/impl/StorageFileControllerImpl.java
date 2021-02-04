@@ -6,7 +6,7 @@ import com.infamous.framework.logging.ZodLoggerUtil;
 import com.infamous.zod.storage.controller.StorageFileController;
 import com.infamous.zod.storage.model.StorageFileVO;
 import com.infamous.zod.storage.repository.StorageFileRepository;
-import com.infamous.zod.storage.repository.UploadResult;
+import com.infamous.zod.base.rest.entity.UploadResult;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -81,7 +81,7 @@ public class StorageFileControllerImpl implements StorageFileController {
     @Override
     public Response uploadFile(List<FormDataBodyPart> bodyParts) {
         Set<StorageFileVO> set = parseBodyPartsToSetOfDto(bodyParts);
-        UploadResult res = m_repository.upload(set);
+        UploadResult<StorageFileVO> res = m_repository.upload(set);
         return Response.ok(res).status(Status.CREATED).build();
     }
 

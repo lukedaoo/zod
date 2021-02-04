@@ -27,6 +27,12 @@
         </dependency>
         <dependency>
             <groupId>com.infamous.framework</groupId>
+            <artifactId>http-fwk-apachehttpclient-callengine</artifactId>
+            <version>${revision}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.infamous.framework</groupId>
             <artifactId>http-fwk-jackson-converter</artifactId>
             <version>${revision}</version>
             <scope>test</scope>

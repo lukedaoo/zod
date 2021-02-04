@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.infamous.framework.converter.Converter;
+import com.infamous.framework.converter.DefaultJsonConverter;
 import com.infamous.framework.converter.ObjectMapper;
 import com.infamous.framework.http.ZodHttpException;
 import com.infamous.framework.http.core.BodyPart;
@@ -19,7 +20,7 @@ public class JacksonConverterFactory extends ConverterFactory {
     private final ObjectMapper m_objectMapper;
 
     public static JacksonConverterFactory create() {
-        return create(new com.fasterxml.jackson.databind.ObjectMapper());
+        return create(DefaultJsonConverter.getInstance().getJacksonObjectMapper());
     }
 
     public static JacksonConverterFactory create(com.fasterxml.jackson.databind.ObjectMapper mapper) {
@@ -33,7 +34,7 @@ public class JacksonConverterFactory extends ConverterFactory {
         this.m_jacksonObjectMapper = objectMapper;
         m_jacksonObjectMapper.configure(JsonGenerator.Feature.IGNORE_UNKNOWN, true);
         m_jacksonObjectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        m_objectMapper = new JacksonObjectMapper(m_jacksonObjectMapper);
+        m_objectMapper = new JacksonObjectMapper(objectMapper);
     }
 
     @Override

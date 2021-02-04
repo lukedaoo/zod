@@ -4,6 +4,7 @@ package com.infamous.zod.songmgmt.model;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -18,7 +19,8 @@ import lombok.NoArgsConstructor;
 public class Song {
 
     @Id
-    private SongKey id;
+    @GeneratedValue
+    private Long id;
     @Column(nullable = false)
     private String title;
     private String fileId;
@@ -26,11 +28,11 @@ public class Song {
     @Column(columnDefinition = "bit(1) default 1")
     private boolean enabled = true;
 
-    public SongKey getId() {
+    public Long getId() {
         return id;
     }
 
-    public Song setId(SongKey id) {
+    public Song setId(Long id) {
         this.id = id;
         return this;
     }

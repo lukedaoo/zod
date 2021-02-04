@@ -24,6 +24,12 @@
             <version>${revision}</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>com.infamous.zod</groupId>
+            <artifactId>storage-service-api</artifactId>
+            <version>${revision}</version>
+            <scope>compile</scope>
+        </dependency>
         <!-- External -->
         <dependency>
             <groupId>org.projectlombok</groupId>

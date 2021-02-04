@@ -22,6 +22,11 @@
             <version>${revision}</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>com.infamous.zod</groupId>
+            <artifactId>spring-rest-common</artifactId>
+            <version>${revision}</version>
+        </dependency>
         <!-- External -->
         <dependency>
             <groupId>org.projectlombok</groupId>

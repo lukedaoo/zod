@@ -3,7 +3,10 @@
 source $BASE_DIR/bin/utils.sh
 
 setupJavaOptions() {
-    local EXTRA_JAVA_OPTS="-Dcom.atomikos.icatch.registered=true
+
+    local DEBUG_AGENT=$(getDebugAgent)
+
+    local EXTRA_JAVA_OPTS="$DEBUG_AGENT -Dcom.atomikos.icatch.registered=true
         -Dcom.atomikos.icatch.log_base_dir=./transaction-logs/$APP_NAME
         -DLog4jContextSelector=org.apache.logging.log4j.core.async.AsyncLoggerContextSelector"
     EXTRA_JAVA_OPTS="$EXTRA_JAVA_OPTS $(d "app.full.name" $APP_FULL_NAME)"
@@ -32,11 +35,6 @@ setupJavaOptions() {
 
     local FINAL_JAVA_OPTS="$JAVA_OPTS $EXTRA_JAVA_OPTS"
     export JAVA_OPTS=$FINAL_JAVA_OPTS
-}
-
-readJavaOptsFromFile() {
-    local KEY=$1
-    getProperty $BASE_DIR/java-opts.properties $KEY
 }
 
 runJavaApp() {

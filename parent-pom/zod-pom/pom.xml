@@ -27,22 +27,24 @@
         <!-- Spring -->
         <spring.version>5.3.3</spring.version>
         <spring.boot.version>2.4.2</spring.boot.version>
-        <spring.log4j2.version>${spring.boot.version}</spring.log4j2.version>
-        <disruptor.version>3.4.2</disruptor.version>
-        <conversantmedia.discruptor.version>1.2.15</conversantmedia.discruptor.version>
         <!-- Utilities -->
         <lombok.version>1.18.16</lombok.version>
 
         <!-- Logging -->
         <slf4j-api.version>1.7.30</slf4j-api.version>
         <sl4j-log4j12.verion>1.7.30</sl4j-log4j12.verion>
-
+        <spring.log4j2.version>${spring.boot.version}</spring.log4j2.version>
+        <disruptor.version>3.4.2</disruptor.version>
+        <conversantmedia.discruptor.version>1.2.15</conversantmedia.discruptor.version>
+        <fluency.version>2.5.0</fluency.version>
         <!-- 3rd Party -->
         <mina.ftpserver.version>1.1.1</mina.ftpserver.version>  <!-- Mina FTP Server -->
         <jersey.media.multipart.version>2.32</jersey.media.multipart.version>
         <glassfish.hk2.version>3.0.0</glassfish.hk2.version>
         <jackson.version>2.11.3</jackson.version>
-
+        <apache.http.version>4.5.13</apache.http.version>
+        <apache.httpnio.version>4.4.14</apache.httpnio.version>
+        <apache.httpasync.version>4.1.4</apache.httpasync.version>
         <!-- Testing -->
         <junit.version>5.7.0</junit.version>
         <mockito.version>3.6.28</mockito.version>
@@ -84,21 +86,6 @@
                         <artifactId>spring-boot-starter-logging</artifactId>
                     </exclusion>
                 </exclusions>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-log4j2</artifactId>
-                <version>${spring.log4j2.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.lmax</groupId>
-                <artifactId>disruptor</artifactId>
-                <version>${disruptor.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.conversantmedia</groupId>
-                <artifactId>disruptor</artifactId>
-                <version>${conversantmedia.discruptor.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
@@ -164,7 +151,53 @@
                 <artifactId>slf4j-log4j12</artifactId>
                 <version>${sl4j-log4j12.verion}</version>
             </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-log4j2</artifactId>
+                <version>${spring.log4j2.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.lmax</groupId>
+                <artifactId>disruptor</artifactId>
+                <version>${disruptor.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.conversantmedia</groupId>
+                <artifactId>disruptor</artifactId>
+                <version>${conversantmedia.discruptor.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.komamitsu</groupId>
+                <artifactId>fluency-core</artifactId>
+                <version>${fluency.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.komamitsu</groupId>
+                <artifactId>fluency-fluentd</artifactId>
+                <version>${fluency.version}</version>
+            </dependency>
             <!-- 3rd Party -->
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>${apache.http.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpmime</artifactId>
+                <version>${apache.http.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpcore-nio</artifactId>
+                <version>${apache.httpnio.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpasyncclient</artifactId>
+                <version>${apache.httpasync.version}</version>
+            </dependency>
+
             <!-- Mina FTP Server -->
             <dependency>
                 <groupId>org.apache.ftpserver</groupId>

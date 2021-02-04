@@ -6,17 +6,25 @@
               pattern="%d{ISO8601} | %-5.5p | %16.16t | %48.48c | %m%n"
             />
         </Console>
-        <ZodSocket name="Syslog" host="${sys:fluent.host:-localhost}" port="${sys:fluent.port:-5514}" protocol="TCP">
-        </ZodSocket>
+        <ZodFluency name="fluency">
+            <FluencyConfig
+              ackResponseMode="false"
+              flushIntervalMillis="200"
+              senderMaxRetryCount="3"/>
+        </ZodFluency>
     </Appenders>
     <Loggers>
         <Root level="info">
-            <AppenderRef ref="Syslog"/>
+            <AppenderRef ref="fluency"/>
             <AppenderRef ref="Stout"/>
         </Root>
         <Logger name="com.atomikos" level="warn" additivity="true">
-            <AppenderRef ref="Syslog"/>
+            <AppenderRef ref="fluency"/>
         </Logger>
+        <Logger name="org.komamitsu" level="error">
+            <AppenderRef ref="Stout"/>
+        </Logger>
+        <Logger name="org.glassfish.jersey.internal" level="error"/>
     </Loggers>
 </Configuration>
 

@@ -4,13 +4,13 @@ import com.infamous.framework.file.FileService;
 import com.infamous.framework.file.FileStorageException;
 import com.infamous.framework.logging.ZodLogger;
 import com.infamous.framework.logging.ZodLoggerUtil;
+import com.infamous.zod.base.rest.entity.UploadResult;
 import com.infamous.zod.storage.converter.StorageFileConverter;
 import com.infamous.zod.storage.model.StorageFile;
 import com.infamous.zod.storage.model.StorageFileKey;
 import com.infamous.zod.storage.model.StorageFileVO;
 import com.infamous.zod.storage.repository.StorageFileDAO;
 import com.infamous.zod.storage.repository.StorageFileRepository;
-import com.infamous.zod.storage.repository.UploadResult;
 import java.io.File;
 import java.util.Collection;
 import java.util.Collections;
@@ -73,8 +73,8 @@ public class StorageFileRepositoryImpl implements StorageFileRepository {
 
 
     @Override
-    public UploadResult upload(Collection<StorageFileVO> files) {
-        UploadResult res = new UploadResult();
+    public UploadResult<StorageFileVO> upload(Collection<StorageFileVO> files) {
+        UploadResult<StorageFileVO> res = new UploadResult<>();
         List<StorageFileVO> data = new LinkedList<>();
 
         files.forEach(f -> {

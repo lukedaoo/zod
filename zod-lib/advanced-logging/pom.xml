@@ -17,7 +17,7 @@
         <module>advanced-logging-api</module>
         <module>advanced-logging-app</module>
         <module>spring-log4j2-starter-patched</module>
-        <module>log4j2-socket-appender</module>
+        <module>fluent-appender</module>
     </modules>
     <build>
         <plugins>

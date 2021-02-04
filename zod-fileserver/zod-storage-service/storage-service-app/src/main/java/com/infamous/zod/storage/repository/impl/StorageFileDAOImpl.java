@@ -1,6 +1,5 @@
 package com.infamous.zod.storage.repository.impl;
 
-import com.infamous.framework.file.FileStorageException;
 import com.infamous.framework.persistence.DataStoreManager;
 import com.infamous.framework.persistence.dao.AbstractDAO;
 import com.infamous.framework.persistence.dao.EntityDAO;
@@ -8,10 +7,6 @@ import com.infamous.zod.storage.model.StorageFile;
 import com.infamous.zod.storage.model.StorageFileKey;
 import com.infamous.zod.storage.repository.StorageFileDAO;
 import com.infamous.zod.storage.repository.StorageFileDataStore;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.persistence.TypedQuery;

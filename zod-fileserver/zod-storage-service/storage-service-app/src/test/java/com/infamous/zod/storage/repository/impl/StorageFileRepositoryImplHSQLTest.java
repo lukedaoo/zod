@@ -23,7 +23,7 @@ import com.infamous.zod.storage.model.StorageFile;
 import com.infamous.zod.storage.model.StorageFileVO;
 import com.infamous.zod.storage.repository.StorageFileDAO;
 import com.infamous.zod.storage.repository.StorageFileDataStore;
-import com.infamous.zod.storage.repository.UploadResult;
+import com.infamous.zod.base.rest.entity.UploadResult;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

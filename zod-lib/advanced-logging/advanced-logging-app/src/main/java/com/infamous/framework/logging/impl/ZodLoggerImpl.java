@@ -276,7 +276,7 @@ public class ZodLoggerImpl implements ZodLogger {
     private void log(LogLevel logLevel, String rawMessage, Object[] objects) {
         String message = prependDetail(rawMessage);
         try {
-            setMDC();
+            // setMDC();
             invokeLog(logLevel, message, objects);
         } finally {
             resetMDC();

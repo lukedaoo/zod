@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.0"
+  xmlns="http://java.sun.com/xml/ns/persistence"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+    <persistence-unit name="song-mgmt-ds" transaction-type="JTA">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <class>com.infamous.zod.songmgmt.model.Song</class>
+        <properties>
+            <property name="hibernate.dialect" value="${hibernate.dialect}"/>
+            <property name="hibernate.hbm2ddl.auto" value="${hibernate.hbm2ddl}"/>
+            <property name="hibernate.show_sql" value="false"/>
+            <property name="hibernate.generate_statistics" value="false"/>
+            <property name="hibernate.format_sql" value="false"/>
+
+            <property name="hibernate.hikari.dataSource.user" value="${db.username}"/>
+            <property name="hibernate.hikari.dataSource.password" value="${db.password}"/>
+            <property name="hibernate.hikari.dataSource.url" value="${db.url}"/>
+            <property name="hibernate.hikari.dataSourceClassName" value="${db.dataSourceClassName}"/>
+            <property name="hibernate.hikari.dataSource.cachePrepStmts" value="true"/>
+            <property name="hibernate.hikari.dataSource.prepStmtCacheSize" value="250"/>
+            <property name="hibernate.hikari.dataSource.prepStmtCacheSqlLimit" value="2048"/>
+            <property name="hibernate.hikari.dataSource.useServerPrepStmts" value="true"/>
+
+            <!--- Only available for MySQL -->
+            <!--  <property name="hibernate.hikari.dataSource.cacheResultSetMetadata" value="true"/>-->
+            <!--  <property name="hibernate.hikari.dataSource.cacheServerConfiguration" value="true"/>-->
+            <!--  <property name="hibernate.hikari.dataSource.maintainTimeStats" value="false"/>-->
+            <!-- Ref: https://mariadb.com/kb/en/about-mariadb-connector-j/ -->
+            <!-- Ref: https://dev.mysql.com/doc/connector-j/5.1/en/connector-j-reference-configuration-properties.html -->
+
+            <property name="hibernate.connection.provider_class" value="org.hibernate.hikaricp.internal.HikariCPConnectionProvider"/>
+            <property name="hibernate.jdbc.batch_size" value="200"/>
+            <property name="hibernate.hikari.maximumPoolSize" value="75"/>
+            <property name="hibernate.hikari.minimumIdle" value="5"/>
+            <property name="hibernate.hikari.idleTimeout" value="3000"/>
+            <property name="hibernate.order_inserts" value="true"/>
+            <property name="hibernate.order_updates" value="true"/>
+            <property name="hibernate.jdbc.batch_versioned_data" value="true"/>
+            <property name="hibernate.hikari.poolName" value="songmgmt-ds-connection-pool"/>
+            <property name="hibernate.archive.autodetection" value="class, hbm"/>
+
+        </properties>
+    </persistence-unit>
+</persistence>

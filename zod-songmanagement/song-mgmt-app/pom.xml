@@ -21,6 +21,21 @@
             <artifactId>song-mgmt-api</artifactId>
             <version>${revision}</version>
         </dependency>
+        <dependency>
+            <groupId>com.infamous.zod</groupId>
+            <artifactId>storage-service-restclient</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.infamous.zod</groupId>
+            <artifactId>spring-jpa-autoconfig</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.infamous.zod</groupId>
+            <artifactId>spring-common-services</artifactId>
+            <version>${revision}</version>
+        </dependency>
     </dependencies>
 
 </project>

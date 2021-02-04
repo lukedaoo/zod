@@ -6,8 +6,6 @@ LABEL AUTHOR="Luke D <https://github.com/infamousSs>"
 LABEL IMAGE_NAME="zod-base-image"
 LABEL DATE="JAN 27 2020"
 
-# CMD ["echo $(syslog-ng-ctl reload)"]
+ADD /container-files/fluent-forward.conf /fluent-bit/etc/
 
-ADD /container-files/fluent-tcp.conf /fluent-bit/etc/
-
-ENTRYPOINT ["/fluent-bit/bin/fluent-bit", "-c", "/fluent-bit/etc/fluent-tcp.conf"]
+ENTRYPOINT ["/fluent-bit/bin/fluent-bit", "-c", "/fluent-bit/etc/fluent-forward.conf"]

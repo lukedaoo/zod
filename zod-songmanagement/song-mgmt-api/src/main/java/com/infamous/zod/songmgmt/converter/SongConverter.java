@@ -3,7 +3,6 @@ package com.infamous.zod.songmgmt.converter;
 import com.infamous.framework.converter.ConvertProcessor;
 import com.infamous.framework.converter.ModelConverter;
 import com.infamous.zod.songmgmt.model.Song;
-import com.infamous.zod.songmgmt.model.SongKey;
 import com.infamous.zod.songmgmt.model.SongVO;
 
 public class SongConverter extends ModelConverter<Song, SongVO> {
@@ -14,7 +13,7 @@ public class SongConverter extends ModelConverter<Song, SongVO> {
 
     private static ConvertProcessor<Song, SongVO> convertToSongVo() {
         return new ConvertProcessor<>(song -> SongVO.builder()
-            .id(song.getId().getId())
+            .id(song.getId())
             .title(song.getTitle())
             .fileId(song.getFileId())
             .enabled(song.isEnabled())
@@ -23,7 +22,7 @@ public class SongConverter extends ModelConverter<Song, SongVO> {
 
     private static ConvertProcessor<SongVO, Song> convertToSong() {
         return new ConvertProcessor<>(vo -> Song.builder()
-            .id(new SongKey(vo.getId()))
+            .id(vo.getId())
             .title(vo.getTitle())
             .fileId(vo.getFileId())
             .enabled(vo.isEnabled())
