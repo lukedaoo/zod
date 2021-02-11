@@ -2,7 +2,7 @@
 ----- File Server ----
 -DLog4jContextSelector=org.apache.logging.log4j.core.async.AsyncLoggerContextSelector
 -Dapp.full.name="Zod File Server"
--Dapp.name=zod-fileserver
+-Dapp.name=zod-file-server
 -Dcom.atomikos.icatch.log_base_dir=./transaction-logs/fileserver
 -Dcom.atomikos.icatch.registered=true
 -Ddb.url=jdbc:mysql://localhost:3306/wanderer?createDatabaseIfNotExist=true
@@ -23,3 +23,14 @@
 -Dftp.admin.maxConcurrentLogins=20
 -Dwarehouse.uri=${user.home}/Desktop/wanderer-ftp-root
 -Dftp.root=${warehouse.uri}
+
+----- Song Mgmt -----
+-Dapp.full.name="Zod Song Management"
+-Dapp.name=zod-song-mgmt
+-Dcom.atomikos.icatch.log_base_dir=./transaction-logs/songmgmt
+-Dcom.atomikos.icatch.registered=true
+-Ddb.url=jdbc:mysql://localhost:3306/wanderer?createDatabaseIfNotExist=true
+-Ddb.username=<db_user> -Ddb.password=<db_password>
+-Ddb.dataSourceClassName=com.infamous.framework.jdbc.MariaDbDataSourceWrapper
+-Dhibernate.dialect=org.hibernate.dialect.MariaDBDialect
+-Dhibernate.hbm2ddl=update

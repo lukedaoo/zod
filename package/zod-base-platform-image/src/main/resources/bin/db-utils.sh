@@ -28,8 +28,12 @@ createDatabase() {
 
     for i in $(seq 1 $MAX_CREATION_DB_RETRY); do
         STATUS=$(java -jar $DB_UTILS_JAR "createDatabase" $DB_DRIVER $DB_URL $DB_USER $DB_PASS "false")
+        logInfo "createDatabase: $STATUS"
         if [ "$STATUS" == "SUCCESS" ]; then
             logInfo "Database is created..."
+            break
+        elif [ "$STATUS" == "DATABASE EXISTS" ]; then
+            logInfo "Database is existed..."
             break
         else
             logInfo "Waiting to create Database ${DB_NAME} ..."
@@ -40,6 +44,7 @@ createDatabase() {
                 exit 1
             fi
             sleep 1
+            break
         fi
     done
 }
@@ -72,6 +77,7 @@ waitingToDB() {
                 exit 1
             fi
             sleep 1
+            break
         fi
     done
 }

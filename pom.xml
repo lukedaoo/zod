@@ -14,6 +14,7 @@
         <module>zod-base</module>
         <module>zod-fileserver</module>
         <module>zod-songmanagement</module>
+        <module>zod-discovery-service</module>
         <module>package</module>
         <module>deployment</module>
     </modules>

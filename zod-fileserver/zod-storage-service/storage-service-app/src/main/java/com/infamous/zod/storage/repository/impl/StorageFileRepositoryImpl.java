@@ -2,6 +2,7 @@ package com.infamous.zod.storage.repository.impl;
 
 import com.infamous.framework.file.FileService;
 import com.infamous.framework.file.FileStorageException;
+import com.infamous.framework.file.FileUtils;
 import com.infamous.framework.logging.ZodLogger;
 import com.infamous.framework.logging.ZodLoggerUtil;
 import com.infamous.zod.base.rest.entity.UploadResult;
@@ -45,17 +46,37 @@ public class StorageFileRepositoryImpl implements StorageFileRepository {
     @Override
     public boolean upload(StorageFileVO file) {
 
-        long fileSize = saveToDisk(file).orElseThrow(() -> new FileStorageException("File size isn't present"));
-        file.setFileSize(fileSize);
-
-        try {
-            String dbId = saveToDB(file).orElseThrow(() -> new FileStorageException("DB Id isn't present"));
-            file.setId(dbId);
-        } catch (Exception e) {
-            LOGGER.warn("Exception occurred while saving to DB. Rollback transaction and delete file..", e);
-            m_fileService.delete(file.getFileName());
-            return false;
+        String fileName = file.getFileName();
+        if (!m_fileService.isExist(fileName)) {
+            long fileSize = saveToDisk(file).orElseThrow(() -> new FileStorageException("File size isn't present"));
+            file.setFileSize(fileSize);
         }
+        String checksum = FileUtils.md5(m_fileService.getFilePath(fileName));
+
+        StorageFileVO exists = findByChecksum(checksum);
+        if (exists == null) {
+
+            Optional.ofNullable(FileUtils.getExtension(fileName))
+                .ifPresent(file::setExtension);
+            try {
+                file.setChecksum(checksum);
+
+                String dbId = saveToDB(file).orElseThrow(() -> new FileStorageException("DB Id isn't present"));
+                file.setId(dbId);
+            } catch (Exception e) {
+                LOGGER.warn("Exception occurred while saving to DB. Rollback transaction and delete file..", e);
+                m_fileService.delete(file.getFileName());
+                return false;
+            }
+            return true;
+        }
+        file.setId(exists.getId());
+        file.setFileName(exists.getFileName());
+        file.setChecksum(exists.getChecksum());
+        file.setExtension(exists.getExtension());
+        file.setEnabled(exists.isEnabled());
+
+        LOGGER.info("File [" + fileName + "] exists with id [" + file.getId() + "]");
         return true;
     }
 
@@ -126,5 +147,18 @@ public class StorageFileRepositoryImpl implements StorageFileRepository {
         return Optional.ofNullable(m_dao.findAll())
             .map(entities -> m_converter.toDTO(entities.parallelStream()))
             .orElse(Collections.emptyList());
+    }
+
+    @Override
+    public StorageFileVO findByChecksum(String checksum) {
+        try {
+            return m_converter.toDTO(m_dao.findByChecksum(checksum));
+        } catch (Exception e) {
+            if (e instanceof javax.persistence.NoResultException) {
+                return null;
+            }
+            LOGGER.error("Error while finding file by checksum [" + checksum + "]", e);
+        }
+        return null;
     }
 }

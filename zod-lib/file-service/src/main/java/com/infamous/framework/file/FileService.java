@@ -40,4 +40,8 @@ public interface FileService {
     List<String> listAll(Path location);
 
     List<String> listAll();
+
+    boolean isExist(String fileName);
+
+    boolean isExist(Path path, String fileName);
 }

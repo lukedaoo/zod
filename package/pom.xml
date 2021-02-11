@@ -22,5 +22,7 @@
         <module>zod-fluent-bit-image</module>
         <module>zod-base-platform-image</module>
         <module>zod-fileserver-image</module>
+        <module>zod-songmgmt-image</module>
+        <module>zod-eureka-server-image</module>
     </modules>
 </project>

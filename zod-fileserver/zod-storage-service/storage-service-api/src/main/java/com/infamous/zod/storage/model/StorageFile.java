@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.validator.constraints.Length;
 
 @Entity(name = "StorageFile")
 @Table(name = "StorageFile")
@@ -21,15 +22,15 @@ import org.hibernate.annotations.GenericGenerator;
 public class StorageFile {
 
     @Id
-    @Column(name = "id")
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
     private String fileName;
     private long fileSize;
     private String extension;
-    @Column(columnDefinition="bit(1) default 1")
+    @Column(columnDefinition = "bit(1) default 1")
     private boolean enabled = true;
+    private String checksum;
 
     public String getId() {
         return id;
@@ -73,6 +74,15 @@ public class StorageFile {
 
     public StorageFile setEnabled(boolean enabled) {
         this.enabled = enabled;
+        return this;
+    }
+
+    public String getChecksum() {
+        return checksum;
+    }
+
+    public StorageFile setChecksum(String checksum) {
+        this.checksum = checksum;
         return this;
     }
 

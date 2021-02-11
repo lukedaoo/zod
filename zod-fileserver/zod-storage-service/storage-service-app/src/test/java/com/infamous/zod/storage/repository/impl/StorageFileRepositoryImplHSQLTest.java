@@ -73,7 +73,6 @@ class StorageFileRepositoryImplHSQLTest {
         Files.deleteIfExists(Path.of(ROOT + "/my_war1.txt"));
         Files.deleteIfExists(Path.of(ROOT + "/my_war2.txt"));
         Files.deleteIfExists(Path.of(ROOT + "/my_war3.txt"));
-
     }
 
     @Test
@@ -83,7 +82,7 @@ class StorageFileRepositoryImplHSQLTest {
             .build();
 
         FileStorageException exp = assertThrows(FileStorageException.class, () -> m_repo.upload(vo));
-        assertEquals("InputStream is null", exp.getMessage());
+        assertEquals("Target file name is null or empty", exp.getMessage());
     }
 
     @Test
@@ -169,6 +168,44 @@ class StorageFileRepositoryImplHSQLTest {
     }
 
     @Test
+    public void testMultipleUpload_MultipleTimes_WithSameFiles() throws Exception {
+        List<StorageFileVO> list =
+            Arrays.asList(mockDTO("my_war1.txt"), mockDTO("my_war2.txt"), mockDTO("my_war3.txt"));
+
+        String[] checksums = new String[2];
+        executeInTx(() -> {
+            UploadResult res = m_repo.upload(list);
+
+            assertTrue(Files.exists(Path.of(ROOT + "/my_war1.txt")));
+            assertTrue(Files.exists(Path.of(ROOT + "/my_war2.txt")));
+            assertTrue(Files.exists(Path.of(ROOT + "/my_war3.txt")));
+
+            assertEquals("success", res.getStatus());
+            assertEquals(3, res.getData().size());
+            String cs1 = ((StorageFileVO)res.getData().get(0)).getChecksum();
+            assertNotNull(cs1);
+
+            checksums[0] = cs1;
+        });
+
+        executeInTx(() -> {
+            UploadResult res = m_repo.upload(list);
+
+            assertTrue(Files.exists(Path.of(ROOT + "/my_war1.txt")));
+            assertTrue(Files.exists(Path.of(ROOT + "/my_war2.txt")));
+            assertTrue(Files.exists(Path.of(ROOT + "/my_war3.txt")));
+
+            assertEquals("success", res.getStatus());
+            assertEquals(3, res.getData().size());
+            String cs2 = ((StorageFileVO)res.getData().get(0)).getChecksum();
+            assertNotNull(cs2);
+
+            checksums[1] = cs2;
+        });
+        assertEquals(checksums[0], checksums[1]);
+    }
+
+    @Test
     public void testMultipleUpload_HaveSomeEx() throws Exception {
         List<StorageFileVO> list =
             Arrays.asList(mockDTO("my_war1.txt"), mockDTO("my_war2.txt"), mockDTO("my_war3.txt"));
@@ -192,7 +229,7 @@ class StorageFileRepositoryImplHSQLTest {
 
     private StorageFileVO mockDTO(String fileName) throws IOException {
         return StorageFileVO.builder()
-            .content(new FileInputStream(ROOT + "/aot/my_war.txt"))
+            .content(new FileInputStream(ROOT + "/aot/" + fileName))
             .fileName(fileName)
             .build();
     }
@@ -296,6 +333,8 @@ class StorageFileRepositoryImplHSQLTest {
     @Test
     public void testFindAll() throws Exception {
         List<StorageFileVO> vos = Arrays.asList(mockDTO("my_war1.txt"), mockDTO("my_war2.txt"), mockDTO("my_war3.txt"));
+
+        executeInTx(() -> m_fileDAO.deleteAll());
 
         executeInTx(() -> {
             m_repo.upload(vos);

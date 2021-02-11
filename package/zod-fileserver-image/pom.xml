@@ -42,7 +42,7 @@
                                     <type>jar</type>
                                     <overWrite>false</overWrite>
                                     <outputDirectory>${project.build.directory}/</outputDirectory>
-                                    <destFileName>zod-fileserver-${revision}.jar</destFileName>
+                                    <destFileName>zod-file-server-${revision}.jar</destFileName>
                                 </artifactItem>
                             </artifactItems>
                         </configuration>

@@ -19,9 +19,20 @@ public class StorageFileVO {
     private String m_fileName;
     private long m_fileSize;
     private String m_extension;
+    private String m_checksum;
     @Builder.Default
     private boolean m_enabled = true;
     private InputStream m_content;
+
+    public StorageFileVO(StorageFileVO storageFile) {
+        m_id = storageFile.m_id;
+        m_fileName = storageFile.m_fileName;
+        m_fileSize = storageFile.m_fileSize;
+        m_extension = storageFile.m_extension;
+        m_checksum = storageFile.m_checksum;
+        m_enabled = storageFile.m_enabled;
+        m_content = storageFile.m_content;
+    }
 
     @Override
     public boolean equals(Object o) {

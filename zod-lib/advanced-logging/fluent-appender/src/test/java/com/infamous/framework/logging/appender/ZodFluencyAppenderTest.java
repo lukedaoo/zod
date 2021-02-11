@@ -2,6 +2,7 @@ package com.infamous.framework.logging.appender;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -19,6 +20,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.komamitsu.fluency.Fluency;
 import org.komamitsu.fluency.fluentd.FluencyBuilderForFluentd;
+import org.mockito.ArgumentMatcher;
 
 class ZodFluencyAppenderTest {
 
@@ -49,14 +51,20 @@ class ZodFluencyAppenderTest {
         appender.append(mockLogEvent());
 
         Map<String, Object> map = new HashMap<>();
-        map.put("@timestamp", "1969-12-31T16:00:01.000-0800");
         map.put("level", "INFO");
         map.put("thread", null);
         map.put("message", "\n");
         map.put("class", "test.logging");
         map.put("application", "testing");
 
-        verify(m_fluency).emit(eq("zod"), eq(1000L), eq(map));
+        verify(m_fluency).emit(eq("zod"), eq(1000L),
+            argThat((ArgumentMatcher<Map<String, Object>>) map1 ->
+                map1.get("@timestamp") != null
+                    && map1.get("level").equals("INFO")
+                    && map1.get("thread") == null
+                    && map1.get("message").equals("\n")
+                    && map1.get("class").equals("test.logging")
+                    && map1.get("application").equals("testing")));
     }
 
     private LogEvent mockLogEvent() {

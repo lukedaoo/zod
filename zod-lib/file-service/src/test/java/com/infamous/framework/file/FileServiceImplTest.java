@@ -190,4 +190,9 @@ class FileServiceImplTest {
         assertTrue(file.exists());
     }
 
+    @Test
+    public void isExist() {
+        assertTrue(m_fileService.isExist("existed/Kamehameha.txt"));
+        assertFalse(m_fileService.isExist(m_root, "abc.xyz"));
+    }
 }

@@ -44,11 +44,36 @@ public class StorageFileDAOImpl extends AbstractDAO<StorageFile, StorageFileKey>
             .collect(Collectors.toList());
     }
 
+    @Override
+    public StorageFile findByChecksum(String checksum) {
+        TypedQuery<Object[]> q = (TypedQuery<Object[]>) createNativeQuery(
+            "SELECT DISTINCT id, fileName, enabled, checksum FROM StorageFile WHERE checksum = (:checksum)");
+        q.setParameter("checksum", checksum);
+
+        Object[] objects = q.getSingleResult();
+        return buildStoreFile(objects);
+    }
+
+    @Override
+    public StorageFile findByFileName(String fileName) {
+        TypedQuery<Object[]> q = (TypedQuery<Object[]>) createNativeQuery(
+            "SELECT DISTINCT id, fileName, enabled FROM StorageFile WHERE fileName = (:fileName)");
+        q.setParameter("fileName", fileName);
+
+        Object[] objects = q.getSingleResult();
+        return buildStoreFile(objects);
+    }
+
+
     private StorageFile buildStoreFile(Object[] objArr) {
-        return StorageFile.builder()
+        StorageFile res = StorageFile.builder()
             .id((String) objArr[0])
             .fileName((String) objArr[1])
             .enabled((Boolean) objArr[2])
             .build();
+        if (objArr.length > 3) {
+            res.setChecksum((String) objArr[3]);
+        }
+        return res;
     }
 }

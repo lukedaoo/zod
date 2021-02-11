@@ -63,7 +63,7 @@ public class SongManagementServiceImpl implements SongManagementService {
 
     private static class UploadFilePart extends BodyPart<InputStream> {
 
-        private String m_fileName;
+        private final String m_fileName;
 
         private UploadFilePart(String name, StorageFileVO fileVO) {
             super(name, fileVO.getContent(), null);

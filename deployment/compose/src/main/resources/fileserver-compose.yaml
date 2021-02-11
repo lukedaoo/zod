@@ -2,7 +2,7 @@ version: "3"
 
 services:
 
-  app:
+  file-server:
     image: zod-fileserver-image
     container_name: zod-fileserver
     ports:
@@ -17,6 +17,7 @@ services:
       - FTP_PASS=admin
       - FLUENT_HOST=fluent-bit
       - FLUENT_PORT=514
+      - EUREKA_URL=http://eureka-server:8080/eureka
     #  - DEBUG=true
     stdin_open: true
     #entrypoint: /bin/sh
@@ -26,6 +27,41 @@ services:
     depends_on:
       - mariadb
       - es
+      - eureka-server
+  song-mgmt:
+    image: zod-songmgmt-image
+    container_name: zod-song-mgmt
+    ports:
+      - "5081:8080"
+      - "5010:5005"
+    environment:
+      - DB_USER=root
+      - DB_PASS=mysql
+      - DB_URL=jdbc:mariadb://mariadb:3306/wanderer
+      - FLUENT_HOST=fluent-bit
+      - FLUENT_PORT=514
+      - EUREKA_URL=http://eureka-server:8080/eureka
+    #  - DEBUG=true
+    stdin_open: true
+    #entrypoint: /bin/sh
+    tty: true
+    networks:
+      - backend
+    depends_on:
+      - mariadb
+      - es
+      - eureka-server
+  eureka-server:
+    image: zod-eureka-server-image
+    container_name: zod-eureka-server
+    ports:
+      - "5082:8080"
+      - "5011:5005"
+    stdin_open: true
+    #entrypoint: /bin/sh
+    tty: true
+    networks:
+      - backend
   mariadb:
     image: mariadb
     container_name: mariadb

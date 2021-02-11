@@ -10,7 +10,7 @@ public class HashStringUtils {
         return toHexString(encrypted);
     }
 
-    private static byte[] encrypt(MessageDigest md, byte[] source) {
+    public static byte[] encrypt(MessageDigest md, byte[] source) {
         md.reset();
         md.update(source);
         return md.digest();

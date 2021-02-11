@@ -44,17 +44,17 @@ public class SongManagementControllerImpl implements SongManagementController {
     @Override
     public Response multipleUpload(FormDataBodyPart songInfoParts, List<FormDataBodyPart> fileParts) {
         if (songInfoParts == null) {
-            throw new RuntimeException();
+            throw new NullPointerException("SongParts is null");
         }
         if (fileParts == null) {
-            throw new RuntimeException();
+            throw new NullPointerException("File Parts is null");
         }
         String songInfoAsString = songInfoParts.getValueAs(String.class);
         List<SongVO> songs = DefaultJsonConverter.getInstance()
             .readValue(songInfoAsString,
                 new TypeReference<List<SongVO>>() {});
         if (songs.size() != fileParts.size()) {
-            throw new RuntimeException();
+            throw new RuntimeException("Missing song info or file");
         }
 
         List<StorageFileVO> files = convertToStorageFiles(fileParts);
@@ -95,10 +95,4 @@ public class SongManagementControllerImpl implements SongManagementController {
         songInfo.setMediaType(MediaType.APPLICATION_JSON_TYPE);
         return songInfo.getValueAs(SongVO.class);
     }
-
-    private List<SongVO> convertToSongs(List<FormDataBodyPart> songInfoParts) {
-        return songInfoParts.stream().map(this::convertToSong).collect(Collectors.toList());
-    }
-
-
 }

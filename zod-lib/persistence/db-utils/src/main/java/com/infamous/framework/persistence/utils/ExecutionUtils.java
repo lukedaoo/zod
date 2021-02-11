@@ -65,14 +65,23 @@ public class ExecutionUtils {
 
     public static StatusMessage checkStatus(ArgumentFacade arguments) {
         StatusMessage statusMessage = new StatusMessage("");
+        Connection connection = null;
         try {
-            getConnection(arguments);
+            connection = getConnection(arguments);
             return StatusMessage.SUCCESS;
         } catch (Exception e) {
             if (e.getMessage().toUpperCase().contains("UNKNOWN DATABASE")) {
                 statusMessage.setStatus("UNKNOWN DATABASE");
             } else {
                 statusMessage.setStatus("FAILURE " + e.getMessage());
+            }
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException sqlException) {
+                    sqlException.printStackTrace();
+                }
             }
         }
         return statusMessage;
@@ -82,9 +91,9 @@ public class ExecutionUtils {
     public static StatusMessage createDatabase(ArgumentFacade arguments) {
         String databaseName = getDatabaseName(arguments);
         String dbUrlWithoutDatabaseName = getDatabaseUrlWithoutDatabaseName(arguments);
-
+        Connection connection = null;
         try {
-            Connection connection = getConnection(arguments, dbUrlWithoutDatabaseName);
+            connection = getConnection(arguments, dbUrlWithoutDatabaseName);
             Class.forName(arguments.getDriver());
 
             Statement statement = connection.createStatement();
@@ -108,6 +117,14 @@ public class ExecutionUtils {
         } catch (Exception e) {
 
             return new StatusMessage("FAILURE " + e.getMessage());
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException sqlException) {
+                    sqlException.printStackTrace();
+                }
+            }
         }
     }
 

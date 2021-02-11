@@ -78,9 +78,13 @@ debugOn() {
 }
 
 getDebugAgent() {
-    if [[ "$DEBUG" == "false" ]]; then
+    if [ -z "$DEBUG" ]; then
         echo ""
-        return;
+        return
+    fi
+    if [[ "$DEBUG" == "FALSE" || "$DEBUG" == "false" ]]; then
+        echo ""
+        return
     fi
 
     local DEBUG_AGENT=""

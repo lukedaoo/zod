@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="info" name="Zod-file-server" packages="com.infamous">
+    <Appenders>
+        <Console name="Stout">
+            <PatternLayout
+              pattern="%d{ISO8601} | %-5.5p | %16.16t | %48.48c | %m%n"
+            />
+        </Console>
+        <ZodFluency name="fluency">
+            <FluencyConfig
+              ackResponseMode="false"
+              flushIntervalMillis="200"
+              senderMaxRetryCount="3"/>
+        </ZodFluency>
+    </Appenders>
+    <Loggers>
+        <Root level="info">
+            <AppenderRef ref="fluency"/>
+            <AppenderRef ref="Stout"/>
+        </Root>
+    </Loggers>
+</Configuration>
+

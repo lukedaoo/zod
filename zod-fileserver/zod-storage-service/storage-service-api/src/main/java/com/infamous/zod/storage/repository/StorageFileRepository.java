@@ -21,4 +21,6 @@ public interface StorageFileRepository {
     List<StorageFileVO> find(Collection<String> id);
 
     List<StorageFileVO> findAll();
+
+    StorageFileVO findByChecksum(String checksum);
 }

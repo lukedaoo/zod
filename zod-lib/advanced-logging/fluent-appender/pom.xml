@@ -23,11 +23,22 @@
             <artifactId>system-property-utils</artifactId>
             <version>${revision}</version>
         </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
         <!-- External -->
         <dependency>
             <groupId>org.komamitsu</groupId>
             <artifactId>fluency-core</artifactId>
             <version>${fluency.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.fasterxml.jackson.core</groupId>
+                    <artifactId>jackson-databind</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.komamitsu</groupId>

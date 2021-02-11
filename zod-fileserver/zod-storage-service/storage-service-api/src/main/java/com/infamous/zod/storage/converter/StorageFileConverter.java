@@ -17,6 +17,8 @@ public class StorageFileConverter extends ModelConverter<StorageFile, StorageFil
             .fileName(storageFile.getFileName())
             .fileSize(storageFile.getFileSize())
             .enabled(storageFile.isEnabled())
+            .extension(storageFile.getExtension())
+            .checksum(storageFile.getChecksum())
             .build());
     }
 
@@ -27,6 +29,7 @@ public class StorageFileConverter extends ModelConverter<StorageFile, StorageFil
             .fileSize(vo.getFileSize())
             .enabled(vo.isEnabled())
             .extension(vo.getExtension())
+            .checksum(vo.getChecksum())
             .build());
     }
 }

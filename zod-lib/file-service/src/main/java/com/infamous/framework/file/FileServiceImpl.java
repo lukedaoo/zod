@@ -162,6 +162,16 @@ public class FileServiceImpl implements FileService {
         return listAll(m_root);
     }
 
+    @Override
+    public boolean isExist(String fileName) {
+        return isExist(m_root, fileName);
+    }
+
+    @Override
+    public boolean isExist(Path path, String fileName) {
+        return getFilePhysical(path, fileName).exists();
+    }
+
     private void check(boolean condition, String message) {
         if (condition) {
             throw new FileStorageException(message);

@@ -5,7 +5,7 @@ LABEL IMAGE_NAME="zod-base-platform-image"
 LABEL DATE="DEC 21 2020"
 
 ENV APP_FULL_NAME="Zod File Server"
-ENV APP_NAME=zod-fileserver
+ENV APP_NAME=zod-file-server
 ENV VERSION=1.0.0-SNAPSHOT
 
 COPY ./target/$APP_NAME-$VERSION.jar $BASE_DIR/
