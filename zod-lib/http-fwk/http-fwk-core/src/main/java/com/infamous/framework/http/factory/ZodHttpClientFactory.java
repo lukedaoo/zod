@@ -2,6 +2,7 @@ package com.infamous.framework.http.factory;
 
 import com.infamous.framework.converter.Converter;
 import com.infamous.framework.converter.ObjectMapper;
+import com.infamous.framework.http.BaseUrl;
 import com.infamous.framework.http.HttpConfig;
 import com.infamous.framework.http.RestClient;
 import com.infamous.framework.http.core.BodyPart;
@@ -13,7 +14,7 @@ import java.util.Objects;
 
 public final class ZodHttpClientFactory {
 
-    private final String m_baseUrl;
+    private String m_baseUrl;
     private final AdvancedLogger m_logger;
     private final HttpConfig m_httpConfig;
     private final ConverterFactory m_converterFactory;
@@ -35,11 +36,24 @@ public final class ZodHttpClientFactory {
 
     public <ServiceType> ServiceType create(Class<ServiceType> service) {
         validateServiceInterface(service);
+        if (Objects.nonNull(service.getAnnotation(BaseUrl.class))) {
+            BaseUrl baseUrlAnnotation = service.getAnnotation(BaseUrl.class);
+            String appendUrl = baseUrlAnnotation.value();
+            if (!baseUrlAnnotation.fullUrl()) {
+                m_baseUrl = new StringBuilder().append(m_baseUrl).append(appendUrl).toString();
+            } else {
+                m_baseUrl = appendUrl;
+            }
+        }
         return ServiceProxy.create(this, service);
     }
 
     public String baseUrl() {
         return m_baseUrl;
+    }
+
+    public void uploadBaseUrl(String url) {
+        m_baseUrl = url;
     }
 
     public AdvancedLogger logger() {

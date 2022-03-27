@@ -25,7 +25,7 @@ import org.komamitsu.fluency.Fluency;
 public final class ZodFluencyAppender extends AbstractAppender {
 
     private static final StatusLogger LOG = StatusLogger.getLogger();
-    private final SimpleDateFormat ISO8601_Format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+    private static final SimpleDateFormat ISO8601_Format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
     private static final String CONTAINER_ID;
     private static final String CONTAINER_NAME;
 

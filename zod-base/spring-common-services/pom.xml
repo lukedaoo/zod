@@ -16,6 +16,11 @@
             <artifactId>file-service</artifactId>
             <version>${revision}</version>
         </dependency>
+        <dependency>
+            <groupId>com.infamous.framework</groupId>
+            <artifactId>http-fwk-basic-pom</artifactId>
+            <version>${revision}</version>
+        </dependency>
         <!-- External -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

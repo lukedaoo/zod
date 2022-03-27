@@ -10,6 +10,7 @@ import com.infamous.zod.storage.model.StorageFileVO;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,7 +43,8 @@ public class SongManagementServiceImpl implements SongManagementService {
         List<UploadFilePart> filePartsToUpload = buildUploadFileParts("files", files);
         return m_storageFileRestClient.upload(filePartsToUpload)
             .thenApply(storageFileVOUploadResult -> {
-                Map<String, String> fileNameToId = storageFileVOUploadResult.getData().stream()
+                Map<String, String> fileNameToId = storageFileVOUploadResult
+                    .getData().stream()
                     .collect(Collectors.toMap(StorageFileVO::getFileName, StorageFileVO::getId));
                 songs.forEach(s -> s.setFileId(fileNameToId.get(s.getFileName())));
 

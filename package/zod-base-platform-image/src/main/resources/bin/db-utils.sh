@@ -44,7 +44,6 @@ createDatabase() {
                 exit 1
             fi
             sleep 1
-            break
         fi
     done
 }
@@ -77,7 +76,6 @@ waitingToDB() {
                 exit 1
             fi
             sleep 1
-            break
         fi
     done
 }

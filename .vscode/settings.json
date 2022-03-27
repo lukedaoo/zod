@@ -1,0 +1,28 @@
+{
+        "files.exclude": {
+            ".idea": true,
+            "**/.flattened-pom.xml": true,
+            "**/*.iml": true,
+            "**/target": true,
+            "**/.classpath": true,
+            "**/.project": true,
+            "**/.settings": true,
+            "**/.factorypath": true
+        },
+        "editor.mouseWheelZoom": true,
+        "workbench.tree.indent": 18,
+        "editor.suggestSelection": "first",
+        "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+        "java.home": "/Library/Java/JavaVirtualMachines/jdk-15.0.1.jdk/Contents/Home",
+        "files.autoSave": "afterDelay",
+        "explorer.confirmDelete": false,
+        "editor.wordWrapColumn": 180,
+        "omnisharp.monoPath": "",
+        "redhat.telemetry.enabled": true,
+        "editor.detectIndentation": false,
+        "security.workspace.trust.untrustedFiles": "open",
+        "terminal.integrated.fontSize": 16,
+        "workbench.editor.untitled.hint": "hidden",
+        "workbench.colorTheme": "One Dark Pro Flat",
+        "java.jdt.ls.vmargs": "-XX:+UseParallelGC -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -Dsun.zip.disableMemoryMapping=true -Xmx1G -Xms100m -javaagent:\"/Users/apple/.vscode/extensions/gabrielbb.vscode-lombok-1.0.1/server/lombok.jar\""
+}

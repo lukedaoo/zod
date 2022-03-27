@@ -18,7 +18,7 @@ services:
       - FLUENT_HOST=fluent-bit
       - FLUENT_PORT=514
       - EUREKA_URL=http://eureka-server:8080/eureka
-    #  - DEBUG=true
+      - DEBUG=true
     stdin_open: true
     #entrypoint: /bin/sh
     tty: true
@@ -41,7 +41,8 @@ services:
       - FLUENT_HOST=fluent-bit
       - FLUENT_PORT=514
       - EUREKA_URL=http://eureka-server:8080/eureka
-    #  - DEBUG=true
+      - FILE_SERVER_URL=http://file-server:8080
+      - DEBUG=true
     stdin_open: true
     #entrypoint: /bin/sh
     tty: true
@@ -57,6 +58,10 @@ services:
     ports:
       - "5082:8080"
       - "5011:5005"
+    environment:
+      - FLUENT_HOST=fluent-bit
+      - FLUENT_PORT=514
+    #  - DEBUG=true
     stdin_open: true
     #entrypoint: /bin/sh
     tty: true

@@ -5,6 +5,9 @@ log() {
     shift
     local MESSAGE="[application=$APP_NAME, container_id=$CONTAINER_ID, type=debug, scope=global] $*"
     logger -p $LEVEL $MESSAGE
+    if [[ "$DEBUG" == "TRUE" || "$DEBUG" == "true" ]]; then
+        echo $MESSAGE
+    fi
 }
 
 logDebug() {

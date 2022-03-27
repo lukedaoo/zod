@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="info" name="Zod-file-server" packages="com.infamous">
+<Configuration status="info" name="Zod-song-mgmt" packages="com.infamous">
     <Appenders>
         <Console name="Stout">
             <PatternLayout
@@ -21,7 +21,7 @@
         <Logger name="com.atomikos" level="warn" additivity="true">
             <AppenderRef ref="fluency"/>
         </Logger>
-        <Logger name="org.komamitsu" level="error">
+        <Logger name="org.komamitsu" level="off">
             <AppenderRef ref="Stout"/>
         </Logger>
         <Logger name="org.glassfish.jersey.internal" level="error"/>

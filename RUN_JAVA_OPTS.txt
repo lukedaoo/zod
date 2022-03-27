@@ -1,5 +1,6 @@
 
 ----- File Server ----
+-Dserver.port=5080
 -DLog4jContextSelector=org.apache.logging.log4j.core.async.AsyncLoggerContextSelector
 -Dapp.full.name="Zod File Server"
 -Dapp.name=zod-file-server
@@ -24,7 +25,11 @@
 -Dwarehouse.uri=${user.home}/Desktop/wanderer-ftp-root
 -Dftp.root=${warehouse.uri}
 
+
+ENV: EUREKA_URL=http://localhost:8761/eureka
+
 ----- Song Mgmt -----
+-Dserver.port=5081
 -Dapp.full.name="Zod Song Management"
 -Dapp.name=zod-song-mgmt
 -Dcom.atomikos.icatch.log_base_dir=./transaction-logs/songmgmt
@@ -34,3 +39,10 @@
 -Ddb.dataSourceClassName=com.infamous.framework.jdbc.MariaDbDataSourceWrapper
 -Dhibernate.dialect=org.hibernate.dialect.MariaDBDialect
 -Dhibernate.hbm2ddl=update
+
+ENV: EUREKA_URL=http://localhost:8761/eureka
+
+----- Eureka Server ----
+-Dserver.port=8761
+-Dapp.full.name="Zod Eureka Server"
+-Dapp.name=zod-eureka-server

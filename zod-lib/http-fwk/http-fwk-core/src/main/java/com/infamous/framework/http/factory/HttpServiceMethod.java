@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Function;
 
 public class HttpServiceMethod<T> extends ServiceMethod<T> {
 

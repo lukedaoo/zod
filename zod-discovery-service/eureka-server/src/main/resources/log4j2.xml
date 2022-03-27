@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="info" name="Zod-file-server" packages="com.infamous">
+<Configuration status="info" name="Zod-eureka-server" packages="com.infamous">
     <Appenders>
         <Console name="Stout">
             <PatternLayout
@@ -18,6 +18,9 @@
             <AppenderRef ref="fluency"/>
             <AppenderRef ref="Stout"/>
         </Root>
+        <Logger name="org.komamitsu" level="off">
+            <AppenderRef ref="Stout"/>
+        </Logger>
     </Loggers>
 </Configuration>
 

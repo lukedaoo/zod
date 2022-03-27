@@ -11,6 +11,7 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 import com.infamous.framework.converter.ObjectMapper;
+import com.infamous.framework.http.BaseUrl;
 import com.infamous.framework.http.HttpConfig;
 import com.infamous.framework.http.RestClient;
 import com.infamous.framework.http.engine.CallEngine;
@@ -136,7 +137,7 @@ class ZodHttpClientFactoryTest {
     @Test
     public void testCreateService() {
         ZodHttpClientFactory factory = ZodHttpClientFactory.builder()
-            .baseUrl("base-url")
+            .baseUrl("http://localhost:8080")
             .config(new HttpConfig())
             .callEngine(mock(CallEngine.class))
             .converterFactory(m_cf)
@@ -144,12 +145,15 @@ class ZodHttpClientFactoryTest {
             .build();
 
         TestClient testClient = factory.create(TestClient.class);
+        assertEquals("http://localhost:8080/storage/v1/", factory.baseUrl());
+
         assertNotNull(testClient);
     }
 
 }
 
 @RestClient(category = "testClient")
+@BaseUrl("/storage/v1/")
 interface TestClient {
 
 }

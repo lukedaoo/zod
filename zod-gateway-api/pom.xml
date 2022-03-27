@@ -9,38 +9,13 @@
         <relativePath>../parent-pom/zod-pom/pom.xml</relativePath>
     </parent>
     <groupId>com.infamous.zod</groupId>
-    <artifactId>zod-base</artifactId>
+    <artifactId>zod-gateway-api-parent</artifactId>
     <version>${revision}</version>
-    <name>zod-base-parent</name>
+    <name>zod-gateway-api-parent</name>
     <packaging>pom</packaging>
     <properties>
         <revision>${release.version}</revision>
     </properties>
-    <modules>
-        <module>spring-jpa-autoconfig</module>
-        <module>spring-common-services</module>
-        <module>spring-rest-common</module>
-        <module>spring-discovery-common</module>
-    </modules>
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>com.infamous.zod</groupId>
-                <artifactId>spring-jpa-autoconfig</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.infamous.zod</groupId>
-                <artifactId>spring-common-services</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.infamous.zod</groupId>
-                <artifactId>spring-rest-common</artifactId>
-                <version>${revision}</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
     <build>
         <plugins>
             <plugin>

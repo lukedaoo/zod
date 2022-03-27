@@ -1,6 +1,7 @@
 package com.infamous.zod.storage;
 
 import com.infamous.framework.http.Async;
+import com.infamous.framework.http.BaseUrl;
 import com.infamous.framework.http.HttpMethod;
 import com.infamous.framework.http.MultiPart;
 import com.infamous.framework.http.Part;
@@ -8,6 +9,7 @@ import com.infamous.framework.http.PathParam;
 import com.infamous.framework.http.QueryParam;
 import com.infamous.framework.http.Rest;
 import com.infamous.framework.http.RestClient;
+import com.infamous.framework.http.Url;
 import com.infamous.framework.http.core.BodyPart;
 import com.infamous.zod.storage.model.StorageFileVO;
 import com.infamous.zod.base.rest.entity.UploadResult;
@@ -16,6 +18,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 @RestClient(category = "storageRestClient")
+@BaseUrl("/storage/v1")
 public interface StorageFileRestClient {
 
     @Async

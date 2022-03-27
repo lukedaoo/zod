@@ -16,8 +16,6 @@ public enum LogLevel {
     });
 
     private final String m_level;
-
-    private final BiConsumer<AdvancedLogger, LogMessage> m_consumerInvokeLog;
     private final Function<AdvancedLogger, Boolean> m_isEnabledFunction;
 
     LogLevel(String level, Function<AdvancedLogger, Boolean> isEnabledFunction,
